@@ -23,6 +23,7 @@ export const Logo: React.FC<LogoProps> = ({
         height={height}
         priority
         className="object-contain h-full w-auto"
+        style={{ width: "auto", height: "auto" }}
       />
     </div>
   );

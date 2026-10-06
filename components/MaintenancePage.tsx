@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Phone, MessageCircle, Sparkles, Clock, MapPin, CheckCircle2 } from "lucide-react";
+import { MessageCircle, MapPin } from "lucide-react";
 import { Logo } from "./Logo";
 
 interface TimeLeft {
@@ -54,9 +54,9 @@ export const MaintenancePage: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const contactNumber = "+91 98765 43210";
-  const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(
-    "Hi RentOMate! I want to enquire about renting a water purifier in Coimbatore ahead of the official launch."
+  const contactNumber = "+91 81100 16161";
+  const whatsappUrl = `https://wa.me/918110016161?text=${encodeURIComponent(
+    "Hi RentOMate! Need an immediate water purifier installation or have questions in Coimbatore."
   )}`;
 
   return (
@@ -66,24 +66,22 @@ export const MaintenancePage: React.FC = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* TOP HEADER: Logo strictly positioned on the TOP RIGHT CORNER as requested */}
-      <header className="w-full px-6 sm:px-12 py-6 sm:py-8 flex justify-end items-center relative z-20">
-        <div className="flex items-center gap-3">
-          <Logo className="h-8 sm:h-11 w-auto" width={180} height={44} />
+      {/* TOP HEADER: Clean logo sized appropriately on top-right */}
+      <header className="w-full px-6 sm:px-10 py-4 sm:py-5 flex justify-end items-center relative z-20">
+        <div className="flex items-center">
+          <Logo className="h-7 sm:h-8.5 w-auto" width={150} height={36} />
         </div>
       </header>
 
-      {/* MAIN CONTENT: Centered Coming Soon & Live Countdown Timer */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 max-w-4xl mx-auto w-full text-center py-6 sm:py-12 relative z-10">
-
-
+      {/* MAIN CONTENT: Centered Coming Soon with streamlined flow */}
+      <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 max-w-3xl mx-auto w-full text-center py-4 sm:py-6 relative z-10">
 
         {/* Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 leading-tight mb-4"
+          transition={{ duration: 0.4 }}
+          className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 leading-tight mb-2.5"
         >
           Own Less.{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-blue-600 to-cyan-500">
@@ -91,22 +89,33 @@ export const MaintenancePage: React.FC = () => {
           </span>
         </motion.h1>
 
-        {/* Subtext */}
+        {/* Small Supporting Line */}
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-slate-600 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-normal"
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="text-slate-600 text-sm sm:text-base md:text-lg font-medium max-w-lg mx-auto mb-7 leading-relaxed"
         >
-          Our platform goes live on <span className="font-bold text-slate-900">12th October at 00:00 HRS</span>. Can't wait till Experience Coimbatore’s smartest water purifier rental service.
+          Smart rentals for a simpler, more flexible lifestyle.
         </motion.p>
+
+        {/* Countdown Context Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 mb-3.5"
+        >
+          <span className="w-2 h-2 rounded-full bg-sky-500 animate-pulse" />
+          <span>We're launching in</span>
+        </motion.div>
 
         {/* RUNNING COUNTDOWN TIMER */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="grid grid-cols-4 gap-2.5 sm:gap-6 w-full max-w-xl mb-12"
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="grid grid-cols-4 gap-2.5 sm:gap-5 w-full max-w-lg mb-8 sm:mb-9"
         >
           {[
             { label: "DAYS", value: mounted ? timeLeft.days : 0 },
@@ -116,67 +125,62 @@ export const MaintenancePage: React.FC = () => {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center justify-center p-3 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-lg shadow-slate-100 hover:border-sky-300 transition-all"
+              className="flex flex-col items-center justify-center p-3 sm:p-4.5 rounded-2xl bg-white border border-slate-200/90 shadow-md shadow-slate-100 hover:border-sky-300 transition-all"
             >
-              <span className="text-2xl sm:text-5xl font-black text-slate-900 tracking-tight font-mono">
+              <span className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight font-mono">
                 {String(item.value).padStart(2, "0")}
               </span>
-              <span className="text-[10px] sm:text-xs font-bold text-slate-400 tracking-wider mt-1.5 uppercase">
+              <span className="text-[10px] sm:text-xs font-bold text-slate-400 tracking-wider mt-1 uppercase">
                 {item.label}
               </span>
             </div>
           ))}
         </motion.div>
 
-        {/* CONTACT SECTION: Displayed right below the timer */}
+        {/* Immediate Support / Direct WhatsApp */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="w-full max-w-md bg-slate-50/80 rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs"
+          transition={{ duration: 0.4, delay: 0.25 }}
+          className="flex flex-col items-center text-center max-w-lg mx-auto"
         >
-          <div className="flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">
-            <Clock className="w-3.5 h-3.5 text-sky-600" />
-            <span>Pre-Bookings & Support Active 24/7</span>
-          </div>
-
+          <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-1.5">
+            Can’t wait until launch?
+          </h2>
           <p className="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">
-            Need a water purifier installed immediately or have questions before launch? Reach out to us directly:
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            {/* Direct Phone Call Button */}
+            Need an immediate installation or have questions? WhatsApp us right now at{" "}
             <a
-              href={`tel:${contactNumber.replace(/\s+/g, "")}`}
-              className="w-full sm:w-auto flex-1 flex items-center justify-center gap-2.5 px-5 py-3 rounded-full bg-white hover:bg-slate-100 text-slate-900 border border-slate-300 font-bold text-sm shadow-xs transition-all active:scale-95"
-            >
-              <Phone className="w-4 h-4 text-sky-600" />
-              <span>{contactNumber}</span>
-            </a>
-
-            {/* WhatsApp Chat Button */}
-            <a
-              href={whatsappUrl}
+              href="https://wa.me/918110016161?text=Hi%20RentOMate!%20Need%20an%20immediate%20water%20purifier%20installation%20in%20Coimbatore."
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto flex-1 flex items-center justify-center gap-2.5 px-5 py-3 rounded-full bg-[#041635] hover:bg-[#082252] text-white font-bold text-sm shadow-md transition-all active:scale-95 group"
+              className="font-bold text-slate-900 hover:text-sky-600 underline underline-offset-4 decoration-sky-400 transition-colors"
             >
-              <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-              <span>WhatsApp Us</span>
+              +9181100 16161
             </a>
-          </div>
+            .
+          </p>
+
+          <a
+            href="https://wa.me/918110016161?text=Hi%20RentOMate!%20Need%20an%20immediate%20water%20purifier%20installation%20in%20Coimbatore."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 px-7 py-3 rounded-full bg-[#041635] hover:bg-[#082252] text-white font-bold text-sm shadow-md hover:shadow-xl transition-all active:scale-95 group"
+          >
+            <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+            <span>Chat with us on WhatsApp</span>
+          </a>
         </motion.div>
 
       </main>
 
-      {/* FOOTER: Minimal & Clean */}
-      <footer className="w-full px-6 py-5 text-center text-xs text-slate-400 border-t border-slate-100 relative z-10 flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto gap-2">
+      {/* FOOTER: Minimal & Clean
+      <footer className="w-full px-6 py-4 text-center text-xs text-slate-400 border-t border-slate-100 relative z-10 flex flex-col sm:flex-row items-center justify-between max-w-7xl mx-auto gap-2">
         <span className="flex items-center gap-1.5 font-medium text-slate-500">
           <MapPin className="w-3.5 h-3.5 text-sky-500" />
           Serving Coimbatore, Tamil Nadu
         </span>
         <span>© 2026 RentOMate. All rights reserved.</span>
-      </footer>
+      </footer> */}
 
     </div>
   );
