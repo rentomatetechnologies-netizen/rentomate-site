@@ -10,7 +10,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "RentOMate | Smart Water Purifier Rental in Coimbatore",
+  title: "RentOMate | Rental Water Purifier",
   description:
     "Rent premium RO+UV water purifiers with zero upfront cost, free doorstep installation, and lifetime maintenance in Coimbatore. Own Less. Live Smart.",
   icons: {
