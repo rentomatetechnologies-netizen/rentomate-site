@@ -61,7 +61,7 @@ export const MaintenancePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col justify-between relative overflow-hidden select-none">
-      
+
       {/* Subtle background ambient water-drop gradient */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-100/40 rounded-full blur-3xl pointer-events-none -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-3xl pointer-events-none -z-10" />
@@ -75,17 +75,8 @@ export const MaintenancePage: React.FC = () => {
 
       {/* MAIN CONTENT: Centered Coming Soon & Live Countdown Timer */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 max-w-4xl mx-auto w-full text-center py-6 sm:py-12 relative z-10">
-        
-        {/* Status Pill Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs sm:text-sm font-bold tracking-wide uppercase mb-6 shadow-xs"
-        >
-          <Sparkles className="w-4 h-4 text-sky-600 animate-pulse" />
-          <span>We Are Launching Soon • Coimbatore</span>
-        </motion.div>
+
+
 
         {/* Headline */}
         <motion.h1
@@ -107,7 +98,7 @@ export const MaintenancePage: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-slate-600 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-normal"
         >
-          Our platform goes live on <span className="font-bold text-slate-900">12th October at 00:00 HRS</span>. Experience Coimbatore’s smartest water purifier rental service.
+          Our platform goes live on <span className="font-bold text-slate-900">12th October at 00:00 HRS</span>. Can't wait till Experience Coimbatore’s smartest water purifier rental service.
         </motion.p>
 
         {/* RUNNING COUNTDOWN TIMER */}
