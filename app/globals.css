@@ -8,7 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -19,8 +19,164 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), sans-serif;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-animated-cursor,
+  .has-animated-cursor * {
+    cursor: none !important;
+  }
+
+  .animated-cursor {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .animated-cursor--visible {
+    opacity: 1;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: #0284c7;
+    box-shadow: 0 0 0 5px rgb(14 165 233 / 12%), 0 2px 12px rgb(2 132 199 / 35%);
+    transition: width 160ms ease, height 160ms ease, background 160ms ease;
+  }
+
+  .cursor-ring {
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid rgb(2 132 199 / 65%);
+    border-radius: 999px;
+    transition: width 180ms ease, height 180ms ease, border-color 180ms ease, background 180ms ease;
+  }
+
+  .cursor-ring--interactive {
+    width: 46px;
+    height: 46px;
+    border-color: rgb(14 165 233 / 35%);
+    background: rgb(14 165 233 / 10%);
+  }
+
+  .animated-cursor--pressed .cursor-dot {
+    width: 11px;
+    height: 11px;
+    background: #0369a1;
+  }
+
+  .animated-cursor--pressed .cursor-ring {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ---------- WaterHoverCard: water rising on hover ---------- */
+.water-card {
+  isolation: isolate;
+  --water-top: rgb(224 242 254 / 0.95);
+  --water-bottom: rgb(186 230 253 / 0.9);
+}
+
+.water-card__water {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--water-top), var(--water-bottom));
+  transform: translateY(calc(100% + 28px));
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.water-card:hover .water-card__water,
+.water-card:focus-within .water-card__water {
+  transform: translateY(14%);
+}
+
+.water-card__bob {
+  position: absolute;
+  inset: -20px 0 auto 0;
+  height: 20px;
+  animation: water-bob 3.2s ease-in-out infinite;
+}
+
+.water-card__wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 16px;
+  fill: var(--water-top);
+  animation: water-wave 4s linear infinite;
+}
+
+.water-card__wave--back {
+  bottom: 3px;
+  opacity: 0.55;
+  fill: rgb(125 211 252 / 0.6);
+  animation-duration: 6.5s;
+  animation-direction: reverse;
+}
+
+.water-card__bubble {
+  position: absolute;
+  bottom: -12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.75);
+  border: 1px solid rgb(14 165 233 / 0.35);
+  opacity: 0;
+}
+
+.water-card:hover .water-card__bubble,
+.water-card:focus-within .water-card__bubble {
+  animation-name: water-bubble;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+}
+
+@keyframes water-wave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes water-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+@keyframes water-bubble {
+  0% { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translate(5px, -130px) scale(1); }
+  100% { transform: translate(-3px, -280px) scale(1.1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .water-card__water { transition-duration: 200ms; }
+  .water-card__bob,
+  .water-card__wave,
+  .water-card:hover .water-card__bubble,
+  .water-card:focus-within .water-card__bubble { animation: none; }
 }

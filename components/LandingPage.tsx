@@ -10,32 +10,28 @@ import { ModernLiving } from "@/components/ModernLiving";
 import { RentVsBuy } from "@/components/RentVsBuy";
 import { LocationBanner } from "@/components/LocationBanner";
 import { FaqSection } from "@/components/FaqSection";
-import { CtaBanner } from "@/components/CtaBanner";
 import { Footer } from "@/components/Footer";
 import { CheckAvailabilityModal } from "@/components/CheckAvailabilityModal";
-import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { CursorAnimation } from "@/components/CursorAnimation";
+import { MobileContactBar } from "@/components/MobileContactBar";
 
 export const LandingPage: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleSelectPlan = (months: number) => {
-    const msg = encodeURIComponent(
-      `Hello RentOMate! I am interested in booking the ${months} Months (₹${
-        months === 12 ? 699 : 449
-      }/month) water purifier rental plan for my location in Coimbatore.`
-    );
-    window.open(`https://wa.me/+919876543210?text=${msg}`, "_blank");
+  const scrollToPlans = () => {
+    document.getElementById("plans")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
+      <CursorAnimation />
       {/* Top Fixed Sticky Navbar */}
-      <Navbar onCheckAvailability={() => setModalOpen(true)} />
+      <Navbar />
 
       {/* Hero Section with Parallax Floating Badges & Pricing Cards */}
       <HeroSection
-        onSelectPlan={handleSelectPlan}
-        heroImageSrc="/images/hero-purifier.svg"
+        onSelectPlan={scrollToPlans}
+        heroImageSrc="/hero/purifier-transparent.png"
       />
 
       {/* Why RentOMate Benefits */}
@@ -45,7 +41,7 @@ export const LandingPage: React.FC = () => {
       <HowItWorks />
 
       {/* Rental Plans (12 vs 24 Months) */}
-      <RentalPlans onSelectPlan={handleSelectPlan} />
+      <RentalPlans />
 
       {/* Made for Modern Living (Homes, Apartments, Tenants, PG) */}
       <ModernLiving />
@@ -59,11 +55,11 @@ export const LandingPage: React.FC = () => {
       {/* Frequently Asked Questions */}
       <FaqSection />
 
-      {/* Bottom Conversion CTA Banner */}
-      <CtaBanner />
-
       {/* Footer */}
       <Footer />
+
+      {/* Mobile-only fixed Call / WhatsApp bar */}
+      <MobileContactBar />
 
       {/* Coimbatore Pincode / Area Availability Modal */}
       <CheckAvailabilityModal
@@ -71,8 +67,6 @@ export const LandingPage: React.FC = () => {
         onClose={() => setModalOpen(false)}
       />
 
-      {/* Floating WhatsApp Action Button */}
-      <FloatingWhatsApp />
     </main>
   );
 };

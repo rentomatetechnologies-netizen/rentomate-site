@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { PHONE_DIGITS } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, MapPin, CheckCircle2, Search, ArrowRight, MessageCircle } from "lucide-react";
 
@@ -43,7 +44,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
 
   const getWhatsAppBooking = (area: string) => {
     const msg = encodeURIComponent(`Hi RentOMate! I am located in ${area}, Coimbatore and want to get a water purifier installed on rent.`);
-    return `https://wa.me/+919876543210?text=${msg}`;
+    return `https://wa.me/${PHONE_DIGITS}?text=${msg}`;
   };
 
   return (
@@ -65,19 +66,19 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 shadow-2xl z-10 border border-slate-100 overflow-hidden"
+            className="relative w-full max-w-lg bg-white rounded p-6 sm:p-8 shadow-2xl z-10 border border-slate-100 overflow-hidden"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="absolute top-5 right-5 p-2 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
             {/* Header */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-sky-100 flex items-center justify-center text-sky-600">
+              <div className="w-10 h-10 rounded bg-sky-100 flex items-center justify-center text-sky-600">
                 <MapPin className="w-5 h-5" />
               </div>
               <div>
@@ -98,7 +99,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                 placeholder="Type your area (e.g., RS Puram, Saravanampatti)..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
               />
             </div>
 
@@ -109,7 +110,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                   <button
                     key={area}
                     onClick={() => setSelectedArea(area)}
-                    className={`w-full flex items-center justify-between p-2.5 rounded-xl text-xs font-semibold transition-all text-left ${
+                    className={`w-full flex items-center justify-between p-2.5 rounded text-xs font-semibold transition-all text-left ${
                       selectedArea === area
                         ? "bg-sky-50 text-sky-700 border border-sky-300"
                         : "bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-100"
@@ -127,7 +128,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                 ))
               ) : (
                 <div className="text-center py-6 text-xs text-slate-500">
-                  Don't see your specific neighborhood? We cover all Coimbatore Corporation & Suburban limits!
+                  Don&apos;t see your specific neighborhood? We cover all Coimbatore Corporation & Suburban limits!
                 </div>
               )}
             </div>
@@ -138,7 +139,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                 href={getWhatsAppBooking(selectedArea)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-600/25 active:scale-98"
+                className="w-full py-3 px-4 rounded bg-gradient-to-r from-sky-600 to-blue-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-sky-600/25 active:scale-98"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400" />
                 <span>Book Instant Installation in {selectedArea}</span>
@@ -149,7 +150,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                 href={getWhatsAppBooking(searchTerm || "Coimbatore")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm flex items-center justify-center gap-2 active:scale-98"
+                className="w-full py-3 px-4 rounded bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm flex items-center justify-center gap-2 active:scale-98"
               >
                 <MessageCircle className="w-4 h-4 text-emerald-400" />
                 <span>Enquire Delivery via WhatsApp</span>

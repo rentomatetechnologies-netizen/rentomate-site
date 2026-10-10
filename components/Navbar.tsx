@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { MessageCircle, Phone, Headphones, ArrowRight, Menu, X } from "lucide-react";
+import { MessageCircle, Phone, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { PHONE_HREF, whatsappLink } from "@/lib/contact";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface NavbarProps {
-  onCheckAvailability?: () => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({ onCheckAvailability }) => {
+export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,18 +18,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onCheckAvailability }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const whatsappNumber = "+919876543210";
-  const whatsappMessage = encodeURIComponent(
+  const whatsappUrl = whatsappLink(
     "Hello RentOMate! I want to enquire about renting a water purifier in Coimbatore."
   );
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
         scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-xs py-3 border-b border-slate-100"
-          : "bg-transparent py-4 sm:py-6"
+          ? "bg-white/95 backdrop-blur-lg shadow-sm py-3"
+          : "bg-transparent py-5 sm:py-7"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -44,54 +39,34 @@ export const Navbar: React.FC<NavbarProps> = ({ onCheckAvailability }) => {
 
         {/* Right: Exact Action Buttons from UI Design */}
         <div className="hidden sm:flex items-center gap-3">
-          
-          {/* Chat on WhatsApp Pill */}
+          {/* Call Pill */}
+          <a
+            href={PHONE_HREF}
+            className="flex items-center gap-2 px-4 py-2.5 rounded border border-slate-200/90 bg-white/95 hover:bg-[#0084FF] hover:text-white text-slate-800 text-xs sm:text-sm font-semibold transition-all duration-300 hover:border-[#0084FF] active:scale-95 shadow-xs group"
+          >
+            <Phone className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
+            <span>Call</span>
+          </a>
+
+          {/* WhatsApp Pill */}
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#041635] hover:bg-[#082252] text-white text-xs sm:text-sm font-semibold transition-all hover:shadow-lg hover:shadow-slate-900/10 active:scale-95 group"
+            className="flex items-center gap-2 px-4 py-2.5 rounded border border-slate-200/90 bg-white/95 hover:bg-[#25D366] hover:text-white text-slate-800 text-xs sm:text-sm font-semibold transition-all duration-300 hover:border-[#25D366] active:scale-95 shadow-xs group"
           >
-            <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span>Chat on WhatsApp</span>
-            <ArrowRight className="w-3.5 h-3.5 ml-0.5 opacity-90 transition-transform group-hover:translate-x-0.5" />
-          </a>
-
-          {/* Call Pill */}
-          <a
-            href="tel:+919876543210"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-200/90 bg-white/95 hover:bg-slate-50 text-slate-800 text-xs sm:text-sm font-semibold transition-all hover:border-slate-300 active:scale-95 shadow-xs"
-          >
-            <Phone className="w-3.5 h-3.5 text-slate-700" />
-            <span>Call</span>
-          </a>
-
-          {/* Support Pill */}
-          <a
-            href="#faq"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-200/90 bg-white/95 hover:bg-slate-50 text-slate-800 text-xs sm:text-sm font-semibold transition-all hover:border-slate-300 active:scale-95 shadow-xs"
-          >
-            <Headphones className="w-3.5 h-3.5 text-slate-700" />
-            <span>Support</span>
+            <MessageCircle className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
+            <span>WhatsApp</span>
           </a>
         </div>
 
         {/* Mobile Compact Controls */}
         <div className="flex sm:hidden items-center gap-2">
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#041635] text-white text-xs font-semibold shadow-xs"
-          >
-            <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-[11px]">WhatsApp</span>
-          </a>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation"
-            className="p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="p-2 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -110,32 +85,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onCheckAvailability }) => {
             className="sm:hidden border-b border-slate-200 bg-white/98 backdrop-blur-xl px-6 py-5 shadow-xl"
           >
             <div className="flex flex-col gap-3">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 rounded-full bg-[#041635] text-white font-semibold text-sm shadow-md"
-              >
-                <MessageCircle className="w-4 h-4 text-emerald-400" />
-                <span>Chat on WhatsApp</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
 
               <div className="grid grid-cols-2 gap-2.5 pt-1">
                 <a
-                  href="tel:+919876543210"
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-full border border-slate-200 bg-white font-semibold text-xs text-slate-800 shadow-xs"
+                  href={PHONE_HREF}
+                  className="flex items-center justify-center gap-2 py-2.5 rounded border border-slate-200 bg-white hover:bg-[#0084FF] hover:text-white font-semibold text-xs text-slate-800 shadow-xs transition-all duration-300 hover:border-[#0084FF] group"
                 >
-                  <Phone className="w-3.5 h-3.5 text-slate-700" />
+                  <Phone className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
                   <span>Call</span>
                 </a>
                 <a
-                  href="#faq"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 py-2.5 rounded-full border border-slate-200 bg-white font-semibold text-xs text-slate-800 shadow-xs"
+                  className="flex items-center justify-center gap-2 py-2.5 rounded border border-slate-200 bg-white hover:bg-[#25D366] hover:text-white font-semibold text-xs text-slate-800 shadow-xs transition-all duration-300 hover:border-[#25D366] group"
                 >
-                  <Headphones className="w-3.5 h-3.5 text-slate-700" />
-                  <span>Support</span>
+                  <MessageCircle className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
+                  <span>WhatsApp</span>
                 </a>
               </div>
 

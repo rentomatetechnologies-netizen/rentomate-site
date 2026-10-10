@@ -1,34 +1,26 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "RentOMate | Rental Water Purifier",
+  title: "Water Purifier on Rent in Coimbatore | RentOMate",
   description:
-    "Rent premium RO+UV water purifiers with zero upfront cost, free doorstep installation, and lifetime maintenance in Coimbatore. Own Less. Live Smart.",
-  icons: {
-    icon: [
-      { url: "/icon.png" },
-      { url: "/favicon.ico" },
-    ],
-    apple: [
-      { url: "/apple-icon.png" },
-    ],
-  },
+    "Rent an Akvinz RO+UV water purifier in Coimbatore with RentOMate. Choose flexible 12 or 24-month rental plans with installation and service support.",
+  keywords: ["water purifier on rent in Coimbatore", "RO purifier rental", "Akvinz Ultron", "RentOMate"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${outfit.variable} font-sans h-full antialiased`}
+      className={`${manrope.variable} font-sans h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>

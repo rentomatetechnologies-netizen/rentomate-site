@@ -33,7 +33,7 @@ export const LocationBanner: React.FC<LocationBannerProps> = ({
           
           {/* Left Title & Copy */}
           <div className="max-w-xl text-center md:text-left">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-bold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-sky-100 text-sky-700 text-xs font-bold uppercase tracking-wider mb-3">
               <MapPin className="w-3.5 h-3.5" />
               <span>Local and Trusted</span>
             </div>
@@ -46,7 +46,7 @@ export const LocationBanner: React.FC<LocationBannerProps> = ({
             </h2>
 
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              RentOMate brings flexible water purifier rentals to modern homes, villas, apartments, and co-living spaces across all Coimbatore zones.
+              RentOMate provides Akvinz water purifier rental plans for homes, apartments, tenants, and shared living spaces across Coimbatore. Choose a 12-month or 24-month plan and check availability for your location.
             </p>
           </div>
 
@@ -58,9 +58,9 @@ export const LocationBanner: React.FC<LocationBannerProps> = ({
           >
             <button
               onClick={onCheckAvailability}
-              className="px-6 py-4 rounded-2xl bg-white border-2 border-sky-500 hover:border-sky-600 text-sky-700 hover:text-sky-800 font-bold text-sm shadow-md hover:shadow-xl transition-all flex items-center gap-3 group"
+              className="px-6 py-4 rounded bg-white border-2 border-sky-500 hover:border-sky-600 text-sky-700 hover:text-sky-800 font-bold text-sm shadow-md hover:shadow-xl transition-all flex items-center gap-3 group"
             >
-              <div className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+              <div className="w-8 h-8 rounded bg-sky-100 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
                 <MapPin className="w-4 h-4" />
               </div>
               <span>Check Availability</span>
