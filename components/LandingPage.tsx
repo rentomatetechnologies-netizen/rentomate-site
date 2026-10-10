@@ -23,7 +23,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
+    <main className="min-h-screen overflow-x-clip bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
       <CursorAnimation />
       {/* Top Fixed Sticky Navbar */}
       <Navbar />

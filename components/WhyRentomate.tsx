@@ -76,7 +76,7 @@ export const WhyRentomate: React.FC = () => {
   const [maintenanceCost, setMaintenanceCost] = useState(0);
 
   const monthlyCanCost = useMemo(() => {
-    const cans = [1, 2, 3, 4, 5, 6, 7][cansPerWeek];
+    const cans = [1, 2, 3, 4, 5][cansPerWeek];
     const price = [50, 70, 90, 110][canCost];
     return cans * price * 4.33;
   }, [canCost, cansPerWeek]);
@@ -156,7 +156,7 @@ function CalculatorCard(props: {
     <p className="mt-1 text-sm text-slate-500">{isCans ? "Adjust your current water-can usage." : "Adjust the details below to compare your monthly cost."}</p>
     <div className="mt-4 space-y-2.5">
       {isCans ? <>
-        <RangeInput label="Cans per week" value={props.cansPerWeek} onChange={props.setCansPerWeek} marks={["1", "2", "3", "4", "5", "6", "7"]} />
+        <RangeInput label="Cans per week" value={props.cansPerWeek} onChange={props.setCansPerWeek} marks={["1", "2", "3", "4", "5"]} />
         <RangeInput label="Cost per can" value={props.canCost} onChange={props.setCanCost} marks={["₹50", "₹70", "₹90", "₹110"]} />
         <PlanSelector selectedPlan={props.selectedPlan} onSelect={props.setSelectedPlan} />
       </> : <>
