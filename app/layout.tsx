@@ -11,22 +11,48 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rentomate.life"),
   title: {
     default: "Water Purifier on Rent in Coimbatore | RentOMate",
     template: "%s | RentOMate",
   },
   description:
     "Rent an Akvinz RO+UV water purifier in Coimbatore with RentOMate. Choose flexible 12 or 24-month rental plans with installation and service support.",
-  keywords: ["water purifier on rent in Coimbatore", "RO purifier rental", "Akvinz Ultron", "RentOMate"],
+  keywords: [
+    "water purifier on rent in Coimbatore",
+    "RO purifier rental",
+    "Akvinz Ultron",
+    "RentOMate",
+  ],
+  alternates: {
+    canonical: "/",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
       className={`${manrope.variable} font-sans h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "RentOMate",
+              url: "https://rentomate.life",
+              description:
+                "Rent an Akvinz RO+UV water purifier in Coimbatore with RentOMate.",
+            }),
+          }}
+        />
         <SiteShell>{children}</SiteShell>
       </body>
     </html>
