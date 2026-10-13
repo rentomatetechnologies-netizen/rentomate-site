@@ -1,72 +1,47 @@
 "use client";
 
-import React, { useState } from "react";
-import { Navbar } from "@/components/Navbar";
+import React from "react";
 import { HeroSection } from "@/components/HeroSection";
+import { KeySpecs } from "@/components/KeySpecs";
+import { ProductRange } from "@/components/ProductRange";
 import { WhyRentomate } from "@/components/WhyRentomate";
+import { SmarterChoice } from "@/components/SmarterChoice";
+import { PureWaterTech } from "@/components/PureWaterTech";
 import { HowItWorks } from "@/components/HowItWorks";
 import { RentalPlans } from "@/components/RentalPlans";
-import { ModernLiving } from "@/components/ModernLiving";
-import { RentVsBuy } from "@/components/RentVsBuy";
-import { LocationBanner } from "@/components/LocationBanner";
+import { AvailableCities } from "@/components/AvailableCities";
+import { FreeTrial } from "@/components/FreeTrial";
 import { FaqSection } from "@/components/FaqSection";
-import { Footer } from "@/components/Footer";
-import { CheckAvailabilityModal } from "@/components/CheckAvailabilityModal";
-import { CursorAnimation } from "@/components/CursorAnimation";
-import { MobileContactBar } from "@/components/MobileContactBar";
 
-export const LandingPage: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+// Navbar, footer and popups come from <SiteShell> in the root layout.
+export const LandingPage: React.FC = () => (
+  <>
+    {/* Hero product display, with key specs directly below */}
+    <HeroSection />
+    <KeySpecs />
 
-  const scrollToPlans = () => {
-    document.getElementById("plans")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+    {/* Product range scroll */}
+    <ProductRange />
 
-  return (
-    <main className="min-h-screen overflow-x-clip bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
-      <CursorAnimation />
-      {/* Top Fixed Sticky Navbar */}
-      <Navbar />
+    {/* Can vs Rent & Purifier (Buy) vs Rent */}
+    <WhyRentomate />
+    <SmarterChoice />
 
-      {/* Hero Section with Parallax Floating Badges & Pricing Cards */}
-      <HeroSection
-        onSelectPlan={scrollToPlans}
-        heroImageSrc="/hero/purifier-transparent.png"
-      />
+    {/* Technology behind pure water, ₹0 promises & assurance */}
+    <PureWaterTech />
 
-      {/* Why RentOMate Benefits */}
-      <WhyRentomate />
+    {/* How renting works – step by step */}
+    <HowItWorks />
 
-      {/* 3 Easy Steps Roadmap */}
-      <HowItWorks />
+    {/* Rent a RO – plans */}
+    <RentalPlans />
 
-      {/* Rental Plans (12 vs 24 Months) */}
-      <RentalPlans />
+    {/* Available cities */}
+    <AvailableCities />
 
-      {/* Made for Modern Living (Homes, Apartments, Tenants, PG) */}
-      <ModernLiving />
+    {/* 7-day risk-free trial */}
+    <FreeTrial />
 
-      {/* Rent vs Buy Comparison Matrix */}
-      <RentVsBuy />
-
-      {/* Local Coimbatore Availability Banner */}
-      <LocationBanner onCheckAvailability={() => setModalOpen(true)} />
-
-      {/* Frequently Asked Questions */}
-      <FaqSection />
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Mobile-only fixed Call / WhatsApp bar */}
-      <MobileContactBar />
-
-      {/* Coimbatore Pincode / Area Availability Modal */}
-      <CheckAvailabilityModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
-
-    </main>
-  );
-};
+    <FaqSection />
+  </>
+);

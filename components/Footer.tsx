@@ -4,13 +4,23 @@ import React from "react";
 import { ArrowRight, ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
+import Link from "next/link";
+import { NAV_LINKS, PLANS, inr } from "@/lib/site";
 
-const quickLinks = [
-  { label: "Why RentOMate", href: "#why-rentomate" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Rental Plans", href: "#plans" },
-  { label: "Rent vs Buy", href: "#rent-vs-buy" },
-  { label: "FAQs", href: "#faq" },
+
+const popularSearches = [
+  "Water purifier on rent in Coimbatore",
+  "RO water purifier rental Coimbatore",
+  "Rent RO purifier in Coimbatore",
+  "RO on rent near me",
+  "Water purifier rental for tenants",
+  "Monthly rental water purifier",
+  "Copper RO purifier on rent",
+  "Alkaline water purifier on rent",
+  "Water purifier on rent in Saravanampatti",
+  "Water purifier on rent in Peelamedu",
+  "Water purifier on rent in RS Puram",
+  "Water purifier on rent in Gandhipuram",
 ];
 
 const InstagramIcon = ({ className }: { className?: string }) => (
@@ -39,13 +49,10 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const plans = [
-  { label: "24-Month Plan", price: "₹449", note: "Most popular" },
-  { label: "12-Month Plan", price: "₹699", note: "Flexible commitment" },
-];
+const plans = PLANS.map((plan) => ({ label: `${plan.months}-Month ${plan.name}`, price: inr(plan.price), note: plan.tagline }));
 
 const headingClass = "text-xs font-bold uppercase tracking-[0.2em] text-slate-900";
-const contactClass = "inline-flex items-center gap-2 whitespace-nowrap rounded border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:shadow-sm";
+const contactClass = "inline-flex items-center gap-2 whitespace-nowrap rounded-[10px] border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:shadow-sm";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -61,11 +68,11 @@ export const Footer: React.FC = () => {
           <div className="lg:pr-10">
             <Logo />
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-600">
-              Water purifier rental in Coimbatore. Pure drinking water made simple, flexible and affordable.
+              Water purifier rental in Coimbatore — pure drinking water made simple, flexible and affordable.
             </p>
             <p className="mt-5 inline-flex items-center gap-2.5 text-[15px] text-slate-600">
               <MapPin className="h-5 w-5 text-sky-600" />
-              Serving homes across Tamil Nadu
+              Serving homes across Coimbatore
             </p>
             <div className="mt-7 flex items-center gap-2.5">
               {socials.map(({ label, href, icon: Icon }) => (
@@ -76,7 +83,7 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   aria-label={`RentOMate on ${label} (@${SOCIAL_HANDLE})`}
                   title={label}
-                  className="flex h-11 w-11 items-center justify-center rounded border border-slate-200 bg-white text-slate-800 transition hover:border-slate-300 hover:shadow-sm"
+                  className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-slate-200 bg-white text-slate-800 transition hover:border-slate-300 hover:shadow-sm"
                 >
                   <Icon className="h-5 w-5" />
                 </a>
@@ -89,11 +96,11 @@ export const Footer: React.FC = () => {
           <nav className="lg:px-10" aria-label="Footer">
             <h3 className={headingClass}>Explore</h3>
             <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-1">
-              {quickLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-[15px] text-slate-700 transition-colors hover:text-sky-700">
+                  <Link href={link.href} className="text-[15px] text-slate-700 transition-colors hover:text-sky-700">
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -102,10 +109,10 @@ export const Footer: React.FC = () => {
           {/* Plans + Contact */}
           <div className="lg:pl-10">
             <h3 className={headingClass}>Rental plans</h3>
-            <ul className="mt-6 divide-y divide-slate-200 rounded border border-slate-200 bg-white">
+            <ul className="mt-6 divide-y divide-slate-200 rounded-[10px] border border-slate-200 bg-white">
               {plans.map((plan) => (
                 <li key={plan.label}>
-                  <a href="#plans" className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-slate-50">
+                  <Link href="/ro-on-rent#plans" className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-slate-50">
                     <span>
                       <span className="block text-base font-bold text-slate-900">{plan.label}</span>
                       <span className="block text-sm text-slate-500">{plan.note}</span>
@@ -115,7 +122,7 @@ export const Footer: React.FC = () => {
                       <span className="text-sm text-slate-500">/ month</span>
                       <ArrowRight className="ml-3 h-4 w-4 text-sky-600 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -135,9 +142,25 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
+        {/* Popular searches (SEO) */}
+        <div className="mt-12 border-t border-sky-100 pt-6">
+          <h3 className={headingClass}>Popular searches</h3>
+          <p className="mt-4 text-sm leading-7 text-slate-500">
+            {popularSearches.map((search, index) => (
+              <React.Fragment key={search}>
+                {index > 0 && <span className="mx-2 text-slate-300" aria-hidden="true">|</span>}
+                <Link href="/ro-on-rent" className="transition-colors hover:text-sky-700">{search}</Link>
+              </React.Fragment>
+            ))}
+          </p>
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-sky-100 pt-6 text-sm text-slate-600 sm:flex-row">
-          <p>© {currentYear} RentOMate. All rights reserved.</p>
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-sky-100 pt-6 text-sm text-slate-600 sm:flex-row">
+          <div className="text-center sm:text-left">
+            <p>© {currentYear} RentOMate. All rights reserved.</p>
+            <p className="mt-1 text-xs text-slate-500">RentOMate is a registered service of Akvinz Water Purifiers.</p>
+          </div>
           <div className="flex items-center gap-5">
             <span className="inline-flex items-center gap-2">
               <MapPin className="h-4 w-4 text-sky-600" /> Coimbatore, Tamil Nadu

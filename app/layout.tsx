@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { SiteShell } from "@/components/SiteShell";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -10,7 +11,10 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Water Purifier on Rent in Coimbatore | RentOMate",
+  title: {
+    default: "Water Purifier on Rent in Coimbatore | RentOMate",
+    template: "%s | RentOMate",
+  },
   description:
     "Rent an Akvinz RO+UV water purifier in Coimbatore with RentOMate. Choose flexible 12 or 24-month rental plans with installation and service support.",
   keywords: ["water purifier on rent in Coimbatore", "RO purifier rental", "Akvinz Ultron", "RentOMate"],
@@ -22,7 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${manrope.variable} font-sans h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <SiteShell>{children}</SiteShell>
+      </body>
     </html>
   );
 }

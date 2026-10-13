@@ -69,16 +69,17 @@ body {
   .cursor-ring {
     width: 34px;
     height: 34px;
-    border: 1.5px solid rgb(2 132 199 / 65%);
     border-radius: 999px;
-    transition: width 180ms ease, height 180ms ease, border-color 180ms ease, background 180ms ease;
+    border: 1.5px solid rgb(56 189 248 / 70%);
+    background: rgb(224 242 254 / 35%);
+    transition: width 180ms ease, height 180ms ease, opacity 180ms ease, border-color 180ms ease;
   }
 
   .cursor-ring--interactive {
-    width: 46px;
-    height: 46px;
-    border-color: rgb(14 165 233 / 35%);
-    background: rgb(14 165 233 / 10%);
+    width: 44px;
+    height: 44px;
+    border-color: rgb(2 132 199 / 60%);
+    background: rgb(224 242 254 / 50%);
   }
 
   .animated-cursor--pressed .cursor-dot {
@@ -88,8 +89,8 @@ body {
   }
 
   .animated-cursor--pressed .cursor-ring {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 }
 

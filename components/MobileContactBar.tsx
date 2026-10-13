@@ -13,7 +13,7 @@ export const MobileContactBar: React.FC = () => {
       <div className="grid grid-cols-2 gap-3">
         <a
           href={PHONE_HREF}
-          className="flex items-center justify-center gap-2 rounded bg-[#051838] py-3 text-sm font-bold text-white transition active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 rounded-[10px] bg-[#051838] py-3 text-sm font-bold text-white transition active:scale-[0.98]"
         >
           <Phone className="h-4 w-4" />
           Call
@@ -22,7 +22,7 @@ export const MobileContactBar: React.FC = () => {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 rounded bg-[#25D366] py-3 text-sm font-bold text-white transition active:scale-[0.98]"
+          className="flex items-center justify-center gap-2 rounded-[10px] bg-[#25D366] py-3 text-sm font-bold text-white transition active:scale-[0.98]"
         >
           <MessageCircle className="h-4 w-4" />
           WhatsApp

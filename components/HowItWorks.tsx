@@ -2,38 +2,36 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Sliders, PhoneCall, Wrench, Droplets } from "lucide-react";
+import { Sliders, PhoneCall, Wrench, Droplets, ArrowRight, MessageCircle } from "lucide-react";
 import { WaterHoverCard } from "./WaterHoverCard";
+import { PHONE_DISPLAY, whatsappLink } from "@/lib/contact";
+import { CUSTOMER_FORM_URL } from "@/lib/site";
 
 export const HowItWorks: React.FC = () => {
   const steps = [
     {
       num: "01",
       title: "Choose",
-      desc: "Choose a 12-month or 24-month RentOMate rental plan for your home.",
+      desc: "Pick the 24-month Smart Saver or the 12-month Easy Flexi plan for your home.",
       icon: Sliders,
-      color: "from-sky-500 to-blue-600",
     },
     {
       num: "02",
       title: "Connect",
-      desc: "Contact us through WhatsApp or phone and check availability for your Coimbatore location.",
+      desc: `WhatsApp our official number ${PHONE_DISPLAY} or fill in the quick booking form to confirm availability at your address.`,
       icon: PhoneCall,
-      color: "from-blue-600 to-indigo-600",
     },
     {
       num: "03",
       title: "Install",
-      desc: "Our team arranges installation at your home, subject to location and installation feasibility.",
+      desc: "Our technician installs the purifier at zero charges within 24 to 48 hours, based on your location.",
       icon: Wrench,
-      color: "from-cyan-500 to-sky-600",
     },
     {
       num: "04",
       title: "Enjoy",
-      desc: "Use your purifier while maintenance and eligible service support are handled according to your subscription plan.",
+      desc: "Drink pure water every day while we handle service and filter swaps free of cost.",
       icon: Droplets,
-      color: "from-sky-500 to-blue-600",
     },
   ];
 
@@ -47,7 +45,7 @@ export const HowItWorks: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100/70 px-3.5 py-1.5 rounded inline-block mb-3"
+            className="text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100/70 px-3.5 py-1.5 rounded-[10px] inline-block mb-3"
           >
             Simple and Hassle-Free
           </motion.span>
@@ -79,14 +77,14 @@ export const HowItWorks: React.FC = () => {
                 transition={{ delay: index * 0.2, duration: 0.5 }}
                 className="h-full"
               >
-                <WaterHoverCard className="h-full rounded border border-slate-200/70 bg-slate-50/70 transition-[border-color,box-shadow,transform,background-color] duration-500 hover:-translate-y-1 hover:border-sky-300 hover:bg-white hover:shadow-xl hover:shadow-sky-900/10">
+                <WaterHoverCard className="h-full rounded-[10px] border border-slate-200/70 bg-slate-50/70 transition-[border-color,box-shadow,transform,background-color] duration-500 hover:-translate-y-1 hover:border-sky-300 hover:bg-white hover:shadow-xl hover:shadow-sky-900/10">
                 <div className="flex h-full flex-col items-center p-6 text-center sm:p-8">
                   {/* Step Number Badge */}
-                  <div className="w-14 h-14 rounded bg-gradient-to-br from-sky-500 to-blue-600 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-sky-500/25 mb-6 group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-[10px] bg-gradient-to-br from-sky-500 to-blue-600 text-white font-black text-xl flex items-center justify-center shadow-lg shadow-sky-500/25 mb-6 group-hover:scale-110 transition-transform">
                     {step.num}
                   </div>
 
-                  <div className="w-10 h-10 rounded bg-white/80 flex items-center justify-center text-sky-600 mb-4 ring-1 ring-sky-100">
+                  <div className="w-10 h-10 rounded-[10px] bg-white/80 flex items-center justify-center text-sky-600 mb-4 ring-1 ring-sky-100">
                     <Icon className="w-5 h-5" />
                   </div>
 
@@ -102,6 +100,26 @@ export const HowItWorks: React.FC = () => {
               </motion.div>
             );
           })}
+        </div>
+
+        {/* Booking shortcuts */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a
+            href={whatsappLink("Hi RentOMate! I'd like to book a water purifier on rent.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-[#1ebe5a]"
+          >
+            <MessageCircle className="h-4 w-4" /> WhatsApp {PHONE_DISPLAY}
+          </a>
+          <a
+            href={CUSTOMER_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-[10px] border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-800 transition hover:border-sky-300 hover:text-sky-700"
+          >
+            Fill the Booking Form <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
 
       </div>
