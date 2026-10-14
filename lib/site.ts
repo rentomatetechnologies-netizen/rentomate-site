@@ -38,7 +38,7 @@ export type ProductModel = {
 
 export const MODELS: ProductModel[] = [
   { id: "black", name: "Akvinz Ultron", colour: "Midnight Black", swatch: "#111827", image: "/hero/purifier-transparent.png" },
-  { id: "white", name: "Akvinz Ultron", colour: "Pearl White", swatch: "#f1f5f9", image: "/hero/purifier-white.png" },
+  { id: "white", name: "Akvinz Ultron", colour: "Pearl White", swatch: "#f1f5f9", image: "/hero/purifier-white.webp" },
 ];
 
 export const KEY_SPECS = [
@@ -65,6 +65,24 @@ export const CITIES: City[] = [
 ];
 
 export const DEFAULT_CITY = CITIES[0].name;
+
+/** Cities RentOMate serves: the header location picker and the "Where We Serve" section. */
+export const SERVICE_LOCATIONS = [
+  "Coimbatore",
+  "Tiruppur",
+  "Erode",
+  "Salem",
+  "Pollachi",
+  "Hosur",
+  "Karur",
+  "Trichy",
+  "Madurai",
+  "Karaikudi",
+  "Ooty",
+  "Tirunelveli",
+  "Puducherry",
+  "Chengalpattu",
+];
 
 export const inr = (value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 

@@ -12,12 +12,13 @@ import { RentalPlans } from "@/components/RentalPlans";
 import { AvailableCities } from "@/components/AvailableCities";
 import { FreeTrial } from "@/components/FreeTrial";
 import { FaqSection } from "@/components/FaqSection";
+import type { HeroContent } from "@/lib/hero";
 
 // Navbar, footer and popups come from <SiteShell> in the root layout.
-export const LandingPage: React.FC = () => (
+export const LandingPage: React.FC<{ hero: HeroContent }> = ({ hero }) => (
   <>
     {/* Hero product display, with key specs directly below */}
-    <HeroSection />
+    <HeroSection content={hero} />
     <KeySpecs />
 
     {/* Product range scroll */}

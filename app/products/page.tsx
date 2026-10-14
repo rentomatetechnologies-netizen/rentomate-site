@@ -14,6 +14,7 @@ export default function ProductsPage() {
     <>
       <PageHeader
         eyebrow="Our Products"
+        breadcrumbs={[{ label: "Products", href: "/products" }]}
         title={<>Purifiers built for <span className="text-[#0084FF]">pure, great-tasting water</span></>}
         description="ISI certified Akvinz purifiers with 8-stage purification, copper enrichment and pH-balanced alkaline water, available on rent."
       />

@@ -8,7 +8,7 @@ import { LOWEST_PRICE, PRICE_PER_DAY } from "@/lib/site";
 const columns = ["RentOMate (Rent)", "Water Cans", "Buying a Purifier"];
 
 const rows: [string, string, string, string][] = [
-  ["Water safety", "Multi-stage purified at your tap", "Source unclear", "Varies, often limited filtration"],
+  ["Water safety", "8 stage purified at your tap", "Source unclear", "Varies, often limited filtration"],
   ["Purification", "RO + UV + UF + TDS + Copper", "Unknown process", "Basic, few filter options"],
   ["Cost", `₹${LOWEST_PRICE}/month (about ₹${PRICE_PER_DAY}/day)`, "₹40–₹50 per 20 L can", "₹10,000–₹20,000 upfront + yearly upkeep"],
   ["Service & filters", "Free, with call & WhatsApp support", "Manual ordering & coordination", "Paid filter changes & AMC renewals"],
@@ -35,7 +35,7 @@ export const SmarterChoice: React.FC = () => (
       <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
         <motion.span initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-3 inline-block rounded-[10px] bg-sky-100/70 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-700">Can vs Buy vs Rent</motion.span>
         <motion.h2 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Why RentOMate Is the <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">Smarter Choice</span></motion.h2>
-        <p className="mt-3 text-sm text-slate-600 sm:text-base">Pick your current drinking water solution and see how renting saves your time, health and money.</p>
+        <p className="mt-3 text-sm text-slate-600 sm:text-base">Choose your current drinking water solution and discover how renting a water purifier can save you time, protect your health, and reduce costs.</p>
       </div>
 
       <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="overflow-hidden rounded-[10px] border border-slate-200/90 bg-white shadow-sm">
@@ -70,7 +70,7 @@ export const SmarterChoice: React.FC = () => (
           </table>
         </div>
       </motion.div>
-      <p className="mt-3 text-center text-xs text-slate-500">*First installation is free. Relocation is subject to location feasibility; later moves may be chargeable as per plan terms.</p>
+
     </div>
   </section>
 );

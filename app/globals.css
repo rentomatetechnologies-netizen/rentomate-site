@@ -10,6 +10,9 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
   --font-mono: var(--font-geist-mono);
+  --color-brand: #0084ff;
+  --color-brand-dark: #0067c7;
+  --color-navy: #051838;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,6 +31,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-manrope), sans-serif;
+}
+
+.key-specs__track {
+  animation: key-specs-marquee 56s linear infinite;
+  will-change: transform;
+}
+
+@keyframes key-specs-marquee {
+  to { transform: translateX(-50%); }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -175,9 +187,63 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .key-specs__track { animation: none; }
   .water-card__water { transition-duration: 200ms; }
   .water-card__bob,
   .water-card__wave,
   .water-card:hover .water-card__bubble,
   .water-card:focus-within .water-card__bubble { animation: none; }
+}
+
+/* Header lens (components/LiquidNav.tsx): colourless and see-through like clear water – only white
+   light defines it: crisp edges, a highlight on top, light gathered along the bottom and a slow shimmer. */
+.liquid-lens {
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 60% at 50% 105%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 70%),
+    rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(1px) brightness(1.06);
+  backdrop-filter: blur(1px) brightness(1.06);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 1),       /* crisp top edge */
+    inset 0 -1px 1px rgba(255, 255, 255, 0.9),    /* crisp bottom edge */
+    inset 0 4px 8px rgba(15, 23, 42, 0.05),       /* slight depth under the top edge */
+    inset 0 -7px 12px rgba(255, 255, 255, 0.65),  /* light gathered at the bottom */
+    0 3px 8px rgba(15, 23, 42, 0.08),             /* soft neutral shadow */
+    0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+/* Specular highlight, like light catching the top of a water drop. */
+.liquid-lens::before {
+  content: "";
+  position: absolute;
+  top: 9%;
+  left: 10%;
+  width: 48%;
+  height: 34%;
+  border-radius: 9999px;
+  background: radial-gradient(ellipse at 40% 40%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.35) 45%, rgba(255, 255, 255, 0) 75%);
+  filter: blur(0.5px);
+}
+
+/* Slow sweep of light across the surface, like moving water. */
+.liquid-lens::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0) 35%, rgba(255, 255, 255, 0.45) 48%, rgba(255, 255, 255, 0.2) 54%, rgba(255, 255, 255, 0) 65%);
+  background-size: 260% 100%;
+  animation: liquid-lens-shimmer 4.5s ease-in-out infinite;
+}
+
+@keyframes liquid-lens-shimmer {
+  0% { background-position: 120% 0; }
+  60%, 100% { background-position: -40% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-lens::after { animation: none; }
 }

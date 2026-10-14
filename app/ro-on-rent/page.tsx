@@ -16,6 +16,7 @@ export default function RoOnRentPage() {
     <>
       <PageHeader
         eyebrow="RO on Rent"
+        breadcrumbs={[{ label: "RO on Rent", href: "/ro-on-rent" }]}
         title={<>RO water purifier on rent, <span className="text-[#0084FF]">from ₹{LOWEST_PRICE}/month</span></>}
         description="Zero machine cost, free installation, lifetime free maintenance and filter replacements at no cost. Pick a plan and we'll install within 24–48 hours."
       />

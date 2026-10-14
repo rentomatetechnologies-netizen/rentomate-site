@@ -1,57 +1,54 @@
-// Blog articles. Add a new object here to publish a post at /blog/<slug>.
+// Blog articles are managed in the admin panel (rentomate-backend) and fetched from its API.
+// Pages are cached and refreshed every few minutes, or instantly when the backend
+// calls /api/revalidate after a post is saved.
 
-export type BlogPost = {
+export type BlogBlock =
+  | { type: "paragraph" | "heading" | "quote"; text: string }
+  | { type: "image"; url: string; alt: string; caption: string }
+  | { type: "list"; items: string[] };
+
+export type BlogPostSummary = {
+  id: number;
   slug: string;
   title: string;
   excerpt: string;
+  category: string;
+  author: string;
+  coverImage: string;
+  coverAlt: string;
   date: string; // ISO date
   readMinutes: number;
-  body: string[]; // paragraphs
+  featured: boolean;
+  seoTitle: string;
+  seoDescription: string;
+  updatedAt: string;
 };
 
-export const BLOG_POSTS: BlogPost[] = [
-  {
-    slug: "rent-vs-buy-water-purifier",
-    title: "Renting vs buying a water purifier: which makes sense for you?",
-    excerpt: "Buying means a big upfront cost plus yearly servicing. Renting spreads it into a small monthly fee with maintenance included.",
-    date: "2026-09-15",
-    readMinutes: 4,
-    body: [
-      "A good RO purifier is a significant purchase, and the price on the box is only the start. Over the years you also pay for service visits, filter changes and the occasional repair.",
-      "Renting turns all of that into one predictable monthly fee. With RentOMate there is no machine cost, installation is free, and maintenance and filter replacements are included for as long as you rent.",
-      "Renting is especially useful if you live in a rented home or expect to move, since you are not tied to a machine you own. Buying can make sense if you plan to stay put for many years and are happy to manage servicing yourself.",
-      "Not sure yet? Our 7-day risk-free trial lets you try the purifier at home before you commit.",
-    ],
-  },
-  {
-    slug: "how-often-change-ro-filters",
-    title: "How often should RO purifier filters be changed?",
-    excerpt: "Filters wear out at different rates depending on your water quality and usage. Here is what to watch for.",
-    date: "2026-08-28",
-    readMinutes: 3,
-    body: [
-      "An RO purifier uses several stages: sediment and carbon pre-filters, the RO membrane, and post-filters such as UV, UF or mineral cartridges. Each wears out at its own pace.",
-      "Pre-filters typically need changing more often than the membrane, because they catch dirt and chlorine before the water reaches it. How often depends on your water's hardness, TDS and how much water your household uses.",
-      "Signs a filter is due include a change in taste or smell, slower water flow, or a TDS reading that creeps up.",
-      "On a RentOMate plan you do not need to track any of this: our team checks the purifier during service visits and swaps filters at no cost when they are due.",
-    ],
-  },
-  {
-    slug: "what-is-tds-drinking-water",
-    title: "What is TDS, and why does it matter for drinking water?",
-    excerpt: "TDS measures the dissolved minerals and salts in water. Too high affects taste and health; too low strips useful minerals.",
-    date: "2026-08-10",
-    readMinutes: 3,
-    body: [
-      "TDS stands for Total Dissolved Solids: the minerals, salts and metals dissolved in water, usually measured in milligrams per litre (mg/L).",
-      "The Indian drinking water standard, IS 10500, sets an acceptable TDS limit of 500 mg/L. Water well above that can taste salty or bitter and may contain more contaminants.",
-      "RO purification brings TDS down, but very low TDS water can taste flat and lacks useful minerals. That is why purifiers with TDS control and mineral enrichment aim for a balanced level rather than the lowest possible number.",
-      "RentOMate purifiers combine RO, UV and UF with TDS control and copper and mineral enrichment, so the water is both safe and pleasant to drink.",
-    ],
-  },
-];
+export type BlogPost = BlogPostSummary & { blocks: BlogBlock[] };
 
-export const getPost = (slug: string) => BLOG_POSTS.find((post) => post.slug === slug);
+const API_URL = `${(process.env.BACKEND_URL || "http://localhost:4000").replace(/\/$/, "")}/api/public`;
+export const BLOG_REVALIDATE_SECONDS = 300;
+
+async function request<T>(path: string): Promise<T | null> {
+  try {
+    const response = await fetch(`${API_URL}${path}`, { next: { revalidate: BLOG_REVALIDATE_SECONDS } });
+    if (response.status === 404) return null;
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return (await response.json()) as T;
+  } catch (error) {
+    // Backend unreachable: render an empty blog rather than failing the whole build.
+    console.error(`Blog API request failed for ${path}:`, error);
+    return null;
+  }
+}
+
+export const getPosts = async () => (await request<BlogPostSummary[]>("/posts")) ?? [];
+
+export const getPost = (slug: string) => request<BlogPost>(`/posts/${encodeURIComponent(slug)}`);
+
+// Uploaded images are served on this domain at /media/* (forwarded to the backend), so
+// next/image can optimize them. Pasted external image URLs are shown as-is.
+export const isOptimizableImage = (src: string) => src.startsWith("/media/");
 
 export const formatDate = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });

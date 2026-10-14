@@ -27,18 +27,26 @@ const tabs: { id: Comparison; label: string; shortLabel: string; icon: LucideIco
 ];
 
 // Calculator inputs, based on the "Water Can Supply vs RentOMate" and "Own vs Extend Life" posters.
-const CANS_PER_WEEK = [1, 2, 3, 4, 5];
-const CAN_PRICES = [30, 40, 50, 60, 70];
+// Can water follows the RentOMate savings sheet: a year is 52 weeks and cans start at ₹40.
+const CAN_PRICES = [40, 50, 60, 70, 80];
 const CAN_TYPES = [
   { label: "Unbranded", priceIndex: 0 },
-  { label: "Known Brand", priceIndex: 2 },
-  { label: "Not Sure", priceIndex: 1 },
+  { label: "Known Brand", priceIndex: 1 },
+  { label: "Not Sure", priceIndex: 0 },
 ];
+const WEEKS_PER_YEAR = 52;
+const CAN_STEPS = 5;
+
+/**
+ * Fewest cans a week for which cans cost more than the plan, even at the cheapest can price,
+ * so the customer always saves (₹449 plan → 3 cans, ₹699 plan → 5 cans).
+ */
+const minCansFor = (plan: Plan) => Math.floor((plan.price * 12) / (CAN_PRICES[0] * WEEKS_PER_YEAR)) + 1;
+const canOptionsFor = (plan: Plan) => Array.from({ length: CAN_STEPS }, (_, step) => minCansFor(plan) + step);
 const PURCHASE_COSTS = [10000, 12500, 15000, 17500, 20000];
 const YEARS_USED = [1, 2, 3, 4, 5];
 const YEARLY_UPKEEP = [1500, 2000, 2500, 3000];
 
-const WEEKS_PER_MONTH = 52 / 12;
 const SMART_SAVER = PLANS.find((plan) => plan.months === 24) ?? PLANS[0];
 
 const RangeInput = ({ label, value, onChange, marks }: { label: string; value: number; onChange: (value: number) => void; marks: string[] }) => (
@@ -65,13 +73,13 @@ export const WhyRentomate: React.FC = () => {
   const [comparison, setComparison] = useState<Comparison>("cans");
 
   return (
-    <section id="why-rentomate" className="relative overflow-hidden bg-white pt-10 pb-12 sm:pt-12 sm:pb-14">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.12),transparent_35%)]" />
+    <section id="why-rentomate" className="relative overflow-hidden bg-[#0a0a0a] pt-10 pb-12 sm:pt-12 sm:pb-14">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.18),transparent_40%)]" />
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto max-w-3xl text-center">
-          <span className="mb-2 inline-block rounded-[10px] bg-sky-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-700">Why Rent</span>
-          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem] sm:leading-tight">Renting a Water Purifier Makes More Sense Than Your Current Setup</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-600 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a RentOMate purifier on rent compares.</p>
+          <span className="mb-2 inline-block rounded-[10px] bg-sky-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-300 ring-1 ring-sky-400/25">Why Rent</span>
+          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.25rem] sm:leading-tight">Renting a Water Purifier Makes More Sense Than Your Current Setup</h2>
+          <p className="mt-2 text-sm leading-relaxed text-slate-300 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a RentOMate purifier on rent compares.</p>
         </motion.div>
 
         <div role="tablist" className="mt-6 grid grid-cols-3 gap-1 rounded-[10px] border border-slate-200 bg-white p-1 shadow-sm sm:mt-5 sm:gap-2 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
@@ -118,23 +126,31 @@ function CalculatorShell({ subtitle, inputs, result }: { subtitle: string; input
 }
 
 function CanCalculator() {
-  const [canType, setCanType] = useState(1);
-  const [cansPerWeek, setCansPerWeek] = useState(2);
-  const [canCost, setCanCost] = useState(CAN_TYPES[1].priceIndex);
+  const [canType, setCanType] = useState(2);
+  const [canCost, setCanCost] = useState(CAN_TYPES[2].priceIndex);
   const [plan, setPlan] = useState<Plan>(SMART_SAVER);
+  const [cans, setCans] = useState(minCansFor(SMART_SAVER));
 
   const chooseType = (index: number) => {
     setCanType(index);
     setCanCost(CAN_TYPES[index].priceIndex);
   };
 
-  const cans = CANS_PER_WEEK[cansPerWeek];
+  // Each plan only offers can counts where renting wins; keep the chosen count inside the new range.
+  const canOptions = canOptionsFor(plan);
+  const choosePlan = (next: Plan) => {
+    const options = canOptionsFor(next);
+    setPlan(next);
+    setCans((current) => Math.min(Math.max(current, options[0]), options[options.length - 1]));
+  };
+
   const price = CAN_PRICES[canCost];
-  const weeks = Math.round(plan.months * WEEKS_PER_MONTH);
+  const years = plan.months / 12;
+  const weeks = WEEKS_PER_YEAR * years;
   const canTotal = cans * price * weeks;
   const rentTotal = plan.price * plan.months;
-  const difference = canTotal - rentTotal;
-  const extraPerDay = Math.max(1, Math.round(-difference / (plan.months * 30)));
+  const saving = canTotal - rentTotal;
+  const savingPerYear = Math.round(saving / years);
 
   const inputs = <>
     <div>
@@ -143,9 +159,9 @@ function CanCalculator() {
         {CAN_TYPES.map((type, index) => <button key={type.label} type="button" onClick={() => chooseType(index)} className={`rounded-[10px] border px-2 py-2.5 text-xs font-bold transition ${canType === index ? "border-sky-500 bg-sky-50 text-sky-800 shadow-sm" : "border-slate-200 bg-white text-slate-600 hover:border-sky-300"}`}>{type.label}</button>)}
       </div>
     </div>
-    <RangeInput label="Cans per week (20 L)" value={cansPerWeek} onChange={setCansPerWeek} marks={CANS_PER_WEEK.map(String)} />
+    <RangeInput label="Cans per week (20 L)" value={cans - canOptions[0]} onChange={(step) => setCans(canOptions[step])} marks={canOptions.map(String)} />
     <RangeInput label="Cost per can" value={canCost} onChange={setCanCost} marks={CAN_PRICES.map((value) => `₹${value}`)} />
-    <PlanSelector selected={plan} onSelect={setPlan} />
+    <PlanSelector selected={plan} onSelect={choosePlan} />
   </>;
 
   const result = <div className="mt-5 rounded-[10px] border border-sky-200 bg-sky-50/70 p-4 text-sm text-slate-700">
@@ -158,12 +174,10 @@ function CanCalculator() {
       <ComparisonValue label="Filter change, service & AMC" value="Not applicable" />
       <ComparisonValue label="Installation, filters, service & AMC" value="FREE" tone="good" />
     </div>
-    <p className={`mt-4 border-t border-sky-200 pt-3 text-sm font-bold ${difference > 0 ? "text-emerald-700" : "text-sky-800"}`}>
-      {difference > 0
-        ? `You save ${inr(difference)} in ${plan.months} months with RentOMate — better water, less hassle.`
-        : `For just ₹${extraPerDay} more a day, get unlimited purified water on tap — no carrying cans, no reorders, no storage.`}
+    <p className="mt-4 border-t border-sky-200 pt-3 text-sm font-bold text-emerald-700">
+      You save {inr(saving)} in {plan.months} months with RentOMate{years > 1 ? ` (${inr(savingPerYear)} a year)` : ""} — better water, less hassle.
     </p>
-    <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the can price and usage entered above. Actual costs may vary.</p>
+    <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on {WEEKS_PER_YEAR} weeks a year and the can price and usage entered above. Actual costs may vary.</p>
   </div>;
 
   return <CalculatorShell subtitle="Tell us about your current water-can usage." inputs={inputs} result={result} />;
@@ -263,12 +277,12 @@ function BenefitsPanel({ comparison }: { comparison: "cans" | "buy" }) {
 
 function TraditionalComparison() {
   const rows = [["Cloth filter", true, false, false, false], ["Boiling", false, true, false, false], ["Gravity filter", true, "partial", false, false], ["RO purifier", true, true, true, true]];
-  return <div className="rounded-[10px] border border-slate-200 bg-white p-5 shadow-sm sm:p-7"><p className="text-sm leading-relaxed text-slate-600">Traditional methods take time and address only part of the problem. A modern RO purifier gives your household dependable, multi-stage purification.</p><h3 className="mt-5 text-base font-extrabold text-slate-900">How Common Purification Methods Compare</h3><div className="mt-4 overflow-x-auto"><table className="w-full min-w-[600px] overflow-hidden rounded-[10px] border border-slate-200 text-sm"><thead className="bg-slate-50 text-slate-600"><tr>{["Method", "Dirt", "Bacteria", "Heavy metals", "Dissolved salts"].map((heading) => <th key={heading} className="border-b border-slate-200 px-4 py-3 text-center text-xs font-bold first:text-left">{heading}</th>)}</tr></thead><tbody>{rows.map(([method, ...checks]) => <tr key={method as string} className="border-b border-slate-100 last:border-0"><td className="px-4 py-3 font-semibold text-slate-700">{method as string}</td>{checks.map((result, index) => <td key={index} className="px-4 py-3 text-center">{result === true ? <CheckCircle2 className="mx-auto h-4 w-4 text-emerald-500" /> : result === "partial" ? <Minus className="mx-auto h-4 w-4 text-amber-500" /> : <X className="mx-auto h-4 w-4 text-rose-500" />}</td>)}</tr>)}</tbody></table></div></div>;
+  return <div className="rounded-[10px] border border-slate-200 bg-white p-5 shadow-sm sm:p-7"><p className="text-sm leading-relaxed text-slate-600">Traditional methods are time-consuming and offer only limited solutions. A modern RO purifier delivers reliable, multi-stage water purification for your entire household.</p><h3 className="mt-5 text-base font-extrabold text-slate-900">How Common Purification Methods Compare</h3><div className="mt-4 overflow-x-auto"><table className="w-full min-w-[600px] overflow-hidden rounded-[10px] border border-slate-200 text-sm"><thead className="bg-slate-50 text-slate-600"><tr>{["Method", "Dirt", "Bacteria", "Heavy metals", "Dissolved salts"].map((heading) => <th key={heading} className="border-b border-slate-200 px-4 py-3 text-center text-xs font-bold first:text-left">{heading}</th>)}</tr></thead><tbody>{rows.map(([method, ...checks]) => <tr key={method as string} className="border-b border-slate-100 last:border-0"><td className="px-4 py-3 font-semibold text-slate-700">{method as string}</td>{checks.map((result, index) => <td key={index} className="px-4 py-3 text-center">{result === true ? <CheckCircle2 className="mx-auto h-4 w-4 text-emerald-500" /> : result === "partial" ? <Minus className="mx-auto h-4 w-4 text-amber-500" /> : <X className="mx-auto h-4 w-4 text-rose-500" />}</td>)}</tr>)}</tbody></table></div></div>;
 }
 
 function RentCta() {
   return <div className="flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
-    <p className="text-sm font-bold text-sky-700">A simpler way to enjoy purified water at home.</p>
+    <p className="text-sm font-bold text-sky-300">A simpler way to enjoy purified water at home.</p>
     <a href="/ro-on-rent#plans" className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-[10px] bg-gradient-to-r from-sky-600 to-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/20 transition hover:from-sky-700 hover:to-blue-700 sm:w-auto"><Sparkles className="h-4 w-4" /> Rent a Water Purifier</a>
   </div>;
 }

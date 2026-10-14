@@ -20,6 +20,7 @@ export default function ReferAndEarnPage() {
     <>
       <PageHeader
         eyebrow="Refer & Earn"
+        breadcrumbs={[{ label: "Refer & Earn", href: "/refer-and-earn" }]}
         title={<>Share pure water, <span className="text-[#0084FF]">earn rewards</span></>}
         description="Know someone who should stop buying water cans? Refer them to RentOMate and you both benefit."
       />

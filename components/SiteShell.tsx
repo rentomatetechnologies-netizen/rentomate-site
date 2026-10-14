@@ -1,13 +1,13 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CheckAvailabilityModal } from "@/components/CheckAvailabilityModal";
 import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { CursorAnimation } from "@/components/CursorAnimation";
 import { MobileContactBar } from "@/components/MobileContactBar";
-import { NeedSupportButton } from "@/components/NeedSupportButton";
 
 type SiteActions = { openLeadForm: () => void; openAvailability: () => void };
 
@@ -28,6 +28,11 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
   const openAvailability = useCallback(() => setAvailabilityOpen(true), []);
   const actions = useMemo(() => ({ openLeadForm, openAvailability }), [openLeadForm, openAvailability]);
 
+  const pathname = usePathname();
+
+  // The admin panel has its own layout: no site navbar, footer or lead popups.
+  if (pathname.startsWith("/admin")) return <>{children}</>;
+
   return (
     <SiteActionsContext.Provider value={actions}>
       <main className="min-h-screen overflow-x-clip bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
@@ -37,7 +42,6 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
         <Footer />
 
         <MobileContactBar />
-        <NeedSupportButton />
 
         <CheckAvailabilityModal isOpen={availabilityOpen} onClose={() => setAvailabilityOpen(false)} />
         {/* Opening popup – shows on every load until submitted on this device; "Rent Now" reopens it */}

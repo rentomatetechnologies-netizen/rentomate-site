@@ -30,6 +30,7 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact Us"
+        breadcrumbs={[{ label: "Contact Us", href: "/contact" }]}
         title={<>We&apos;re here to <span className="text-[#0084FF]">help</span></>}
         description="Questions about plans, installation or service? Reach us on any channel below, or leave your number and we'll call you back."
       />

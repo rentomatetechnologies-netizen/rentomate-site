@@ -51,27 +51,27 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 const plans = PLANS.map((plan) => ({ label: `${plan.months}-Month ${plan.name}`, price: inr(plan.price), note: plan.tagline }));
 
-const headingClass = "text-xs font-bold uppercase tracking-[0.2em] text-slate-900";
-const contactClass = "inline-flex items-center gap-2 whitespace-nowrap rounded-[10px] border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-300 hover:shadow-sm";
+const headingClass = "text-xs font-bold uppercase tracking-[0.2em] text-white";
+const contactClass = "inline-flex items-center gap-2 whitespace-nowrap rounded-[10px] border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/10";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const whatsappUrl = whatsappLink("Hi RentOMate! I would like to know more about renting a water purifier.");
 
   return (
-    <footer className="border-t border-slate-200/70 bg-gradient-to-b from-white to-slate-50/80">
+    <footer className="border-t border-white/10 bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 pt-14 pb-28 sm:px-6 md:pb-8 lg:px-8">
 
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.7fr_1.55fr] lg:gap-0 lg:divide-x lg:divide-slate-200">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.7fr_1.55fr] lg:gap-0 lg:divide-x lg:divide-white/10">
 
           {/* Brand */}
           <div className="lg:pr-10">
-            <Logo />
-            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-600">
+            <Logo light />
+            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-400">
               Water purifier rental in Coimbatore — pure drinking water made simple, flexible and affordable.
             </p>
-            <p className="mt-5 inline-flex items-center gap-2.5 text-[15px] text-slate-600">
-              <MapPin className="h-5 w-5 text-sky-600" />
+            <p className="mt-5 inline-flex items-center gap-2.5 text-[15px] text-slate-400">
+              <MapPin className="h-5 w-5 text-sky-400" />
               Serving homes across Coimbatore
             </p>
             <div className="mt-7 flex items-center gap-2.5">
@@ -83,12 +83,12 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   aria-label={`RentOMate on ${label} (@${SOCIAL_HANDLE})`}
                   title={label}
-                  className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-slate-200 bg-white text-slate-800 transition hover:border-slate-300 hover:shadow-sm"
+                  className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
                 >
                   <Icon className="h-5 w-5" />
                 </a>
               ))}
-              <span className="ml-1.5 text-[15px] text-slate-600">@{SOCIAL_HANDLE}</span>
+              <span className="ml-1.5 text-[15px] text-slate-400">@{SOCIAL_HANDLE}</span>
             </div>
           </div>
 
@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
             <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-1">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-[15px] text-slate-700 transition-colors hover:text-sky-700">
+                  <Link href={link.href} className="text-[15px] text-slate-300 transition-colors hover:text-sky-300">
                     {link.label}
                   </Link>
                 </li>
@@ -109,18 +109,18 @@ export const Footer: React.FC = () => {
           {/* Plans + Contact */}
           <div className="lg:pl-10">
             <h3 className={headingClass}>Rental plans</h3>
-            <ul className="mt-6 divide-y divide-slate-200 rounded-[10px] border border-slate-200 bg-white">
+            <ul className="mt-6 divide-y divide-white/10 rounded-[10px] border border-white/10 bg-white/[0.04]">
               {plans.map((plan) => (
                 <li key={plan.label}>
-                  <Link href="/ro-on-rent#plans" className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-slate-50">
+                  <Link href="/ro-on-rent#plans" className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-white/5">
                     <span>
-                      <span className="block text-base font-bold text-slate-900">{plan.label}</span>
-                      <span className="block text-sm text-slate-500">{plan.note}</span>
+                      <span className="block text-base font-bold text-white">{plan.label}</span>
+                      <span className="block text-sm text-slate-400">{plan.note}</span>
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <span className="text-lg font-extrabold text-sky-600">{plan.price}</span>
-                      <span className="text-sm text-slate-500">/ month</span>
-                      <ArrowRight className="ml-3 h-4 w-4 text-sky-600 transition-transform group-hover:translate-x-0.5" />
+                      <span className="text-lg font-extrabold text-sky-400">{plan.price}</span>
+                      <span className="text-sm text-slate-400">/ month</span>
+                      <ArrowRight className="ml-3 h-4 w-4 text-sky-400 transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </Link>
                 </li>
@@ -133,40 +133,40 @@ export const Footer: React.FC = () => {
                 <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> WhatsApp
               </a>
               <a href={PHONE_HREF} className={contactClass}>
-                <Phone className="h-5 w-5 text-sky-600" /> Call us
+                <Phone className="h-5 w-5 text-sky-400" /> Call us
               </a>
               <a href={`mailto:${SUPPORT_EMAIL}`} className={contactClass}>
-                <Mail className="h-5 w-5 text-sky-600" /> {SUPPORT_EMAIL}
+                <Mail className="h-5 w-5 text-sky-400" /> {SUPPORT_EMAIL}
               </a>
             </div>
           </div>
         </div>
 
         {/* Popular searches (SEO) */}
-        <div className="mt-12 border-t border-sky-100 pt-6">
+        <div className="mt-12 border-t border-white/10 pt-6">
           <h3 className={headingClass}>Popular searches</h3>
-          <p className="mt-4 text-sm leading-7 text-slate-500">
+          <p className="mt-4 text-sm leading-7 text-slate-400">
             {popularSearches.map((search, index) => (
               <React.Fragment key={search}>
-                {index > 0 && <span className="mx-2 text-slate-300" aria-hidden="true">|</span>}
-                <Link href="/ro-on-rent" className="transition-colors hover:text-sky-700">{search}</Link>
+                {index > 0 && <span className="mx-2 text-slate-600" aria-hidden="true">|</span>}
+                <Link href="/ro-on-rent" className="transition-colors hover:text-sky-300">{search}</Link>
               </React.Fragment>
             ))}
           </p>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-sky-100 pt-6 text-sm text-slate-600 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row">
           <div className="text-center sm:text-left">
             <p>© {currentYear} RentOMate. All rights reserved.</p>
             <p className="mt-1 text-xs text-slate-500">RentOMate is a registered service of Akvinz Water Purifiers.</p>
           </div>
           <div className="flex items-center gap-5">
             <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-sky-600" /> Coimbatore, Tamil Nadu
+              <MapPin className="h-4 w-4 text-sky-400" /> Coimbatore, Tamil Nadu
             </span>
-            <span className="h-5 w-px bg-slate-200" aria-hidden="true" />
-            <a href="#" className="inline-flex items-center gap-1.5 font-medium text-slate-700 transition-colors hover:text-slate-900">
+            <span className="h-5 w-px bg-white/15" aria-hidden="true" />
+            <a href="#" className="inline-flex items-center gap-1.5 font-medium text-slate-200 transition-colors hover:text-white">
               Back to top <ArrowUp className="h-4 w-4" />
             </a>
           </div>

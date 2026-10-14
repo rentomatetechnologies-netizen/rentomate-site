@@ -21,6 +21,7 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About RentOMate"
+        breadcrumbs={[{ label: "About", href: "/about" }]}
         title={<>Own less. <span className="text-[#0084FF]">Live smart.</span></>}
         description="RentOMate is a registered service of Akvinz Water Purifiers. We rent RO water purifiers to homes in Coimbatore, so families get safe drinking water without the upfront cost of buying a machine or the hassle of maintaining one."
       />

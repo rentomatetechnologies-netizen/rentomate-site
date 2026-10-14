@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MessageCircle, Phone, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { LiquidNav } from "./LiquidNav";
 import { LocationDropdown } from "./LocationDropdown";
 import { useSiteActions } from "./SiteShell";
 import { PHONE_HREF, whatsappLink } from "@/lib/contact";
@@ -17,60 +18,27 @@ const isActive = (pathname: string, href: string) =>
 export const Navbar: React.FC = () => {
   const { openLeadForm: onRentNow } = useSiteActions();
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Close the mobile drawer whenever the route changes.
-  useEffect(() => setMobileMenuOpen(false), [pathname]);
 
   const whatsappUrl = whatsappLink(
     "Hello RentOMate! I want to enquire about renting a water purifier in Coimbatore."
   );
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-        scrolled || mobileMenuOpen
-          ? "bg-white/95 backdrop-blur-lg shadow-sm py-3"
-          : "bg-transparent py-5 sm:py-7"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+    // Floating glass bar: the outer header is transparent so page content scrolls visibly under the blurred pill.
+    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 rounded-full border border-white/70 bg-white/60 pl-4 pr-2.5 shadow-[0_8px_32px_rgba(15,23,42,0.10)] ring-1 ring-slate-900/5 backdrop-blur-xl backdrop-saturate-150 sm:pl-5">
 
         {/* Left: Brand Logo + Location */}
-        <div className="flex shrink-0 items-center gap-3 sm:gap-5">
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3">
           <Link href="/" className="flex items-center focus:outline-none transition-transform hover:opacity-90">
-            <Logo className="h-7 sm:h-9 w-auto" width={175} height={42} />
+            <Logo className="h-5 sm:h-6 w-auto" width={120} height={29} />
           </Link>
           <LocationDropdown className="hidden sm:block lg:hidden xl:block" />
         </div>
 
         {/* Centre: Page links (desktop) */}
-        <nav aria-label="Main" className="hidden lg:flex items-center gap-1">
-          {NAV_LINKS.map((link) => {
-            const active = isActive(pathname, link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap rounded-full px-3 py-2 text-sm font-semibold transition-colors ${
-                  active ? "bg-sky-50 text-sky-700" : "text-slate-700 hover:text-sky-700"
-                }`}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <LiquidNav />
 
         {/* Right: Action Buttons */}
         <div className="hidden sm:flex shrink-0 items-center gap-3">
@@ -79,10 +47,9 @@ export const Navbar: React.FC = () => {
             href={PHONE_HREF}
             aria-label="Call"
             title="Call"
-            className="flex items-center gap-2 px-4 py-2.5 lg:px-3 rounded-[10px] border border-slate-200/90 bg-white/95 hover:bg-[#0084FF] hover:text-white text-slate-800 text-xs sm:text-sm font-semibold transition-all duration-300 hover:border-[#0084FF] active:scale-95 shadow-xs group"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/50 text-[#243650] transition-colors hover:bg-white/90 active:scale-95"
           >
-            <Phone className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
-            <span className="lg:hidden">Call</span>
+            <Phone className="h-4 w-4" />
           </a>
 
           {/* WhatsApp Pill */}
@@ -92,16 +59,15 @@ export const Navbar: React.FC = () => {
             rel="noopener noreferrer"
             aria-label="WhatsApp"
             title="WhatsApp"
-            className="flex items-center gap-2 px-4 py-2.5 lg:px-3 rounded-[10px] border border-slate-200/90 bg-white/95 hover:bg-[#25D366] hover:text-white text-slate-800 text-xs sm:text-sm font-semibold transition-all duration-300 hover:border-[#25D366] active:scale-95 shadow-xs group"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/50 text-[#243650] transition-colors hover:bg-white/90 active:scale-95"
           >
-            <MessageCircle className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
-            <span className="lg:hidden">WhatsApp</span>
+            <MessageCircle className="h-4 w-4 text-[#25D366]" />
           </a>
 
           <button
             type="button"
             onClick={onRentNow}
-            className="whitespace-nowrap px-5 py-2.5 rounded-[10px] bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white text-xs sm:text-sm font-bold shadow-md shadow-sky-500/25 transition-all active:scale-95"
+            className="whitespace-nowrap rounded-full bg-gradient-to-r from-[#078BDF] to-[#145DFF] px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-blue-500/25 transition-all hover:brightness-110 active:scale-95 sm:text-sm"
           >
             Rent Now
           </button>
@@ -112,7 +78,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation"
             aria-expanded={mobileMenuOpen}
-            className="lg:hidden p-2 rounded-[10px] text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="lg:hidden p-2 rounded-full text-slate-700 hover:text-slate-900 hover:bg-white/70 transition-colors"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -127,7 +93,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation"
             aria-expanded={mobileMenuOpen}
-            className="p-2 rounded-[10px] text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            className="p-2 rounded-full text-slate-700 hover:text-slate-900 hover:bg-white/70 transition-colors"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -143,7 +109,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden border-b border-slate-200 bg-white/98 backdrop-blur-xl px-6 py-5 shadow-xl"
+            className="lg:hidden mx-auto mt-2 max-w-7xl overflow-hidden rounded-3xl border border-white/70 bg-white/75 px-5 py-5 shadow-[0_8px_32px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 backdrop-blur-xl backdrop-saturate-150"
           >
             <div className="flex flex-col gap-3">
               <nav aria-label="Main" className="flex flex-col gap-1">
