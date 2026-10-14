@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import Link from "next/link";
-import { NAV_LINKS, PLANS, inr } from "@/lib/site";
+import { NAV_LINKS, PLANS, PLANS_PAGE_PATH, inr } from "@/lib/site";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
@@ -97,7 +97,7 @@ export const Footer: React.FC = () => {
             <ul className="mt-6 divide-y divide-white/10 rounded-[10px] border border-white/10 bg-white/[0.04]">
               {plans.map((plan) => (
                 <li key={plan.label}>
-                  <Link href="/ro-on-rent#plans" className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-white/5">
+                  <Link href={PLANS_PAGE_PATH} className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-white/5">
                     <span>
                       <span className="block text-base font-bold text-white">{plan.label}</span>
                       <span className="block text-sm text-slate-400">{plan.note}</span>

@@ -1,6 +1,6 @@
 import { PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
-import { KEY_SPECS, NAV_LINKS, PLANS, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
+import { KEY_SPECS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
 
 // /llms.txt: a plain-text summary of RentOMate for AI assistants and AI search.
 // Built from the same data as the site, so plans, prices and cities never go out of date.
@@ -16,6 +16,7 @@ ${PLANS.map((plan) => `- ${plan.months}-month ${plan.name}: ${inr(plan.price)}/m
 - Free installation, usually within 24–48 hours
 - Lifetime free maintenance and filter replacements while renting
 - 7-day risk-free trial
+- Full plans, prices and terms: ${SITE_URL}${PLANS_PAGE_PATH}
 
 ## The purifier (Akvinz Ultron, ISI certified)
 ${KEY_SPECS.map((spec) => `- ${spec.title}: ${spec.desc}`).join("\n")}

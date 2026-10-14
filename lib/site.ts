@@ -86,7 +86,10 @@ export const SERVICE_LOCATIONS = [
   "Chengalpattu",
 ];
 
-export const inr = (value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
+/** The plans, prices and rental terms page. */
+export const PLANS_PAGE_PATH = "/water-purifier-rental-coimbatore";
+
+export const inr =(value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
