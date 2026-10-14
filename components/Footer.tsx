@@ -6,22 +6,7 @@ import { Logo } from "./Logo";
 import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import Link from "next/link";
 import { NAV_LINKS, PLANS, inr } from "@/lib/site";
-
-
-const popularSearches = [
-  "Water purifier on rent in Coimbatore",
-  "RO water purifier rental Coimbatore",
-  "Rent RO purifier in Coimbatore",
-  "RO on rent near me",
-  "Water purifier rental for tenants",
-  "Monthly rental water purifier",
-  "Copper RO purifier on rent",
-  "Alkaline water purifier on rent",
-  "Water purifier on rent in Saravanampatti",
-  "Water purifier on rent in Peelamedu",
-  "Water purifier on rent in RS Puram",
-  "Water purifier on rent in Gandhipuram",
-];
+import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
@@ -142,14 +127,14 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Popular searches (SEO) */}
+        {/* Popular searches (SEO): each links to its landing page in app/rent/[slug] */}
         <div className="mt-12 border-t border-white/10 pt-6">
           <h3 className={headingClass}>Popular searches</h3>
           <p className="mt-4 text-sm leading-7 text-slate-400">
-            {popularSearches.map((search, index) => (
-              <React.Fragment key={search}>
+            {SEO_PAGES.map((page, index) => (
+              <React.Fragment key={page.slug}>
                 {index > 0 && <span className="mx-2 text-slate-600" aria-hidden="true">|</span>}
-                <Link href="/ro-on-rent" className="transition-colors hover:text-sky-300">{search}</Link>
+                <Link href={seoPageHref(page)} className="transition-colors hover:text-sky-300">{page.search}</Link>
               </React.Fragment>
             ))}
           </p>

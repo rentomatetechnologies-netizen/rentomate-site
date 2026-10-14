@@ -1,5 +1,7 @@
 // Single source of truth for RentOMate plans, models and service areas.
 
+export const SITE_URL = "https://rentomate.life";
+
 export const CUSTOMER_FORM_URL = "https://app.akvinz.com/customerForm";
 
 export type Plan = {

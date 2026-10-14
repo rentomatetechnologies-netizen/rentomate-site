@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { ChevronRight, Home } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 
 export type Crumb = { label: string; href: string };
-
-const SITE_URL = "https://rentomate.life";
 
 /**
  * Home › … › current page. The last crumb is the current page (not a link).
