@@ -3,35 +3,49 @@ import { Manrope } from "next/font/google";
 import "./globals.css";
 import { SiteShell } from "@/components/SiteShell";
 import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
-import { PLANS, SERVICE_LOCATIONS, SITE_URL } from "@/lib/site";
+import { HOME_DESCRIPTION, HOME_TITLE, OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
+import { BRAND, PLANS, SERVICE_LOCATIONS, SITE_URL } from "@/lib/site";
 
-// What search engines and AI search (e.g. ChatGPT) read about the business: contact details,
-// the cities served and the rental plans with prices.
-const businessData = {
+// What search engines and AI search (e.g. ChatGPT) read about the business. RentOMate is the consumer brand
+// (WebSite + LocalBusiness); Akvinz Water Purifiers is the business that operates it (parentOrganization).
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${SITE_URL}/#business`,
-  name: "RentOMate",
-  url: SITE_URL,
-  logo: `${SITE_URL}/rentomate-wordmark-clean.png`,
-  image: `${SITE_URL}/hero/rentomate-hero.webp`,
-  description:
-    "RentOMate rents ISI certified Akvinz RO water purifiers (8-stage RO + UV + UF with TDS control, copper and minerals, pH-balanced alkaline water) to homes, with free installation, servicing and filter replacements included in the monthly rent.",
-  telephone: PHONE_DISPLAY,
-  email: SUPPORT_EMAIL,
-  priceRange: `₹${Math.min(...PLANS.map((plan) => plan.price))}–₹${Math.max(...PLANS.map((plan) => plan.price))} per month`,
-  address: { "@type": "PostalAddress", addressLocality: "Coimbatore", addressRegion: "Tamil Nadu", addressCountry: "IN" },
-  areaServed: SERVICE_LOCATIONS.map((city) => ({ "@type": "City", name: city })),
-  parentOrganization: { "@type": "Organization", name: "Akvinz Water Purifiers" },
-  sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
-  makesOffer: PLANS.map((plan) => ({
-    "@type": "Offer",
-    name: `${plan.months}-month ${plan.name} water purifier rental plan`,
-    price: plan.price,
-    priceCurrency: "INR",
-    priceSpecification: { "@type": "UnitPriceSpecification", price: plan.price, priceCurrency: "INR", unitText: "MONTH" },
-    itemOffered: { "@type": "Service", name: "RO water purifier on rent" },
-  })),
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: BRAND.name,
+      alternateName: BRAND.alternateNames,
+      url: `${SITE_URL}/`,
+      publisher: { "@id": `${SITE_URL}/#business` },
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": `${SITE_URL}/#business`,
+      name: BRAND.name,
+      alternateName: BRAND.alternateNames,
+      url: `${SITE_URL}/`,
+      logo: `${SITE_URL}/rentomate-wordmark-clean.png`,
+      image: `${SITE_URL}/hero/rentomate-hero.webp`,
+      description:
+        "RentOMate rents ISI certified Akvinz RO water purifiers (8-stage RO + UV + UF with TDS control, copper and minerals, pH-balanced alkaline water) to homes, with free installation, servicing and filter replacements included in the monthly rent.",
+      telephone: PHONE_DISPLAY,
+      email: SUPPORT_EMAIL,
+      priceRange: `₹${Math.min(...PLANS.map((plan) => plan.price))}–₹${Math.max(...PLANS.map((plan) => plan.price))} per month`,
+      address: { "@type": "PostalAddress", addressLocality: "Coimbatore", addressRegion: "Tamil Nadu", addressCountry: "IN" },
+      areaServed: SERVICE_LOCATIONS.map((city) => ({ "@type": "City", name: city })),
+      parentOrganization: { "@type": "Organization", name: BRAND.operator },
+      sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
+      makesOffer: PLANS.map((plan) => ({
+        "@type": "Offer",
+        name: `${plan.months}-month ${plan.name} water purifier rental plan`,
+        price: plan.price,
+        priceCurrency: "INR",
+        priceSpecification: { "@type": "UnitPriceSpecification", price: plan.price, priceCurrency: "INR", unitText: "MONTH" },
+        itemOffered: { "@type": "Service", name: "RO water purifier on rent" },
+      })),
+    },
+  ],
 };
 
 const manrope = Manrope({
@@ -43,21 +57,21 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: BRAND.name,
   title: {
-    default: "Water Purifier on Rent in Coimbatore | RentOMate",
-    template: "%s | RentOMate",
+    default: HOME_TITLE,
+    template: `%s | ${BRAND.name}`,
   },
-  description:
-    "Rent an Akvinz RO+UV water purifier in Coimbatore with RentOMate. Choose flexible 12 or 24-month rental plans with installation and service support.",
+  description: HOME_DESCRIPTION,
   keywords: [
     "water purifier on rent in Coimbatore",
     "RO purifier rental",
     "Akvinz Ultron",
     "RentOMate",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  // Brand-wide defaults only. Canonical URLs, og:url and og:title are set per page (see lib/seo.ts).
+  openGraph: { ...OPEN_GRAPH_DEFAULTS, type: "website" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
@@ -74,7 +88,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(businessData),
+            __html: JSON.stringify(structuredData),
           }}
         />
         <SiteShell>{children}</SiteShell>

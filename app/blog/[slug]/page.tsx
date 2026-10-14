@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BlogCover } from "@/components/BlogCover";
@@ -17,8 +18,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: post.seoTitle || post.title,
     description,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
+      ...OPEN_GRAPH_DEFAULTS,
       type: "article",
+      url: `/blog/${post.slug}`,
       title: post.seoTitle || post.title,
       description,
       publishedTime: post.date,

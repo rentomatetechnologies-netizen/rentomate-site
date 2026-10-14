@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { pageMetadata } from "@/lib/seo";
 import { RentNowButton } from "@/components/RentNowButton";
 import { PHONE_DISPLAY, PHONE_HREF, SUPPORT_EMAIL } from "@/lib/contact";
 import { FAQ_SEGMENTS } from "@/lib/faqs";
-import { CITIES, KEY_SPECS, MODELS, PLANS, PLANS_PAGE_PATH, PLAN_FEATURES, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
+import { BRAND, CITIES, KEY_SPECS, MODELS, PLANS, PLANS_PAGE_PATH, PLAN_FEATURES, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
 
 // One plain, server-rendered page with every plan, price and rental term, so search engines and
 // AI search (ChatGPT, Google) can read and quote the exact figures. All numbers come from lib/site.ts.
@@ -17,12 +18,7 @@ const description = `RentOMate water purifier rental plans in Coimbatore: ${pric
 const faqs = FAQ_SEGMENTS.flatMap((segment) => segment.faqs);
 const coimbatore = CITIES.find((city) => city.name === "Coimbatore");
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: { canonical: PLANS_PAGE_PATH },
-  openGraph: { title, description, url: PLANS_PAGE_PATH },
-};
+export const metadata: Metadata = pageMetadata({ title, description, path: PLANS_PAGE_PATH });
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -32,7 +28,8 @@ const structuredData = {
       name: "RO water purifier rental in Coimbatore",
       serviceType: "Water purifier rental",
       url: `${SITE_URL}${PLANS_PAGE_PATH}`,
-      provider: { "@id": `${SITE_URL}/#business` },
+      provider: { "@type": "LocalBusiness", "@id": `${SITE_URL}/#business`, name: BRAND.name, url: `${SITE_URL}/` },
+      brand: { "@type": "Brand", name: BRAND.name },
       areaServed: SERVICE_LOCATIONS.map((city) => ({ "@type": "City", name: city })),
       offers: PLANS.map((plan) => ({
         "@type": "Offer",
@@ -44,6 +41,7 @@ const structuredData = {
           { "@type": "PriceSpecification", name: "Refundable security deposit", price: plan.deposit, priceCurrency: "INR" },
         ],
         availability: "https://schema.org/InStock",
+        seller: { "@id": `${SITE_URL}/#business` },
         url: `${SITE_URL}${PLANS_PAGE_PATH}`,
       })),
     },

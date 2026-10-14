@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { BadgeCheck, MapPin, Wrench } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { WhyRentomate } from "@/components/WhyRentomate";
 import { SmarterChoice } from "@/components/SmarterChoice";
 import { AvailableCities } from "@/components/AvailableCities";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About Us",
   description: "RentOMate is a Coimbatore water purifier rental service by Akvinz Water Purifiers. Pure water at home without buying a machine.",
-};
+  path: "/about",
+});
 
 const values = [
   { icon: BadgeCheck, title: "Certified machines", desc: "Every RentOMate purifier is an ISI certified Akvinz machine." },

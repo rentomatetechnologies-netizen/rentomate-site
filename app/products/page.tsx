@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { ProductRange } from "@/components/ProductRange";
 import { KeySpecs } from "@/components/KeySpecs";
 import { PureWaterTech } from "@/components/PureWaterTech";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Products",
   description: "Explore the Akvinz Ultron RO+UV water purifier available on rent from RentOMate: 8-stage purification, copper and minerals, 8 L storage.",
-};
+  path: "/products",
+});
 
 export default function ProductsPage() {
   return (

@@ -2,6 +2,13 @@
 
 export const SITE_URL = "https://rentomate.life";
 
+/** RentOMate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
+export const BRAND = {
+  name: "RentOMate",
+  alternateNames: ["Rent O Mate", "Rentomate"],
+  operator: "Akvinz Water Purifiers",
+};
+
 export const CUSTOMER_FORM_URL = "https://app.akvinz.com/customerForm";
 
 export type Plan = {

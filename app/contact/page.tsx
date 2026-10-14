@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { AtSign, Mail, MessageCircle, Phone } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { RentNowButton } from "@/components/RentNowButton";
 import { INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import { CITIES } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
   description: `Call, WhatsApp or email RentOMate for water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
-};
+  path: "/contact",
+});
 
 const channels = [
   { icon: Phone, label: "Call us", value: PHONE_DISPLAY, href: PHONE_HREF, external: false },

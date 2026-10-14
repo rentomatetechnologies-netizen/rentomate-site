@@ -7,6 +7,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { FreeTrial } from "@/components/FreeTrial";
 import { FaqSection } from "@/components/FaqSection";
 import { RentNowButton } from "@/components/RentNowButton";
+import { pageMetadata } from "@/lib/seo";
 import { SEO_PAGES, getSeoPage, seoPageHref } from "@/lib/seo-pages";
 
 // Landing pages for the footer's Popular searches (content in lib/seo-pages.ts). Unknown slugs 404.
@@ -17,12 +18,7 @@ export const generateStaticParams = () => SEO_PAGES.map((page) => ({ slug: page.
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const page = getSeoPage((await params).slug);
   if (!page) return {};
-  return {
-    title: page.title,
-    description: page.metaDescription,
-    alternates: { canonical: seoPageHref(page) },
-    openGraph: { title: page.title, description: page.metaDescription, url: seoPageHref(page) },
-  };
+  return pageMetadata({ title: page.title, description: page.metaDescription, path: seoPageHref(page) });
 }
 
 export default async function SeoLandingPage({ params }: { params: Promise<{ slug: string }> }) {

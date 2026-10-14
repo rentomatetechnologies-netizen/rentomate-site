@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
 import { RentalPlans } from "@/components/RentalPlans";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -6,10 +7,11 @@ import { FreeTrial } from "@/components/FreeTrial";
 import { FaqSection } from "@/components/FaqSection";
 import { LOWEST_PRICE } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "RO Water Purifier on Rent",
   description: `Rent an RO water purifier in Coimbatore from ₹${LOWEST_PRICE}/month with free installation, maintenance and filter replacements.`,
-};
+  path: "/ro-on-rent",
+});
 
 export default function RoOnRentPage() {
   return (

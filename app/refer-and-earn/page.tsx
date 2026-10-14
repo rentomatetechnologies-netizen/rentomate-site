@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Gift, Share2, UserPlus } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { RentNowButton } from "@/components/RentNowButton";
 import { whatsappLink } from "@/lib/contact";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Refer & Earn",
   description: "Refer friends and family to RentOMate and earn rewards when they rent a water purifier.",
-};
+  path: "/refer-and-earn",
+});
 
 const steps = [
   { icon: Share2, title: "Share your code", desc: "Every RentOMate customer gets a customer code. Share it with friends and family." },

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { BlogCover } from "@/components/BlogCover";
@@ -7,10 +8,11 @@ import { formatDate, getPosts, type BlogPostSummary } from "@/lib/blog";
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Blog",
   description: "Tips on safe drinking water, RO purifiers, filters and renting vs buying, from the RentOMate team.",
-};
+  path: "/blog",
+});
 
 const PostMeta: React.FC<{ post: BlogPostSummary }> = ({ post }) => (
   <p className="text-xs font-semibold text-slate-500">
