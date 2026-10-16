@@ -3,7 +3,10 @@
 export type Block =
   | { type: "paragraph" | "heading" | "quote"; text: string }
   | { type: "list"; items: string[] }
-  | { type: "image"; url: string; alt: string; caption: string };
+  | { type: "image"; url: string; alt: string; caption: string }
+  | { type: "faq"; items: { question: string; answer: string }[] }
+  | { type: "cta"; text: string; buttonLabel: string }
+  | { type: "toc" };
 
 export type BlockType = Block["type"];
 

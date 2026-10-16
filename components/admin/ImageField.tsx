@@ -6,7 +6,18 @@ import { apiFetch } from "@/lib/admin/api";
 import { useToast } from "@/components/admin/Toast";
 
 /** Image picker: upload (click or drag & drop) or paste an image URL. */
-export function ImageField({ value, onChange, label = "Upload image" }: { value: string; onChange: (url: string) => void; label?: string }) {
+export function ImageField({
+  value,
+  onChange,
+  label = "Upload image",
+  folder = "blog",
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  label?: string;
+  /** Upload folder on the server: blog → /media/blog/img1.jpg, hero → /media/hero/img1.jpg */
+  folder?: "blog" | "hero";
+}) {
   const toast = useToast();
   const fileInput = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -15,7 +26,10 @@ export function ImageField({ value, onChange, label = "Upload image" }: { value:
 
   async function upload(file?: File) {
     if (!file) return;
+    if (file.size > 10 * 1024 * 1024) return toast("Image is larger than 10 MB.", true);
     const form = new FormData();
+    // The folder field must come before the file so the server reads it first.
+    form.append("folder", folder);
     form.append("image", file);
     setUploading(true);
     try {
@@ -70,7 +84,7 @@ export function ImageField({ value, onChange, label = "Upload image" }: { value:
             <Trash2 className="h-3.5 w-3.5" /> Remove
           </button>
         )}
-        <span className="text-xs text-slate-500">JPG, PNG, WebP · max 8 MB</span>
+        <span className="text-xs text-slate-500">JPG, PNG, WebP · max 10 MB</span>
       </div>
       <input
         type="url"

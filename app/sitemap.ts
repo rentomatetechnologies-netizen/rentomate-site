@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getPosts } from "@/lib/blog";
+import { getCategories, getPosts } from "@/lib/blog";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 import { NAV_LINKS, PLANS_PAGE_PATH, SITE_URL } from "@/lib/site";
 
@@ -16,6 +16,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
     { url: url(PLANS_PAGE_PATH), changeFrequency: "monthly" as const, priority: 0.9 },
     ...SEO_PAGES.map((page) => ({ url: url(seoPageHref(page)), changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...getCategories(posts).map((category) => ({
+      url: url(`/blog/category/${category.slug}`),
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })),
     ...posts.map((post) => ({
       url: url(`/blog/${post.slug}`),
       lastModified: new Date(post.updatedAt),

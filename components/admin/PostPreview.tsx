@@ -1,8 +1,67 @@
+import { Fragment } from "react";
 import { formatDate } from "@/lib/admin/format";
-import type { EditorPost } from "@/lib/admin/posts";
+import type { EditorBlock, EditorPost } from "@/lib/admin/posts";
+
+function PreviewBlock({ block }: { block: EditorBlock }) {
+  switch (block.type) {
+    case "toc":
+      return null; // drawn by PostPreview, which knows the headings
+    case "heading":
+      return block.text && <h3 className="pt-2 text-base font-extrabold text-navy">{block.text}</h3>;
+    case "quote":
+      return block.text && <blockquote className="rounded-r-lg border-l-4 border-brand bg-sky-50 px-3 py-2 font-semibold text-navy">{block.text}</blockquote>;
+    case "list":
+      return (
+        block.items.some(Boolean) && (
+          <ul className="list-disc space-y-1 pl-5 marker:text-brand">
+            {block.items.filter(Boolean).map((item, i) => <li key={i}>{item}</li>)}
+          </ul>
+        )
+      );
+    case "image":
+      return (
+        block.url && (
+          <figure>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={block.url} alt={block.alt} className="w-full rounded-lg" />
+            {block.caption && <figcaption className="mt-1 text-center text-[11px] text-slate-500">{block.caption}</figcaption>}
+          </figure>
+        )
+      );
+    case "faq":
+      return (
+        block.items.some((item) => item.question) && (
+          <div className="space-y-2">
+            {block.items.filter((item) => item.question).map((item, i) => (
+              <div key={i} className="rounded-lg border border-slate-200 p-2">
+                <p className="font-bold text-navy">{i + 1}. {item.question}</p>
+                {item.answer && <p className="mt-1 whitespace-pre-line">{item.answer}</p>}
+              </div>
+            ))}
+          </div>
+        )
+      );
+    case "cta":
+      return (
+        block.text && (
+          <div className="flex items-center justify-between gap-2 rounded-lg bg-navy p-3 text-white">
+            <span className="font-extrabold">{block.text}</span>
+            <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-bold text-navy">{block.buttonLabel || "Book Now"}</span>
+          </div>
+        )
+      );
+    default:
+      return block.text && <p className="whitespace-pre-line">{block.text}</p>;
+  }
+}
 
 /** Live preview that mirrors the website's article template. */
 export function PostPreview({ post }: { post: EditorPost }) {
+  // Same placement as the website: at the "Table of contents" block, else before the first of 2+ headings.
+  const headings = post.blocks.flatMap((block, index) => (block.type === "heading" && block.text.trim() ? [{ index, text: block.text.trim() }] : []));
+  const placed = post.blocks.findIndex((block) => block.type === "toc");
+  const tocAt = headings.length === 0 ? -1 : placed >= 0 ? placed : headings.length >= 2 ? headings[0].index : -1;
+
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
       {post.coverImage ? (
@@ -13,45 +72,26 @@ export function PostPreview({ post }: { post: EditorPost }) {
       )}
       <div className="p-5">
         {post.category && <p className="text-[11px] font-bold uppercase tracking-wider text-brand">{post.category}</p>}
-        <h2 className="mt-1 text-xl font-extrabold leading-tight tracking-tight text-navy">{post.title || "Untitled post"}</h2>
+        <h2 className="mt-1 whitespace-pre-line text-xl font-extrabold leading-tight tracking-tight text-navy">{post.title || "Untitled post"}</h2>
         <p className="mt-1 text-[11px] font-semibold text-slate-500">
           {[post.publishedOn && formatDate(post.publishedOn), post.readMinutes && `${post.readMinutes} min read`, post.author].filter(Boolean).join(" · ")}
         </p>
         <div className="mt-4 space-y-3 text-[13px] leading-6 text-slate-700">
-          {post.blocks.map((block) => {
-            switch (block.type) {
-              case "heading":
-                return block.text && <h3 key={block.key} className="pt-2 text-base font-extrabold text-navy">{block.text}</h3>;
-              case "quote":
-                return (
-                  block.text && (
-                    <blockquote key={block.key} className="rounded-r-lg border-l-4 border-brand bg-sky-50 px-3 py-2 font-semibold text-navy">
-                      {block.text}
-                    </blockquote>
-                  )
-                );
-              case "list":
-                return (
-                  block.items.some(Boolean) && (
-                    <ul key={block.key} className="list-disc space-y-1 pl-5 marker:text-brand">
-                      {block.items.filter(Boolean).map((item, i) => <li key={i}>{item}</li>)}
-                    </ul>
-                  )
-                );
-              case "image":
-                return (
-                  block.url && (
-                    <figure key={block.key}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={block.url} alt={block.alt} className="w-full rounded-lg" />
-                      {block.caption && <figcaption className="mt-1 text-center text-[11px] text-slate-500">{block.caption}</figcaption>}
-                    </figure>
-                  )
-                );
-              default:
-                return block.text && <p key={block.key}>{block.text}</p>;
-            }
-          })}
+          {post.blocks.map((block, i) => (
+            <Fragment key={block.key}>
+              {i === tocAt && (
+                <div className="rounded-md border border-slate-200 bg-[#f9f9fe] px-3 py-2">
+                  <p className="font-semibold text-slate-500">Table of Contents</p>
+                  <ol className="mt-1 text-[12px] leading-5 text-navy">
+                    {headings.map((h) => (
+                      <li key={h.index}>- {h.text}</li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+              <PreviewBlock block={block} />
+            </Fragment>
+          ))}
         </div>
       </div>
     </div>

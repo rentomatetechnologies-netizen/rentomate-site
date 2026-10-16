@@ -1,0 +1,166 @@
+"use client";
+
+import { useState } from "react";
+import { ExternalLink, Loader2, Save } from "lucide-react";
+import { apiFetch } from "@/lib/admin/api";
+import type { BlogBanner } from "@/lib/blog-banner";
+import { ImageField } from "@/components/admin/ImageField";
+import { PageHeader } from "@/components/admin/PageHeader";
+import { useToast } from "@/components/admin/Toast";
+
+type LinkMode = "lead" | "url" | "none";
+
+const modeOf = (link: string): LinkMode => (link === "lead" ? "lead" : link ? "url" : "none");
+
+/** The promo banner shown inside every blog article. */
+export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
+  const toast = useToast();
+  const [banner, setBanner] = useState(initial);
+  const [mode, setMode] = useState<LinkMode>(modeOf(initial.link));
+  const [dirty, setDirty] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const update = (patch: Partial<BlogBanner>) => {
+    setBanner((current) => ({ ...current, ...patch }));
+    setDirty(true);
+  };
+
+  const changeMode = (next: LinkMode) => {
+    setMode(next);
+    update({ link: next === "lead" ? "lead" : next === "none" ? "" : banner.link === "lead" ? "" : banner.link });
+  };
+
+  async function save() {
+    setSaving(true);
+    try {
+      const saved = await apiFetch<BlogBanner>("/admin/settings/blog-banner", { method: "PUT", body: banner });
+      setBanner(saved);
+      setMode(modeOf(saved.link));
+      setDirty(false);
+      toast(saved.enabled ? "Saved – showing on every blog post" : "Saved – banner is switched off");
+    } catch (error) {
+      toast((error as Error).message, true);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <>
+      <PageHeader
+        title="Blog banner"
+        description="One promo banner that appears inside every blog article, like an advertisement."
+        actions={
+          <>
+            <a href="/blog" target="_blank" className="btn">
+              <ExternalLink className="h-4 w-4" /> View blog
+            </a>
+            <button type="button" className="btn btn-primary" onClick={save} disabled={saving || !dirty}>
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              {saving ? "Saving…" : "Save"}
+            </button>
+          </>
+        }
+      />
+
+      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <section className="panel space-y-5">
+          <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 p-3">
+            <input type="checkbox" className="h-5 w-5 accent-brand" checked={banner.enabled} onChange={(e) => update({ enabled: e.target.checked })} />
+            <span>
+              <span className="block text-sm font-bold text-navy">Show the banner on all blog posts</span>
+              <span className="block text-xs text-slate-500">Turn off to hide it everywhere without deleting the image.</span>
+            </span>
+          </label>
+
+          <div>
+            <p className="label">Banner image</p>
+            <p className="mb-2 text-xs text-slate-500">
+              Optional. Wide landscape image, about 1600 × 830 px (roughly 2:1), shown at full width. With no image, the built-in RentOMate
+              banner (7-day trial, price and free services) is shown instead.
+            </p>
+            <ImageField value={banner.image} onChange={(image) => update({ image })} label="Upload banner" folder="blog" />
+          </div>
+
+          <div>
+            <label htmlFor="banner-alt" className="label">Image description (alt text)</label>
+            <input
+              id="banner-alt"
+              className="input"
+              maxLength={200}
+              placeholder="e.g. RentOMate RO purifier on rent – 7-day risk-free trial, plans from ₹449/month"
+              value={banner.alt}
+              onChange={(e) => update({ alt: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <p className="label">When someone clicks the banner</p>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {(
+                [
+                  ["lead", "Open “Rent Now” form"],
+                  ["url", "Go to a page / URL"],
+                  ["none", "Nothing (just a picture)"],
+                ] as const
+              ).map(([value, label]) => (
+                <label key={value} className={`flex cursor-pointer items-center gap-2 rounded-lg border p-2.5 text-sm ${mode === value ? "border-brand bg-sky-50 font-semibold text-navy" : "border-slate-200 text-slate-600"}`}>
+                  <input type="radio" name="link-mode" className="accent-brand" checked={mode === value} onChange={() => changeMode(value)} />
+                  {label}
+                </label>
+              ))}
+            </div>
+            {mode === "url" && (
+              <input
+                className="input mt-2"
+                maxLength={500}
+                placeholder="/water-purifier-rental-coimbatore or https://…"
+                value={banner.link}
+                onChange={(e) => update({ link: e.target.value.trim() })}
+              />
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="banner-position" className="label">Position in the article</label>
+            <select id="banner-position" className="input" value={banner.afterParagraph} onChange={(e) => update({ afterParagraph: Number(e.target.value) })}>
+              <option value={0}>At the top, before the first paragraph</option>
+              {Array.from({ length: 6 }, (_, i) => i + 1).map((n) => (
+                <option key={n} value={n}>
+                  After paragraph {n}
+                  {n === 2 ? " (recommended)" : ""}
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-slate-400">If a post has fewer paragraphs, the banner goes after its last paragraph.</p>
+          </div>
+        </section>
+
+        <aside className="space-y-2 xl:sticky xl:top-6">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Preview</p>
+          <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 text-[13px] leading-6 text-slate-500">
+            <p>Intro paragraph of a blog post…</p>
+            {banner.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={banner.image} alt={banner.alt} className={`w-full rounded-md ${banner.enabled ? "" : "opacity-40 grayscale"}`} />
+            ) : (
+              <div className={`grid aspect-[2/1] grid-cols-[0.9fr_1.25fr_0.85fr] overflow-hidden rounded-md text-[10px] font-bold ${banner.enabled ? "" : "opacity-40 grayscale"}`}>
+                <div className="flex flex-col justify-end bg-[#f59e0b]">
+                  <div className="h-3/5 rounded-tr-3xl bg-navy p-2 text-white">7-Day trial · ₹/month</div>
+                </div>
+                <div className="flex flex-col items-center justify-center gap-1 bg-[#f59e0b] p-1 text-center text-navy">
+                  RentOMate RO+UV+Copper
+                  <span className="rounded-full bg-navy px-2 py-0.5 text-white">BOOK NOW</span>
+                </div>
+                <div className="bg-gradient-to-b from-brand to-navy" />
+              </div>
+            )}
+            <p>The rest of the article…</p>
+          </div>
+          {!banner.enabled && <p className="text-xs font-semibold text-amber-600">Switched off – not shown on the website.</p>}
+          {banner.enabled && !banner.image && <p className="text-xs text-slate-500">Showing the built-in RentOMate banner. Upload an image to replace it.</p>}
+        </aside>
+      </div>
+    </>
+  );
+}

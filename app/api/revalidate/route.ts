@@ -9,7 +9,8 @@ export async function POST(request: Request) {
   }
 
   revalidatePath("/");
-  revalidatePath("/blog");
-  revalidatePath("/blog/[slug]", "page");
+  // Every page under /blog: the listing, numbered pages, category pages and articles.
+  revalidatePath("/blog", "layout");
+  revalidatePath("/sitemap.xml");
   return Response.json({ revalidated: true });
 }

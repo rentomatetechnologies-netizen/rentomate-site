@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ExternalLink, FileText, LayoutDashboard, Loader2, LogOut, Menu, PanelsTopLeft, Users, X } from "lucide-react";
+import { ExternalLink, FileText, LayoutDashboard, Loader2, LogOut, Megaphone, Menu, PanelsTopLeft, Users, X } from "lucide-react";
 import { apiFetch, useApi } from "@/lib/admin/api";
 import { ToastProvider } from "@/components/admin/Toast";
 
@@ -22,6 +22,7 @@ export const useAdmin = () => {
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/posts", label: "Blog posts", icon: FileText },
+  { href: "/admin/blog-banner", label: "Blog banner", icon: Megaphone },
   { href: "/admin/hero", label: "Homepage hero", icon: PanelsTopLeft },
   { href: "/admin/admins", label: "Admins", icon: Users },
 ];

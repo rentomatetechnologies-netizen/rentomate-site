@@ -61,7 +61,7 @@ export function HeroEditor({ initial }: { initial: HeroContent }) {
           {hero.slides.map((slide, index) => (
             <div key={index}>
               <p className="label">Slide {index + 1}</p>
-              <ImageField value={slide.image} onChange={(image) => updateSlide(index, { image })} label="Upload" />
+              <ImageField value={slide.image} onChange={(image) => updateSlide(index, { image })} label="Upload" folder="hero" />
               <label className="label mt-4" htmlFor={`slide-${index}-alt`}>Image description (alt text)</label>
               <input
                 id={`slide-${index}-alt`}

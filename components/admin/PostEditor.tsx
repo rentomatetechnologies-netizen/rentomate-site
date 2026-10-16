@@ -4,11 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowUp, ExternalLink, Loader2, Save, Trash2, X } from "lucide-react";
-import { apiFetch } from "@/lib/admin/api";
+import { apiFetch, useApi } from "@/lib/admin/api";
 import { newKey, slugify, type BlockType, type EditorBlock, type EditorPost } from "@/lib/admin/posts";
 import { ImageField } from "@/components/admin/ImageField";
 import { PostPreview } from "@/components/admin/PostPreview";
 import { useToast } from "@/components/admin/Toast";
+
+const MAX_EXCERPT_WORDS = 1000;
 
 const BLOCK_LABELS: Record<BlockType, string> = {
   paragraph: "Paragraph",
@@ -16,14 +18,45 @@ const BLOCK_LABELS: Record<BlockType, string> = {
   quote: "Quote",
   list: "Bullet list",
   image: "Image",
+  faq: "FAQ",
+  cta: "Call to action",
+  toc: "Table of contents",
 };
 
 const newBlock = (type: BlockType): EditorBlock => {
   const key = newKey();
+  if (type === "toc") return { type, key };
   if (type === "image") return { type, url: "", alt: "", caption: "", key };
   if (type === "list") return { type, items: [], key };
+  if (type === "faq") return { type, items: [{ question: "", answer: "" }], key };
+  if (type === "cta") return { type, text: "Get 7 Days Risk-Free Trial", buttonLabel: "Book Now", key };
   return { type, text: "", key };
 };
+
+type FaqItems = Extract<EditorBlock, { type: "faq" }>["items"];
+
+/** Question/answer pairs for an FAQ block. */
+function FaqFields({ items, onChange }: { items: FaqItems; onChange: (items: FaqItems) => void }) {
+  const set = (i: number, patch: Partial<FaqItems[number]>) => onChange(items.map((item, j) => (j === i ? { ...item, ...patch } : item)));
+  return (
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <div key={i} className="space-y-2 rounded-lg bg-slate-50 p-2">
+          <div className="flex gap-2">
+            <input className="input font-semibold" placeholder={`Question ${i + 1}`} maxLength={300} value={item.question} onChange={(e) => set(i, { question: e.target.value })} />
+            <button type="button" className="btn btn-sm btn-danger px-2" title="Remove question" onClick={() => onChange(items.filter((_, j) => j !== i))}>
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+          <textarea className="input" rows={3} placeholder="Answer" maxLength={2000} value={item.answer} onChange={(e) => set(i, { answer: e.target.value })} />
+        </div>
+      ))}
+      <button type="button" className="btn btn-sm" disabled={items.length >= 30} onClick={() => onChange([...items, { question: "", answer: "" }])}>
+        + Question
+      </button>
+    </div>
+  );
+}
 
 export function PostEditor({ initial }: { initial: EditorPost }) {
   const router = useRouter();
@@ -36,6 +69,12 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
   const isNew = !initial.id;
   // What the website currently shows, for the "View" link.
   const [live, setLive] = useState({ status: initial.status, slug: initial.slug });
+  // Existing categories, suggested in the Category field so posts share the same names (and category pages).
+  const { data: allPosts } = useApi<{ category: string }[]>("/admin/posts");
+  const categories = [...new Set((allPosts ?? []).map((p) => p.category).filter(Boolean))].sort();
+  const headings = post.blocks.flatMap((block) => (block.type === "heading" && block.text.trim() ? [block.text.trim()] : []));
+  const hasToc = post.blocks.some((block) => block.type === "toc");
+  const excerptWords = post.excerpt.split(/\s+/).filter(Boolean).length;
 
   const update = (patch: Partial<EditorPost>) => {
     setPost((current) => ({ ...current, ...patch }));
@@ -108,7 +147,7 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
     };
   }, [dirty]);
 
-  const field = (label: string, id: string, input: React.ReactNode, hint?: string) => (
+  const field = (label: string, id: string, input: React.ReactNode, hint?: React.ReactNode) => (
     <div>
       <label htmlFor={id} className="label">
         {label} {hint && <span className="font-normal text-slate-400">{hint}</span>}
@@ -131,14 +170,20 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
         <div className="space-y-5">
           <section className="panel">
-            <input
-              className="input text-lg font-bold sm:text-xl"
+            {/* Shift+Enter adds a line break to the title (shown on the article heading and blog cards); Enter alone does nothing. */}
+            <textarea
+              className="input min-h-0 resize-none text-lg font-bold [field-sizing:content] sm:text-xl"
+              rows={1}
               placeholder="Post title"
               aria-label="Title"
               maxLength={200}
               value={post.title}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) e.preventDefault();
+              }}
               onChange={(e) => update({ title: e.target.value, ...(slugTouched ? {} : { slug: slugify(e.target.value) }) })}
             />
+            <p className="mt-1 text-[11px] text-slate-400">Shift+Enter for a line break</p>
             <div className="mt-2 flex items-center gap-1 text-xs text-slate-500">
               <span className="shrink-0">rentomate.life/blog/</span>
               <input
@@ -171,11 +216,33 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
             {field(
               "Excerpt",
               "excerpt",
-              <textarea id="excerpt" className="input min-h-20" rows={3} maxLength={400} placeholder="Short summary shown on the blog list and in Google results" value={post.excerpt} onChange={(e) => update({ excerpt: e.target.value })} />,
-              `${post.excerpt.length}/400`,
+              <textarea
+                id="excerpt"
+                className={`input min-h-40 [field-sizing:content] ${excerptWords > MAX_EXCERPT_WORDS ? "border-red-400" : ""}`}
+                rows={6}
+                maxLength={10000}
+                placeholder="Summary shown on the blog list (first 2 lines) and, unless a meta description is set, in Google results"
+                value={post.excerpt}
+                onChange={(e) => update({ excerpt: e.target.value })}
+              />,
+              <span className={excerptWords > MAX_EXCERPT_WORDS ? "font-semibold text-red-600" : ""}>
+                {excerptWords}/{MAX_EXCERPT_WORDS} words
+              </span>,
             )}
             <div className="grid gap-4 sm:grid-cols-2">
-              {field("Category", "category", <input id="category" className="input" maxLength={60} value={post.category} onChange={(e) => update({ category: e.target.value })} />)}
+              {field(
+                "Category",
+                "category",
+                <>
+                  <input id="category" list="category-options" className="input" maxLength={60} placeholder="e.g. Water Purifier" value={post.category} onChange={(e) => update({ category: e.target.value })} />
+                  <datalist id="category-options">
+                    {categories.map((name) => (
+                      <option key={name} value={name} />
+                    ))}
+                  </datalist>
+                </>,
+                "pick or type new",
+              )}
               {field("Author", "author", <input id="author" className="input" maxLength={80} value={post.author} onChange={(e) => update({ author: e.target.value })} />)}
               {field("Publish date", "date", <input id="date" type="date" className="input" value={post.publishedOn} onChange={(e) => update({ publishedOn: e.target.value })} />)}
               {field(
@@ -214,6 +281,27 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                         <input className="input" placeholder="Caption (optional)" maxLength={300} value={block.caption} onChange={(e) => updateBlock(block.key, { caption: e.target.value })} />
                       </div>
                     </>
+                  ) : block.type === "faq" ? (
+                    <FaqFields items={block.items} onChange={(items) => updateBlock(block.key, { items })} />
+                  ) : block.type === "cta" ? (
+                    <div className="grid gap-2 sm:grid-cols-[1fr_180px]">
+                      <input className="input font-bold" placeholder="Banner text" maxLength={200} value={block.text} onChange={(e) => updateBlock(block.key, { text: e.target.value })} />
+                      <input className="input" placeholder="Button label" maxLength={40} value={block.buttonLabel} onChange={(e) => updateBlock(block.key, { buttonLabel: e.target.value })} />
+                      <p className="text-xs text-slate-400 sm:col-span-2">The button opens the website&apos;s &ldquo;Rent Now&rdquo; form.</p>
+                    </div>
+                  ) : block.type === "toc" ? (
+                    <div className="rounded-lg bg-slate-50 p-3 text-sm">
+                      {headings.length ? (
+                        <ol className="space-y-0.5 text-slate-700">
+                          {headings.map((text, i) => (
+                            <li key={i}>- {text}</li>
+                          ))}
+                        </ol>
+                      ) : (
+                        <p className="text-amber-600">Add &ldquo;Heading&rdquo; blocks — each one becomes a link in this table of contents.</p>
+                      )}
+                      <p className="mt-2 text-xs text-slate-400">Built automatically from the post&apos;s headings.</p>
+                    </div>
                   ) : block.type === "list" ? (
                     <textarea
                       className="input"
@@ -236,11 +324,23 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
               {(Object.keys(BLOCK_LABELS) as BlockType[]).map((type) => (
-                <button key={type} type="button" className="btn btn-sm" onClick={() => update({ blocks: [...post.blocks, newBlock(type)] })}>
+                <button
+                  key={type}
+                  type="button"
+                  className="btn btn-sm"
+                  disabled={type === "toc" && hasToc}
+                  title={type === "toc" && hasToc ? "This post already has a table of contents" : undefined}
+                  onClick={() => update({ blocks: [...post.blocks, newBlock(type)] })}
+                >
                   + {BLOCK_LABELS[type]}
                 </button>
               ))}
             </div>
+            {!hasToc && headings.length >= 2 && (
+              <p className="mt-2 text-xs text-slate-400">
+                A table of contents is added automatically before the first heading. Add a &ldquo;Table of contents&rdquo; block to place it yourself.
+              </p>
+            )}
           </section>
 
           <section className="panel space-y-4">
