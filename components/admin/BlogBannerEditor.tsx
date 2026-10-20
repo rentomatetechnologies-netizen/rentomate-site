@@ -121,25 +121,13 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
             )}
           </div>
 
-          <div>
-            <label htmlFor="banner-position" className="label">Position in the article</label>
-            <select id="banner-position" className="input" value={banner.afterParagraph} onChange={(e) => update({ afterParagraph: Number(e.target.value) })}>
-              <option value={0}>At the top, before the first paragraph</option>
-              {Array.from({ length: 6 }, (_, i) => i + 1).map((n) => (
-                <option key={n} value={n}>
-                  After paragraph {n}
-                  {n === 2 ? " (recommended)" : ""}
-                </option>
-              ))}
-            </select>
-            <p className="mt-1 text-xs text-slate-400">If a post has fewer paragraphs, the banner goes after its last paragraph.</p>
-          </div>
+          <p className="text-xs text-slate-400">The banner is shown at the top of every article, just under the reading time.</p>
         </section>
 
         <aside className="space-y-2 xl:sticky xl:top-6">
           <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Preview</p>
           <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 text-[13px] leading-6 text-slate-500">
-            <p>Intro paragraph of a blog post…</p>
+            <p>Reading time 5 mins</p>
             {banner.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={banner.image} alt={banner.alt} className={`w-full rounded-md ${banner.enabled ? "" : "opacity-40 grayscale"}`} />
@@ -155,7 +143,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
                 <div className="bg-gradient-to-b from-brand to-navy" />
               </div>
             )}
-            <p>The rest of the article…</p>
+            <p>The article…</p>
           </div>
           {!banner.enabled && <p className="text-xs font-semibold text-amber-600">Switched off – not shown on the website.</p>}
           {banner.enabled && !banner.image && <p className="text-xs text-slate-500">Showing the built-in RentOMate banner. Upload an image to replace it.</p>}

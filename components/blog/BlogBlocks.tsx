@@ -4,9 +4,29 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { RentNowButton } from "@/components/RentNowButton";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { BlogBanner } from "@/components/blog/BlogBanner";
-import type { BlogBanner as Banner } from "@/lib/blog-banner";
 import { getHeadings, isOptimizableImage, type BlogBlock } from "@/lib/blog";
+import { SITE_URL } from "@/lib/site";
+
+// http(s):// or www. links, stopping before trailing punctuation such as "." or ")".
+const URL_PATTERN = /((?:https?:\/\/|www\.)[^\s<]*[^\s<.,;:!?'")\]])/g;
+
+/** Text with any URLs in it turned into links: rentomate.life links open in the same tab, others in a new one. */
+const Linkified: React.FC<{ text: string }> = ({ text }) =>
+  text.split(URL_PATTERN).map((part, i) => {
+    if (i % 2 === 0) return part;
+    const href = part.startsWith("www.") ? `https://${part}` : part;
+    const internal = href.startsWith(SITE_URL);
+    return (
+      <a
+        key={i}
+        href={internal ? href.slice(SITE_URL.length) || "/" : href}
+        {...(internal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+        className="break-words font-semibold text-[#0084FF] underline underline-offset-2 hover:text-[#0070F3]"
+      >
+        {part}
+      </a>
+    );
+  });
 
 const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, headingId }) => {
   switch (block.type) {
@@ -19,14 +39,16 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
     case "quote":
       return (
         <blockquote className="rounded-r-[10px] border-l-4 border-[#0084FF] bg-sky-50 px-5 py-4 text-lg font-semibold leading-8 text-[#051838]">
-          {block.text}
+          <Linkified text={block.text} />
         </blockquote>
       );
     case "list":
       return (
         <ul className="list-disc space-y-2 pl-6 marker:text-[#0084FF]">
           {block.items.map((item, i) => (
-            <li key={i}>{item}</li>
+            <li key={i}>
+              <Linkified text={item} />
+            </li>
           ))}
         </ul>
       );
@@ -56,7 +78,9 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
                 </span>
                 <ChevronDown className="h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden />
               </summary>
-              <p className="whitespace-pre-line px-4 pb-4">{item.answer}</p>
+              <p className="whitespace-pre-line px-4 pb-4">
+                <Linkified text={item.answer} />
+              </p>
             </details>
           ))}
         </div>
@@ -73,34 +97,31 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
     case "toc":
       return null; // rendered by BlogBlocks, which knows the headings
     default:
-      return <p className="whitespace-pre-line">{block.text}</p>;
+      return (
+        <p className="whitespace-pre-line">
+          <Linkified text={block.text} />
+        </p>
+      );
   }
 };
 
 /**
  * Renders a post's content. The table of contents goes where the admin placed a "Table of contents" block;
  * without one, it is inserted automatically before the first heading when there are 2+ headings.
- * The site-wide promo banner (if any) goes after the admin-chosen number of paragraphs.
  */
-export const BlogBlocks: React.FC<{ blocks: BlogBlock[]; banner?: Banner | null }> = ({ blocks, banner }) => {
+export const BlogBlocks: React.FC<{ blocks: BlogBlock[] }> = ({ blocks }) => {
   const headings = getHeadings(blocks);
   const idByIndex = new Map(headings.map((h) => [h.index, h.id]));
   const placed = blocks.findIndex((block) => block.type === "toc");
   const tocAt = headings.length === 0 ? -1 : placed >= 0 ? placed : headings.length >= 2 ? headings[0].index : -1;
   const toc = headings.map(({ id, text }) => ({ id, text }));
 
-  // Index of the block the banner follows: the Nth paragraph, or the last one if there are fewer; -1 = at the top.
-  const paragraphs = blocks.flatMap((block, i) => (block.type === "paragraph" ? [i] : []));
-  const bannerAfter = !banner || banner.afterParagraph === 0 ? -1 : (paragraphs[banner.afterParagraph - 1] ?? paragraphs.at(-1) ?? -1);
-
   return (
     <div className="space-y-6 text-base leading-[1.85] text-slate-600 sm:text-[17px]">
-      {banner && bannerAfter === -1 && <BlogBanner banner={banner} />}
       {blocks.map((block, i) => (
         <Fragment key={i}>
           {i === tocAt && <TableOfContents headings={toc} />}
           {block.type !== "toc" && <Block block={block} headingId={idByIndex.get(i)} />}
-          {banner && i === bannerAfter && <BlogBanner banner={banner} />}
         </Fragment>
       ))}
     </div>
