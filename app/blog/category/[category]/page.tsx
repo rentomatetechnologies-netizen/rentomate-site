@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { pageMetadata } from "@/lib/seo";
 import { BlogListing } from "@/components/blog/BlogListing";
 import { getCategories, getCategoryListing, getPosts } from "@/lib/blog";
+import { getBlogBanner } from "@/lib/blog-banner";
 
 export const revalidate = 300;
 
@@ -22,7 +23,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params }: Params) {
-  const found = await getCategoryListing((await params).category);
+  const [found, banner] = await Promise.all([
+    getCategoryListing((await params).category),
+    getBlogBanner(),
+  ]);
   if (!found) notFound();
   const { category, posts, inCategory } = found;
 
@@ -30,6 +34,7 @@ export default async function CategoryPage({ params }: Params) {
     <BlogListing
       allPosts={posts}
       posts={inCategory}
+      banner={banner}
       page={1}
       basePath={`/blog/category/${category.slug}`}
       title={category.name}

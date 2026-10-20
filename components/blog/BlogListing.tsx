@@ -5,6 +5,8 @@ import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogPagination } from "@/components/blog/BlogPagination";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { LatestPostsCarousel } from "@/components/blog/LatestPostsCarousel";
+import { BlogBanner } from "@/components/blog/BlogBanner";
+import type { BlogBanner as Banner } from "@/lib/blog-banner";
 import { byNewest, paginate, type BlogPostSummary } from "@/lib/blog";
 
 type Props = {
@@ -18,10 +20,11 @@ type Props = {
   description: string;
   breadcrumbs: Crumb[];
   activeCategory?: string;
+  banner?: Banner | null;
 };
 
 /** Shared template for /blog, its numbered pages and the category pages. */
-export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, title, description, breadcrumbs, activeCategory }) => {
+export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, title, description, breadcrumbs, activeCategory, banner }) => {
   const { items, totalPages } = paginate(posts, page);
 
   return (
@@ -43,6 +46,11 @@ export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, 
       <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
           <div>
+            {banner && (
+              <div className="mb-8">
+                <BlogBanner banner={banner} />
+              </div>
+            )}
             {items.length === 0 ? (
               <p className="rounded-[10px] border border-slate-200 p-10 text-center text-slate-500">New articles are on the way. Check back soon!</p>
             ) : (

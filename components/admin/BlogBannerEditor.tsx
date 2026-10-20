@@ -76,8 +76,8 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
           <div>
             <p className="label">Banner image</p>
             <p className="mb-2 text-xs text-slate-500">
-              Optional. Wide landscape image, about 1600 × 830 px (roughly 2:1), shown at full width. With no image, the built-in RentOMate
-              banner (7-day trial, price and free services) is shown instead.
+              Optional. Wide landscape image, about 1600 × 900 px (roughly 16:9), shown at full width. With no image, the built-in RentOMate
+              7-day risk-free trial template is shown instead.
             </p>
             <ImageField value={banner.image} onChange={(image) => update({ image })} label="Upload banner" folder="blog" />
           </div>
@@ -121,32 +121,23 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
             )}
           </div>
 
-          <p className="text-xs text-slate-400">The banner is shown at the top of every article, just under the reading time.</p>
+          <p className="text-xs text-slate-400">The banner is shown on the blog listing and at the top of every article.</p>
         </section>
 
         <aside className="space-y-2 xl:sticky xl:top-6">
           <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Preview</p>
           <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4 text-[13px] leading-6 text-slate-500">
             <p>Reading time 5 mins</p>
-            {banner.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={banner.image} alt={banner.alt} className={`w-full rounded-md ${banner.enabled ? "" : "opacity-40 grayscale"}`} />
-            ) : (
-              <div className={`grid aspect-[2/1] grid-cols-[0.9fr_1.25fr_0.85fr] overflow-hidden rounded-md text-[10px] font-bold ${banner.enabled ? "" : "opacity-40 grayscale"}`}>
-                <div className="flex flex-col justify-end bg-[#f59e0b]">
-                  <div className="h-3/5 rounded-tr-3xl bg-navy p-2 text-white">7-Day trial · ₹/month</div>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-1 bg-[#f59e0b] p-1 text-center text-navy">
-                  RentOMate RO+UV+Copper
-                  <span className="rounded-full bg-navy px-2 py-0.5 text-white">BOOK NOW</span>
-                </div>
-                <div className="bg-gradient-to-b from-brand to-navy" />
-              </div>
-            )}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={banner.image || "/banners/7-day-trial-banner.jpg"}
+              alt={banner.alt || "7-Day Risk-Free Trial"}
+              className={`w-full rounded-md shadow-sm ${banner.enabled ? "" : "opacity-40 grayscale"}`}
+            />
             <p>The article…</p>
           </div>
           {!banner.enabled && <p className="text-xs font-semibold text-amber-600">Switched off – not shown on the website.</p>}
-          {banner.enabled && !banner.image && <p className="text-xs text-slate-500">Showing the built-in RentOMate banner. Upload an image to replace it.</p>}
+          {banner.enabled && !banner.image && <p className="text-xs text-slate-500">Showing the built-in 7-day risk-free trial template. Upload an image to replace it.</p>}
         </aside>
       </div>
     </>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { BlogListing } from "@/components/blog/BlogListing";
 import { BLOG_DESCRIPTION, getPosts } from "@/lib/blog";
+import { getBlogBanner } from "@/lib/blog-banner";
 
 export const revalidate = 300;
 
@@ -12,11 +13,12 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default async function BlogPage() {
-  const posts = await getPosts();
+  const [posts, banner] = await Promise.all([getPosts(), getBlogBanner()]);
   return (
     <BlogListing
       allPosts={posts}
       posts={posts}
+      banner={banner}
       page={1}
       basePath="/blog"
       title="RentOMate Blogs"

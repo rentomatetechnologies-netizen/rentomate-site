@@ -35,12 +35,16 @@ export const BLOG_REVALIDATE_SECONDS = 300;
 async function request<T>(path: string): Promise<T | null> {
   try {
     const response = await fetch(`${API_URL}${path}`, { next: { revalidate: BLOG_REVALIDATE_SECONDS } });
-    if (response.status === 404) return null;
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      if (response.status !== 404) {
+        console.warn(`Blog API returned HTTP ${response.status} for ${path}. Showing fallback.`);
+      }
+      return null;
+    }
     return (await response.json()) as T;
   } catch (error) {
     // Backend unreachable: render an empty blog rather than failing the whole build.
-    console.error(`Blog API request failed for ${path}:`, error);
+    console.warn(`Blog API request failed for ${path}:`, (error as Error).message);
     return null;
   }
 }
@@ -49,9 +53,8 @@ export const getPosts = async () => (await request<BlogPostSummary[]>("/posts"))
 
 export const getPost = (slug: string) => request<BlogPost>(`/posts/${encodeURIComponent(slug)}`);
 
-// Uploaded images are served on this domain at /media/* (forwarded to the backend), so
-// next/image can optimize them. Pasted external image URLs are shown as-is.
-export const isOptimizableImage = (src: string) => src.startsWith("/media/");
+// Uploaded images (/media/*) and local static images (/banners/*, /hero/*) are optimized by next/image.
+export const isOptimizableImage = (src: string) => src.startsWith("/");
 
 /** Titles may contain line breaks (Shift+Enter in the editor); use this where a single line is needed (meta tags, structured data). */
 export const plainTitle = (title: string) => title.replace(/\s*\n\s*/g, " ");

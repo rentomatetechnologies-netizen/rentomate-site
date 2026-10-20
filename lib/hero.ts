@@ -37,11 +37,14 @@ export function withHeroDefaults(saved?: Partial<HeroContent> | null): HeroConte
 export async function getHero(): Promise<HeroContent> {
   try {
     const response = await fetch(`${BACKEND_URL}/api/public/hero`, { next: { revalidate: HERO_REVALIDATE_SECONDS } });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      console.warn(`Hero API returned HTTP ${response.status}. Using default hero.`);
+      return DEFAULT_HERO;
+    }
     return withHeroDefaults((await response.json()) as Partial<HeroContent>);
   } catch (error) {
     // Backend unreachable: show the built-in hero image rather than failing the homepage.
-    console.error("Hero API request failed:", error);
+    console.warn("Hero API request failed:", (error as Error).message);
     return DEFAULT_HERO;
   }
 }

@@ -10,8 +10,18 @@ export type BlogBanner = {
   afterParagraph: number;
 };
 
-/** With no image uploaded, the built-in RentOMate promo is shown. */
-export const DEFAULT_BLOG_BANNER: BlogBanner = { enabled: true, image: "", alt: "", link: "lead", afterParagraph: 2 };
+export const DEFAULT_BLOG_BANNER_IMAGE = "/banners/7-day-trial-banner.jpg";
+export const DEFAULT_BLOG_BANNER_ALT =
+  "RentOMate 7-day risk-free trial: RO + UV + UF + Copper enriched water purifier on rent starting at ₹449/month";
+
+/** With no image uploaded, the built-in RentOMate 7-day trial template promo is shown. */
+export const DEFAULT_BLOG_BANNER: BlogBanner = {
+  enabled: true,
+  image: "",
+  alt: DEFAULT_BLOG_BANNER_ALT,
+  link: "lead",
+  afterParagraph: 2,
+};
 
 const BACKEND_URL = (process.env.BACKEND_URL || "http://localhost:4000").replace(/\/$/, "");
 

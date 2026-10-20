@@ -3,6 +3,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { pageMetadata } from "@/lib/seo";
 import { BlogListing } from "@/components/blog/BlogListing";
 import { BLOG_DESCRIPTION, getPosts, paginate } from "@/lib/blog";
+import { getBlogBanner } from "@/lib/blog-banner";
 
 export const revalidate = 300;
 
@@ -21,13 +22,14 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 export default async function BlogPageN({ params }: Params) {
   const page = Number((await params).page);
   if (page === 1) permanentRedirect("/blog");
-  const posts = await getPosts();
+  const [posts, banner] = await Promise.all([getPosts(), getBlogBanner()]);
   if (!Number.isInteger(page) || page < 1 || page > paginate(posts, 1).totalPages) notFound();
 
   return (
     <BlogListing
       allPosts={posts}
       posts={posts}
+      banner={banner}
       page={page}
       basePath="/blog"
       title="RentOMate Blogs"
