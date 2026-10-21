@@ -2,7 +2,6 @@ import type React from "react";
 import { Fragment } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
-import { RentNowButton } from "@/components/RentNowButton";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { getHeadings, isOptimizableImage, type BlogBlock } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
@@ -86,14 +85,7 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
         </div>
       );
     case "cta":
-      return (
-        <div className="my-4 flex flex-col items-start gap-4 rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-white sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xl font-extrabold leading-snug sm:text-2xl">{block.text}</p>
-          <RentNowButton className="shrink-0 rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">
-            {block.buttonLabel || "Book Now"}
-          </RentNowButton>
-        </div>
-      );
+      return null; // retired: the post page shows a fixed call to action instead
     case "toc":
       return null; // rendered by BlogBlocks, which knows the headings
     default:
@@ -108,12 +100,13 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
 /**
  * Renders a post's content. The table of contents goes where the admin placed a "Table of contents" block;
  * without one, it is inserted automatically before the first heading when there are 2+ headings.
+ * Pass `showToc={false}` when the page renders the table of contents elsewhere.
  */
-export const BlogBlocks: React.FC<{ blocks: BlogBlock[] }> = ({ blocks }) => {
+export const BlogBlocks: React.FC<{ blocks: BlogBlock[]; showToc?: boolean }> = ({ blocks, showToc = true }) => {
   const headings = getHeadings(blocks);
   const idByIndex = new Map(headings.map((h) => [h.index, h.id]));
   const placed = blocks.findIndex((block) => block.type === "toc");
-  const tocAt = headings.length === 0 ? -1 : placed >= 0 ? placed : headings.length >= 2 ? headings[0].index : -1;
+  const tocAt = !showToc || headings.length === 0 ? -1 : placed >= 0 ? placed : headings.length >= 2 ? headings[0].index : -1;
   const toc = headings.map(({ id, text }) => ({ id, text }));
 
   return (

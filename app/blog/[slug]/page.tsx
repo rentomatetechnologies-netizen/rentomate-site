@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import { OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, CalendarDays, Clock } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, Clock } from "lucide-react";
+import { RentNowButton } from "@/components/RentNowButton";
 import { BlogCover } from "@/components/BlogCover";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BlogBanner } from "@/components/blog/BlogBanner";
@@ -11,8 +12,9 @@ import { BlogBlocks, faqStructuredData } from "@/components/blog/BlogBlocks";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
-import { IndexDrawer } from "@/components/blog/TableOfContents";
-import { BRAND, SITE_URL } from "@/lib/site";
+import { BlogTrialForm } from "@/components/blog/BlogTrialForm";
+import { IndexDrawer, TableOfContents } from "@/components/blog/TableOfContents";
+import { BRAND, LOWEST_PRICE, SITE_URL } from "@/lib/site";
 import { getBlogBanner } from "@/lib/blog-banner";
 import { categoryHref, formatDate, getHeadings, getNeighbours, getPost, getPosts, metaDescription, plainTitle, type BlogPostSummary } from "@/lib/blog";
 
@@ -106,7 +108,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </header>
 
       <div className="bg-white py-10 lg:py-12">
-        <div className="mx-auto grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
+          <div className="flex min-w-0 flex-col gap-6">
+            {headings.length > 0 && <TableOfContents headings={headings} className={`${card} flex-1 !border-0 p-5 sm:p-6`} />}
+            {banner && <BlogBanner banner={banner} />}
+          </div>
+          {/* The wrapper spans the row, so the form sticks while scrolling until the poster ends. */}
+          <div>
+            <BlogTrialForm className="lg:sticky lg:top-28" />
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
           <div className="min-w-0 space-y-8">
             <article id="article-body" className={`${card} p-5 sm:p-8`}>
               <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
@@ -115,15 +128,22 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </span>
                 {post.category && <CategoryBadge name={post.category} />}
               </div>
-              {banner && (
-                <div className="mt-6">
-                  <BlogBanner banner={banner} />
-                </div>
-              )}
               <div className="mt-6">
-                <BlogBlocks blocks={post.blocks} />
+                <BlogBlocks blocks={post.blocks} showToc={false} />
               </div>
-              <p className="mt-10 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-5 text-sm text-slate-600">
+              {/* Fixed call to action on every post, not configurable from the admin. */}
+              <div className="mt-10 flex flex-col items-center gap-4 rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-center text-white shadow-lg sm:flex-row sm:justify-between sm:text-left">
+                <div>
+                  <p className="text-xl font-extrabold tracking-tight sm:text-2xl">Try RentOMate free for 7 days</p>
+                  <p className="mt-1 text-sm text-sky-100">
+                    Starts from ₹{LOWEST_PRICE}/month – Get pure RO water at home, with free installation and zero maintenance worries.
+                  </p>
+                </div>
+                <RentNowButton className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">
+                  <CalendarCheck className="h-4 w-4" aria-hidden /> Book Free Trial
+                </RentNowButton>
+              </div>
+              <p className="mt-6 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-5 text-sm text-slate-600">
                 <CalendarDays className="h-4 w-4 text-slate-400" aria-hidden />
                 <time dateTime={post.date}>{formatDate(post.date)}</time>
                 {post.author && (
@@ -162,7 +182,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             )}
           </div>
 
-          <BlogSidebar posts={posts} currentSlug={post.slug} />
+          <BlogSidebar posts={posts} currentSlug={post.slug} showTrialForm={false} />
         </div>
       </div>
     </>

@@ -23,13 +23,13 @@ const BLOCK_LABELS: Record<BlockType, string> = {
   toc: "Table of contents",
 };
 
-const newBlock = (type: BlockType): EditorBlock => {
+// "cta" blocks are retired (posts get a fixed call to action), so they can't be added any more.
+const newBlock = (type: Exclude<BlockType, "cta">): EditorBlock => {
   const key = newKey();
   if (type === "toc") return { type, key };
   if (type === "image") return { type, url: "", alt: "", caption: "", key };
   if (type === "list") return { type, items: [], key };
   if (type === "faq") return { type, items: [{ question: "", answer: "" }], key };
-  if (type === "cta") return { type, text: "Get 7 Days Risk-Free Trial", buttonLabel: "Book Now", key };
   return { type, text: "", key };
 };
 
@@ -284,11 +284,9 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                   ) : block.type === "faq" ? (
                     <FaqFields items={block.items} onChange={(items) => updateBlock(block.key, { items })} />
                   ) : block.type === "cta" ? (
-                    <div className="grid gap-2 sm:grid-cols-[1fr_180px]">
-                      <input className="input font-bold" placeholder="Banner text" maxLength={200} value={block.text} onChange={(e) => updateBlock(block.key, { text: e.target.value })} />
-                      <input className="input" placeholder="Button label" maxLength={40} value={block.buttonLabel} onChange={(e) => updateBlock(block.key, { buttonLabel: e.target.value })} />
-                      <p className="text-xs text-slate-400 sm:col-span-2">The button opens the website&apos;s &ldquo;Rent Now&rdquo; form.</p>
-                    </div>
+                    <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-700">
+                      This block is no longer shown — every post now ends with a fixed &ldquo;Book Free Trial&rdquo; call to action. You can remove it.
+                    </p>
                   ) : block.type === "toc" ? (
                     <div className="rounded-lg bg-slate-50 p-3 text-sm">
                       {headings.length ? (
@@ -323,7 +321,7 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
               ))}
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
-              {(Object.keys(BLOCK_LABELS) as BlockType[]).map((type) => (
+              {(Object.keys(BLOCK_LABELS) as BlockType[]).filter((type): type is Exclude<BlockType, "cta"> => type !== "cta").map((type) => (
                 <button
                   key={type}
                   type="button"

@@ -42,14 +42,7 @@ function PreviewBlock({ block }: { block: EditorBlock }) {
         )
       );
     case "cta":
-      return (
-        block.text && (
-          <div className="flex items-center justify-between gap-2 rounded-lg bg-navy p-3 text-white">
-            <span className="font-extrabold">{block.text}</span>
-            <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-bold text-navy">{block.buttonLabel || "Book Now"}</span>
-          </div>
-        )
-      );
+      return null; // retired: every post now ends with a fixed call to action
     default:
       return block.text && <p className="whitespace-pre-line">{block.text}</p>;
   }

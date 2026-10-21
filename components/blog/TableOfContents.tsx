@@ -21,12 +21,12 @@ const TocList = ({ headings, active, onNavigate }: { headings: TocHeading[]; act
   </ol>
 );
 
-/** Collapsible table of contents inside the article, listing the post's headings. */
-export function TableOfContents({ headings }: { headings: TocHeading[] }) {
+/** Collapsible table of contents listing the post's headings; `className` overrides the inline (in-article) sizing. */
+export function TableOfContents({ headings, className = "my-6 w-fit max-w-full sm:min-w-[24rem]" }: { headings: TocHeading[]; className?: string }) {
   const [open, setOpen] = useState(true);
 
   return (
-    <nav aria-label="Table of contents" className="my-6 w-fit max-w-full rounded-[6px] border border-slate-200 bg-[#f9f9fe] px-4 py-3 sm:min-w-[24rem]">
+    <nav aria-label="Table of contents" className={`rounded-[6px] border border-slate-200 bg-[#f9f9fe] px-4 py-3 ${className}`}>
       <div className="flex items-center justify-between gap-6">
         <p className="text-xl font-semibold text-slate-500">Table of Contents</p>
         <button
