@@ -5,19 +5,21 @@ import { BlogCover } from "@/components/BlogCover";
 import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { formatDate, plainTitle, type BlogPostSummary } from "@/lib/blog";
 
-/** Post card used on the blog listing and category pages. */
-export const BlogCard: React.FC<{ post: BlogPostSummary; preload?: boolean }> = ({ post, preload }) => (
-  <article className="group flex flex-col rounded-[10px] bg-white p-4 shadow-[0_2px_18px_rgb(15_23_42/0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(15_23_42/0.12)]">
-    <Link href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden className="block overflow-hidden rounded-[8px]">
+/** Post card used on the blog listing and category pages; `horizontal` puts the cover beside the text (featured post). */
+export const BlogCard: React.FC<{ post: BlogPostSummary; preload?: boolean; horizontal?: boolean }> = ({ post, preload, horizontal }) => (
+  <article
+    className={`group flex flex-col rounded-[10px] bg-white p-4 shadow-[0_2px_18px_rgb(15_23_42/0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgb(15_23_42/0.12)] ${horizontal ? "flex-1 sm:flex-row sm:gap-6" : ""}`}
+  >
+    <Link href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden className={`block overflow-hidden rounded-[8px] ${horizontal ? "sm:w-1/2 sm:shrink-0" : ""}`}>
       <BlogCover
         src={post.coverImage}
         alt={post.coverAlt}
         sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
         preload={preload}
-        className="aspect-[16/10] transition-transform duration-500 group-hover:scale-[1.03]"
+        className={`aspect-[16/10] transition-transform duration-500 group-hover:scale-[1.03] ${horizontal ? "sm:aspect-auto sm:h-full sm:min-h-64" : ""}`}
       />
     </Link>
-    <div className="flex flex-1 flex-col pt-4">
+    <div className={`flex flex-1 flex-col pt-4 ${horizontal ? "sm:pt-0" : ""}`}>
       <h2 className="line-clamp-2 whitespace-pre-line text-lg font-extrabold leading-snug tracking-tight text-[#051838] sm:text-xl">
         <Link href={`/blog/${post.slug}`} className="transition hover:text-[#0084FF]">
           {post.title}

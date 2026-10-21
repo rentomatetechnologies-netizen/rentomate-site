@@ -13,7 +13,7 @@ const inputClass =
 const PERKS = ["Installation within 48 hrs", "Lifetime FREE maintenance", `Plans starting ₹${LOWEST_PRICE}/month`];
 
 /** "7-Day Risk-Free Trial" lead form shown in the blog sidebar. */
-export const BlogTrialForm: React.FC = () => {
+export const BlogTrialForm: React.FC<{ className?: string }> = ({ className = "" }) => {
   const [form, setForm] = useState<Lead>(empty);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -42,7 +42,7 @@ export const BlogTrialForm: React.FC = () => {
   };
 
   return (
-    <section id="free-trial" className="scroll-mt-28 rounded-[10px] bg-gradient-to-br from-sky-100 via-sky-50 to-blue-100 p-6 shadow-[0_2px_18px_rgb(15_23_42/0.07)]">
+    <section id="free-trial" className={`scroll-mt-28 rounded-[10px] bg-gradient-to-br from-sky-100 via-sky-50 to-blue-100 p-6 shadow-[0_2px_18px_rgb(15_23_42/0.07)] ${className}`}>
       <h2 className="text-center text-2xl font-extrabold tracking-tight text-[#0067c7]">Get 7 Days Risk-Free Trial</h2>
       <p className="mt-3 text-center text-base text-slate-700">
         Pay only rentals. <strong className="text-[#051838]">ZERO</strong> machine cost

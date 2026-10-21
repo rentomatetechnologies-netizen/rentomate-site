@@ -6,6 +6,7 @@ import { BlogPagination } from "@/components/blog/BlogPagination";
 import { BlogSidebar } from "@/components/blog/BlogSidebar";
 import { LatestPostsCarousel } from "@/components/blog/LatestPostsCarousel";
 import { BlogBanner } from "@/components/blog/BlogBanner";
+import { BlogTrialForm } from "@/components/blog/BlogTrialForm";
 import type { BlogBanner as Banner } from "@/lib/blog-banner";
 import { byNewest, paginate, type BlogPostSummary } from "@/lib/blog";
 
@@ -25,7 +26,9 @@ type Props = {
 
 /** Shared template for /blog, its numbered pages and the category pages. */
 export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, title, description, breadcrumbs, activeCategory, banner }) => {
-  const { items, totalPages } = paginate(posts, page);
+  // The newest post is always featured at the top, so the paged grid below skips it.
+  const [latest, ...rest] = byNewest(posts);
+  const { items, totalPages } = paginate(rest, page);
 
   return (
     <>
@@ -45,12 +48,18 @@ export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, 
 
       <section className="bg-white py-10 lg:py-12">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
+          <div className="flex flex-col gap-6">
+            {latest && <BlogCard post={latest} preload horizontal />}
+            {banner && <BlogBanner banner={banner} />}
+          </div>
+          {/* The wrapper spans the row, so the form sticks while scrolling until the poster ends. */}
           <div>
-            {banner && (
-              <div className="mb-8">
-                <BlogBanner banner={banner} />
-              </div>
-            )}
+            <BlogTrialForm className="lg:sticky lg:top-28" />
+          </div>
+        </div>
+
+        <div className="mx-auto mt-10 grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_400px] lg:px-8">
+          <div>
             {items.length === 0 ? (
               <p className="rounded-[10px] border border-slate-200 p-10 text-center text-slate-500">New articles are on the way. Check back soon!</p>
             ) : (
@@ -62,7 +71,7 @@ export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, 
             )}
             <BlogPagination current={page} total={totalPages} basePath={basePath} />
           </div>
-          <BlogSidebar posts={allPosts} activeCategory={activeCategory} />
+          <BlogSidebar posts={allPosts} activeCategory={activeCategory} showTrialForm={false} />
         </div>
 
         <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -13,10 +13,11 @@ const Widget: React.FC<{ title: string; children: React.ReactNode }> = ({ title,
 );
 
 /** Right-hand column on blog pages: free-trial form, categories and the latest posts. */
-export const BlogSidebar: React.FC<{ posts: BlogPostSummary[]; currentSlug?: string; activeCategory?: string }> = ({
+export const BlogSidebar: React.FC<{ posts: BlogPostSummary[]; currentSlug?: string; activeCategory?: string; showTrialForm?: boolean }> = ({
   posts,
   currentSlug,
   activeCategory,
+  showTrialForm = true,
 }) => {
   const categories = getCategories(posts);
   const latest = byNewest(posts)
@@ -25,7 +26,7 @@ export const BlogSidebar: React.FC<{ posts: BlogPostSummary[]; currentSlug?: str
 
   return (
     <aside className="space-y-8">
-      <BlogTrialForm />
+      {showTrialForm && <BlogTrialForm />}
 
       {categories.length > 0 && (
         <Widget title="Categories">
