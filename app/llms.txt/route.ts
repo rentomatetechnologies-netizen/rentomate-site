@@ -9,7 +9,7 @@ export function GET() {
 
   const body = `# RentOMate
 
-> RentOMate rents RO water purifiers to homes in Tamil Nadu and Puducherry. Customers pay a monthly rent instead of buying the machine; installation, servicing and filter replacements are included. RentOMate is a registered service of Akvinz Water Purifiers.
+> RentOMate rents RO water purifiers to homes in Tamil Nadu and Puducherry. Customers pay a monthly rent instead of buying the machine; installation, servicing and filter replacements are included. Rent O' Mate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by M/S Ragavi Enterprises.
 
 ## Rental plans
 ${PLANS.map((plan) => `- ${plan.months}-month ${plan.name}: ${inr(plan.price)}/month (refundable security deposit ${inr(plan.deposit)})`).join("\n")}

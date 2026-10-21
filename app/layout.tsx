@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { SiteShell } from "@/components/SiteShell";
-import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
+import { ADDRESS, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
 import { HOME_DESCRIPTION, HOME_TITLE, OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import { BRAND, PLANS, SERVICE_LOCATIONS, SITE_URL } from "@/lib/site";
 
@@ -32,7 +32,7 @@ const structuredData = {
       telephone: PHONE_DISPLAY,
       email: SUPPORT_EMAIL,
       priceRange: `₹${Math.min(...PLANS.map((plan) => plan.price))}–₹${Math.max(...PLANS.map((plan) => plan.price))} per month`,
-      address: { "@type": "PostalAddress", addressLocality: "Coimbatore", addressRegion: "Tamil Nadu", addressCountry: "IN" },
+      address: { "@type": "PostalAddress", streetAddress: ADDRESS.street, addressLocality: ADDRESS.city, addressRegion: ADDRESS.state, addressCountry: "IN" },
       areaServed: SERVICE_LOCATIONS.map((city) => ({ "@type": "City", name: city })),
       parentOrganization: { "@type": "Organization", name: BRAND.operator },
       sameAs: [INSTAGRAM_URL, FACEBOOK_URL],

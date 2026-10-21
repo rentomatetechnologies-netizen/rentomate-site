@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MessageCircle, Phone, Menu, X } from "lucide-react";
+import { Phone, Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 import { LiquidNav } from "./LiquidNav";
 import { LocationDropdown } from "./LocationDropdown";
 import { useSiteActions } from "./SiteShell";
@@ -61,7 +62,7 @@ export const Navbar: React.FC = () => {
             title="WhatsApp"
             className="flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/50 text-[#243650] transition-colors hover:bg-white/90 active:scale-95"
           >
-            <MessageCircle className="h-4 w-4 text-[#25D366]" />
+            <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
           </a>
 
           <button
@@ -154,7 +155,7 @@ export const Navbar: React.FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center justify-center gap-2 py-2.5 rounded-[10px] border border-slate-200 bg-white hover:bg-[#25D366] hover:text-white font-semibold text-xs text-slate-800 shadow-xs transition-all duration-300 hover:border-[#25D366] group"
                   >
-                    <MessageCircle className="w-3.5 h-3.5 text-slate-700 group-hover:text-white transition-colors duration-300" />
+                    <WhatsAppIcon className="w-4 h-4 text-[#25D366] group-hover:text-white transition-colors duration-300" />
                     <span>WhatsApp</span>
                   </a>
                 </div>

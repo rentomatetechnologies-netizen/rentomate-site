@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import { AtSign, Mail, MessageCircle, Phone } from "lucide-react";
+import { AtSign, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { RentNowButton } from "@/components/RentNowButton";
-import { INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
+import { ADDRESS, ADDRESS_LINES, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import { CITIES } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -67,12 +67,23 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-          <div className="flex flex-col justify-center rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-white shadow-sm">
+          <div className="flex flex-col gap-6">
+          <address className="rounded-[10px] border border-slate-200 bg-white p-6 not-italic shadow-sm">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+              <MapPin className="h-5 w-5 text-sky-600" aria-hidden /> Our office
+            </h2>
+            <p className="mt-3 text-sm font-bold text-sky-700">{ADDRESS.company}</p>
+            {ADDRESS_LINES.map((line) => (
+              <p key={line} className="mt-1 text-sm leading-6 text-slate-600">{line}</p>
+            ))}
+          </address>
+          <div className="flex flex-1 flex-col justify-center rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-white shadow-sm">
             <h2 className="text-xl font-extrabold">Prefer a call back?</h2>
             <p className="mt-2 text-sm leading-6 text-white/80">Share your name, number and pincode, and our team will get in touch.</p>
             <RentNowButton className="mt-5 self-start rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">
               Get a call back
             </RentNowButton>
+          </div>
           </div>
         </div>
       </section>

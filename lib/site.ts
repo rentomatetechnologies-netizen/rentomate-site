@@ -1,5 +1,11 @@
 // Single source of truth for RentOMate plans, models and service areas.
 
+import type { StaticImageData } from "next/image";
+import metaNeoImage from "@/app/metaNeo.png";
+import ultronPlusImage from "@/app/ultron.png";
+import sparkImage from "@/app/spark.png";
+import ultronImage from "@/app/ultronz.png";
+
 export const SITE_URL = "https://rentomate.life";
 
 /** RentOMate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
@@ -41,13 +47,76 @@ export type ProductModel = {
   id: string;
   name: string;
   colour: string;
+  /** Any CSS background: a plain colour, or a gradient for two-tone bodies. */
   swatch: string;
   image: string;
 };
 
 export const MODELS: ProductModel[] = [
   { id: "black", name: "Akvinz Ultron", colour: "Midnight Black", swatch: "#111827", image: "/hero/purifier-transparent.png" },
-  { id: "white", name: "Akvinz Ultron", colour: "Pearl White", swatch: "#f1f5f9", image: "/hero/purifier-white.webp" },
+  { id: "white", name: "Akvinz Ultron", colour: "Pearl White", swatch: "conic-gradient(from 270deg, #b4c3cf 0 25%, #ffffff 0)", image: "/hero/purifier-white.webp" },
+];
+
+export type CatalogProduct = {
+  id: string;
+  name: string;
+  /** Short line under the name, e.g. who it suits. */
+  tagline: string;
+  capacityLitres: number;
+  /** Line on the coloured strip under the photo. */
+  strip: string;
+  /** Tailwind gradient classes for that strip. */
+  accent: string;
+  /** Leave unset until there's a photo; a placeholder shows instead. */
+  image?: StaticImageData | string;
+  badge?: string;
+  features: string[];
+};
+
+/** The purifier range on the Products page. Every model rents on the same plans (see PLANS). */
+export const PRODUCTS: CatalogProduct[] = [
+  {
+    id: "metaneo",
+    name: "Metaneo RO Water Purifier",
+    tagline: "Bold dark finish for modern kitchens",
+    capacityLitres: 8,
+    strip: "RO Purifier with Essential Minerals",
+    accent: "from-slate-700 to-slate-900",
+    image: metaNeoImage,
+    features: ["Storage Tank of 8L Capacity", "Multi-stage RO purification", "Free installation & maintenance"],
+  },
+  {
+    id: "ultron-plus",
+    name: "ULTRON+ RO Water Purifier",
+    tagline: "Premium black edition of the Ultron",
+    capacityLitres: 8,
+    strip: "RO + UV + UF + Copper Enriched",
+    accent: "from-[#051838] to-[#0070F3]",
+    image: ultronPlusImage,
+    badge: "Bestseller",
+    features: ["Storage Tank of 8L Capacity", "8-stage purification with copper", "Free installation & maintenance"],
+  },
+  {
+    id: "spark",
+    name: "Spark RO Water Purifier",
+    tagline: "Largest storage for bigger families",
+    capacityLitres: 10,
+    strip: "10L Storage for Larger Homes",
+    accent: "from-orange-500 to-amber-500",
+    image: sparkImage,
+    badge: "Big family pick",
+    features: ["Storage Tank of 10L Capacity", "Multi-stage RO purification", "Free installation & maintenance"],
+  },
+  {
+    id: "ultron",
+    name: "ULTRON Water Purifier",
+    tagline: "Clean white finish for bright kitchens",
+    capacityLitres: 8,
+    strip: "RO + UV + UF + Copper Enriched",
+    accent: "from-sky-500 to-blue-600",
+    image: ultronImage,
+    features: ["Storage Tank of 8L Capacity", "8-stage purification with copper", "Free installation & maintenance"],
+  },
 ];
 
 export const KEY_SPECS = [
@@ -97,6 +166,13 @@ export const SERVICE_LOCATIONS = [
 export const PLANS_PAGE_PATH = "/water-purifier-rental-coimbatore";
 
 export const inr =(value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
+
+/** Footer bottom-bar links; also listed in the sitemaps. */
+export const LEGAL_LINKS = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Use", href: "/terms-of-use" },
+  { label: "Sitemap", href: "/site-map" },
+];
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },

@@ -3,7 +3,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
-import { ArrowRight, BadgeIndianRupee, Filter, MessageCircle, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
+import { ArrowRight, BadgeIndianRupee, Filter, ShieldCheck, Wrench, type LucideIcon } from "lucide-react";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { whatsappLink } from "@/lib/contact";
 import { isOptimizableImage } from "@/lib/blog";
 import { DEFAULT_SLIDE, type HeroContent, type HeroSlide } from "@/lib/hero";
@@ -84,7 +85,7 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
               rel="noopener noreferrer"
               className="inline-flex min-h-14 items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-6 py-3.5 text-base font-bold text-[#243650] transition hover:border-sky-300 hover:bg-sky-50"
             >
-              <MessageCircle className="h-4 w-4 text-[#25D366]" /> Need Support?
+              <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> Need Support?
             </a>
           </div>
           <p className="mt-4 text-sm font-medium text-slate-600">

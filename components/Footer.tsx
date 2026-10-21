@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight, ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { FACEBOOK_URL, INSTAGRAM_URL, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
-import Link from "next/link";
-import { NAV_LINKS, PLANS, PLANS_PAGE_PATH, inr } from "@/lib/site";
+import { WhatsAppIcon } from "./WhatsAppIcon";
+import { ADDRESS, ADDRESS_LINES, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
+import { LEGAL_LINKS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, inr } from "@/lib/site";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
@@ -27,39 +28,32 @@ const socials = [
   { label: "Facebook", href: FACEBOOK_URL, icon: FacebookIcon },
 ];
 
-const WhatsAppIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-    <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
-    <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1" />
-  </svg>
-);
-
 const plans = PLANS.map((plan) => ({ label: `${plan.months}-Month ${plan.name}`, price: inr(plan.price), note: plan.tagline }));
 
 const headingClass = "text-xs font-bold uppercase tracking-[0.2em] text-white";
-const contactClass = "inline-flex items-center gap-2 whitespace-nowrap rounded-[10px] border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-medium text-slate-100 transition hover:border-white/30 hover:bg-white/10";
+const linkClass = "text-[15px] text-slate-400 transition-colors hover:text-sky-300";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const whatsappUrl = whatsappLink("Hi RentOMate! I would like to know more about renting a water purifier.");
 
+  const contacts = [
+    { label: "WhatsApp", value: "Chat with us", href: whatsappUrl, external: true, icon: <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> },
+    { label: "Call us", value: PHONE_DISPLAY, href: PHONE_HREF, external: false, icon: <Phone className="h-5 w-5 text-sky-400" /> },
+    { label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, icon: <Mail className="h-5 w-5 text-sky-400" /> },
+  ];
+
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 pt-14 pb-28 sm:px-6 md:pb-8 lg:px-8">
-
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.7fr_1.55fr] lg:gap-0 lg:divide-x lg:divide-white/10">
-
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
-          <div className="lg:pr-10">
+          <div className="sm:col-span-2 lg:col-span-4 lg:pr-6">
             <Logo light />
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-400">
               Water purifier rental in Coimbatore — pure drinking water made simple, flexible and affordable.
             </p>
-            <p className="mt-5 inline-flex items-center gap-2.5 text-[15px] text-slate-400">
-              <MapPin className="h-5 w-5 text-sky-400" />
-              Serving homes across Coimbatore
-            </p>
-            <div className="mt-7 flex items-center gap-2.5">
+            <div className="mt-6 flex items-center gap-2.5">
               {socials.map(({ label, href, icon: Icon }) => (
                 <a
                   key={label}
@@ -68,22 +62,22 @@ export const Footer: React.FC = () => {
                   rel="noopener noreferrer"
                   aria-label={`RentOMate on ${label} (@${SOCIAL_HANDLE})`}
                   title={label}
-                  className="flex h-11 w-11 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
+                  className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-slate-100 transition hover:border-sky-400/50 hover:bg-sky-400/10"
                 >
                   <Icon className="h-5 w-5" />
                 </a>
               ))}
-              <span className="ml-1.5 text-[15px] text-slate-400">@{SOCIAL_HANDLE}</span>
+              <span className="ml-1.5 text-sm text-slate-400">@{SOCIAL_HANDLE}</span>
             </div>
           </div>
 
           {/* Explore */}
-          <nav className="lg:px-10" aria-label="Footer">
+          <nav className="lg:col-span-2" aria-label="Footer">
             <h3 className={headingClass}>Explore</h3>
-            <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-1">
+            <ul className="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-1">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-[15px] text-slate-300 transition-colors hover:text-sky-300">
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -91,72 +85,114 @@ export const Footer: React.FC = () => {
             </ul>
           </nav>
 
-          {/* Plans + Contact */}
-          <div className="lg:pl-10">
+          {/* Get in touch */}
+          <div className="lg:col-span-3">
+            <h3 className={headingClass}>Get in touch</h3>
+            <ul className="mt-5 space-y-4">
+              {contacts.map((contact) => (
+                <li key={contact.label}>
+                  <a
+                    href={contact.href}
+                    {...(contact.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="group flex items-center gap-3"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 transition group-hover:border-sky-400/50">
+                      {contact.icon}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-xs text-slate-500">{contact.label}</span>
+                      <span className="block break-all text-sm font-semibold text-slate-200 transition-colors group-hover:text-sky-300">{contact.value}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+              <li className="flex items-start gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] border border-white/15 bg-white/5">
+                  <MapPin className="h-5 w-5 text-sky-400" aria-hidden />
+                </span>
+                <address className="min-w-0 not-italic">
+                  <span className="block text-xs text-slate-500">Office</span>
+                  <span className="block text-sm font-semibold text-slate-200">{ADDRESS.company}</span>
+                  {ADDRESS_LINES.map((line) => (
+                    <span key={line} className="block text-sm leading-6 text-slate-400">{line}</span>
+                  ))}
+                </address>
+              </li>
+            </ul>
+          </div>
+
+          {/* Rental plans */}
+          <div className="sm:col-span-2 lg:col-span-3">
             <h3 className={headingClass}>Rental plans</h3>
-            <ul className="mt-6 divide-y divide-white/10 rounded-[10px] border border-white/10 bg-white/[0.04]">
+            <ul className="mt-5 space-y-3">
               {plans.map((plan) => (
                 <li key={plan.label}>
-                  <Link href={PLANS_PAGE_PATH} className="group flex items-center justify-between gap-4 px-5 py-3.5 transition-colors hover:bg-white/5">
+                  <Link
+                    href={PLANS_PAGE_PATH}
+                    className="group flex items-center justify-between gap-3 rounded-[10px] border border-white/10 bg-white/[0.04] px-4 py-3 transition hover:border-sky-400/40 hover:bg-white/[0.07]"
+                  >
                     <span>
-                      <span className="block text-base font-bold text-white">{plan.label}</span>
-                      <span className="block text-sm text-slate-400">{plan.note}</span>
+                      <span className="block text-sm font-bold text-white">{plan.label}</span>
+                      <span className="block text-xs text-slate-400">{plan.note}</span>
                     </span>
-                    <span className="flex items-center gap-1.5">
+                    <span className="flex shrink-0 items-center gap-1">
                       <span className="text-lg font-extrabold text-sky-400">{plan.price}</span>
-                      <span className="text-sm text-slate-400">/ month</span>
-                      <ArrowRight className="ml-3 h-4 w-4 text-sky-400 transition-transform group-hover:translate-x-0.5" />
+                      <span className="text-xs text-slate-400">/mo</span>
+                      <ArrowRight className="ml-1.5 h-4 w-4 text-sky-400 transition-transform group-hover:translate-x-0.5" aria-hidden />
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
-
-            <h3 className={`${headingClass} mt-8`}>Get in touch</h3>
-            <div className="mt-4 flex flex-wrap gap-2 xl:flex-nowrap">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={contactClass}>
-                <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> WhatsApp
-              </a>
-              <a href={PHONE_HREF} className={contactClass}>
-                <Phone className="h-5 w-5 text-sky-400" /> Call us
-              </a>
-              <a href={`mailto:${SUPPORT_EMAIL}`} className={contactClass}>
-                <Mail className="h-5 w-5 text-sky-400" /> {SUPPORT_EMAIL}
-              </a>
-            </div>
           </div>
         </div>
 
         {/* Popular searches (SEO): each links to its landing page in app/rent/[slug] */}
-        <div className="mt-12 border-t border-white/10 pt-6">
+        <div className="mt-12 border-t border-white/10 pt-8">
           <h3 className={headingClass}>Popular searches</h3>
-          <p className="mt-4 text-sm leading-7 text-slate-400">
-            {SEO_PAGES.map((page, index) => (
-              <React.Fragment key={page.slug}>
-                {index > 0 && <span className="mx-2 text-slate-600" aria-hidden="true">|</span>}
-                <Link href={seoPageHref(page)} className="transition-colors hover:text-sky-300">{page.search}</Link>
-              </React.Fragment>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {SEO_PAGES.map((page) => (
+              <li key={page.slug}>
+                <Link
+                  href={seoPageHref(page)}
+                  className="inline-block rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-400 transition hover:border-sky-400/40 hover:text-sky-300"
+                >
+                  {page.search}
+                </Link>
+              </li>
             ))}
-          </p>
+          </ul>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-slate-400 sm:flex-row">
-          <div className="text-center sm:text-left">
+        {/* Bottom bar – right padding on desktop keeps "Back to top" clear of the floating "7 day free trial" button */}
+        <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 text-sm text-slate-400 md:pr-56 lg:flex-row lg:items-end lg:justify-between">
+          <div className="text-center lg:text-left">
             <p>© {currentYear} RentOMate. All rights reserved.</p>
-            <p className="mt-1 text-xs text-slate-500">RentOMate is a registered service of Akvinz Water Purifiers.</p>
+            <p className="mt-1 text-xs leading-5">
+              Rent O&apos; Mate is a proprietary brand of Akvinz.
+              <br />
+              All commercial transactions, billing, and GST compliance are managed and operated by M/S Ragavi Enterprises
+            </p>
           </div>
-          <div className="flex items-center gap-5">
-            <span className="inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-sky-400" /> Coimbatore, Tamil Nadu
-            </span>
-            <span className="h-5 w-px bg-white/15" aria-hidden="true" />
-            <a href="#" className="inline-flex items-center gap-1.5 font-medium text-slate-200 transition-colors hover:text-white">
-              Back to top <ArrowUp className="h-4 w-4" />
-            </a>
+          <div className="flex flex-col items-center gap-3 lg:items-end">
+            <nav aria-label="Legal" className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-xs">
+              {LEGAL_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} className="font-medium text-slate-300 underline-offset-2 transition-colors hover:text-sky-300 hover:underline">
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center gap-4 text-xs">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="h-4 w-4 text-sky-400" aria-hidden /> Coimbatore, Tamil Nadu
+              </span>
+              <span className="h-4 w-px bg-white/15" aria-hidden="true" />
+              <a href="#" className="inline-flex items-center gap-1 font-medium text-slate-200 transition-colors hover:text-white">
+                Back to top <ArrowUp className="h-4 w-4" aria-hidden />
+              </a>
+            </div>
           </div>
         </div>
-
       </div>
     </footer>
   );
