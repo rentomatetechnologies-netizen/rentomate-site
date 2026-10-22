@@ -1,16 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Droplets } from "lucide-react";
-import { LOWEST_PRICE, PLANS, PLANS_PAGE_PATH, PRODUCTS, type CatalogProduct } from "@/lib/site";
+import { LOWEST_PRICE, PLANS, PLANS_PAGE_PATH, PURIFIERS, enrichmentSummary, type Purifier, type PurifierColour } from "@/lib/site";
 import { useSiteActions } from "@/components/SiteShell";
 
 const LOCK_IN = `${[...PLANS].map((plan) => plan.months).sort((a, b) => a - b).join("/")} Months Lock-In`;
 
-const ProductCard: React.FC<{ product: CatalogProduct; index: number; onSubscribe: () => void }> = ({ product, index, onSubscribe }) => (
+// Card bullet points, built from the purifier's specs so they always match the home page carousel.
+const featuresFor = (product: Purifier) =>
+  [
+    `${product.storageLitres} L storage tank`,
+    `${product.stages.length}-stage purification`,
+    enrichmentSummary(product),
+    product.tdsAdjustment ? "TDS adjustment" : null,
+  ].filter((feature): feature is string => Boolean(feature));
+
+const ProductCard: React.FC<{ product: Purifier; index: number; onSubscribe: () => void }> = ({ product, index, onSubscribe }) => {
+  const [colourId, setColourId] = useState<PurifierColour["id"]>(product.colours[0].id);
+  const colour = product.colours.find((item) => item.id === colourId) ?? product.colours[0];
+
+  return (
   <motion.article
     initial={{ opacity: 0, y: 16 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -22,32 +34,48 @@ const ProductCard: React.FC<{ product: CatalogProduct; index: number; onSubscrib
       <span className="absolute right-4 top-4 z-10 rounded-bl-[10px] rounded-tr-[10px] bg-emerald-700 px-3 py-1 text-[11px] font-bold text-white">{product.badge}</span>
     )}
 
-    {/* Photo panel with the coloured feature strip underneath */}
+    {/* Photo panel (both colours crossfade) with the coloured feature strip underneath */}
     <div className="overflow-hidden rounded-[10px] bg-gradient-to-b from-slate-100 to-white">
       <div className="relative h-56">
-        {product.image ? (
+        {product.colours.map((item) => (
           <Image
-            src={product.image}
-            alt={product.name}
+            key={item.id}
+            src={item.image}
+            alt={`${product.brand} ${product.name} in ${item.colour}`}
+            aria-hidden={item.id !== colour.id || undefined}
             fill
             sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw"
-            className="object-contain p-4 drop-shadow-xl transition-transform duration-300 group-hover:scale-105"
+            className={`object-contain p-4 drop-shadow-xl transition duration-300 group-hover:scale-105 ${item.id === colour.id ? "opacity-100" : "opacity-0"}`}
           />
-        ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-sky-300">
-            <Droplets className="h-12 w-12" aria-hidden />
-            <span className="text-xs font-semibold text-slate-400">Photo coming soon</span>
-          </div>
-        )}
+        ))}
       </div>
       <p className={`bg-gradient-to-r ${product.accent} px-3 py-1.5 text-center text-xs font-semibold text-white`}>{product.strip}</p>
     </div>
 
-    <h3 className="mt-4 text-lg font-bold leading-snug text-[#051838]">{product.name}</h3>
-    <p className="mt-0.5 text-sm text-[#0067c7]">{product.tagline}</p>
+    <div className="mt-4 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <h3 className="text-lg font-bold leading-snug text-[#051838]">{product.brand} {product.name}</h3>
+        <p className="mt-0.5 text-sm text-[#0067c7]">{product.tagline}</p>
+      </div>
+      <div role="radiogroup" aria-label={`${product.shortName} colour`} className="mt-1 flex shrink-0 gap-1.5">
+        {product.colours.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="radio"
+            aria-checked={item.id === colour.id}
+            aria-label={item.colour}
+            title={item.colour}
+            onClick={() => setColourId(item.id)}
+            className={`h-6 w-6 rounded-full ring-1 ring-slate-300 transition ${item.id === colour.id ? "ring-2 ring-sky-500 ring-offset-2" : "hover:scale-110"}`}
+            style={{ background: item.swatch }}
+          />
+        ))}
+      </div>
+    </div>
 
     <ul className="mt-4 space-y-1.5">
-      {product.features.map((feature) => (
+      {featuresFor(product).map((feature) => (
         <li key={feature} className="flex items-center gap-2 text-sm text-slate-700">
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#0084FF]" aria-hidden /> {feature}
         </li>
@@ -79,7 +107,8 @@ const ProductCard: React.FC<{ product: CatalogProduct; index: number; onSubscrib
       </div>
     </div>
   </motion.article>
-);
+  );
+};
 
 /** "Find the purifier that's right for you": the full purifier range as rental cards. */
 export const ProductCatalog: React.FC = () => {
@@ -98,7 +127,7 @@ export const ProductCatalog: React.FC = () => {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {PRODUCTS.map((product, index) => (
+          {PURIFIERS.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} onSubscribe={openLeadForm} />
           ))}
         </div>

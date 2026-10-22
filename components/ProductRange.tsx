@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { FEATURED_PURIFIERS, LOWEST_PRICE, type Purifier, type PurifierColour } from "@/lib/site";
+import { PURIFIERS, LOWEST_PRICE, type Purifier, type PurifierColour } from "@/lib/site";
 import { useSiteActions } from "@/components/SiteShell";
 
 const AUTOPLAY_MS = 5000;
-const COUNT = FEATURED_PURIFIERS.length;
+const COUNT = PURIFIERS.length;
 
 const specsFor = ({ storageLitres, stages, tdsAdjustment, colours }: Purifier) => [
   { label: "Storage capacity", value: `${storageLitres} Litres` },
@@ -24,7 +24,7 @@ export const ProductRange: React.FC = () => {
   const [paused, setPaused] = useState(false);
   const [colourId, setColourId] = useState<PurifierColour["id"]>("black");
   const { index, prev, dir } = slide;
-  const purifier = FEATURED_PURIFIERS[index];
+  const purifier = PURIFIERS[index];
 
   const go = (step: 1 | -1) => setSlide((current) => ({ index: (current.index + step + COUNT) % COUNT, prev: current.index, dir: step }));
 
@@ -90,14 +90,14 @@ export const ProductRange: React.FC = () => {
                   {purifier.storageLitres} Litres
                 </span>
                 <div className="flex items-center gap-1.5" aria-hidden>
-                  {FEATURED_PURIFIERS.map((item, i) => (
+                  {PURIFIERS.map((item, i) => (
                     <span key={item.id} className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? "w-5 bg-sky-600" : "w-1.5 bg-slate-300"}`} />
                   ))}
                 </div>
               </div>
 
               <div className="relative mx-auto mt-2 grid aspect-square w-full max-w-[320px] flex-1">
-                {FEATURED_PURIFIERS.map((item, i) => (
+                {PURIFIERS.map((item, i) => (
                   <div key={item.id} className={`relative ${slideClass(i)}`} aria-hidden={i !== index || undefined}>
                     {/* Colour switch: a gentle cross-zoom. The old colour shrinks a little as it fades; the new one starts
                         growing in while the old is still fading (no empty gap) and settles with a smooth ease-out. */}
@@ -162,7 +162,7 @@ export const ProductRange: React.FC = () => {
             <div className="flex min-w-0 flex-col">
               {/* mb-6 keeps a minimum gap above the price row, which is pushed to the bottom with mt-auto */}
               <div className="mb-6 grid" aria-live={paused ? "polite" : "off"}>
-                {FEATURED_PURIFIERS.map((item, i) => (
+                {PURIFIERS.map((item, i) => (
                   <div key={item.id} className={slideClass(i)} aria-hidden={i !== index || undefined} inert={i !== index}>
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">
                       {item.brand} <span className="ml-1 tracking-normal text-slate-400">{i + 1} / {COUNT}</span>

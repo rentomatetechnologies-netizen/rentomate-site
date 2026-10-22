@@ -76,7 +76,7 @@ export type PurifierColour = {
 export type Purifier = {
   id: string;
   brand: string;
-  /** Short name for the model switch, e.g. "Ultron+". */
+  /** Short name, e.g. "Ultron+". */
   shortName: string;
   name: string;
   storageLitres: number;
@@ -84,13 +84,29 @@ export type Purifier = {
   /** Filtration components in the order water passes through them; one per purification stage. */
   stages: string[];
   colours: PurifierColour[];
+  /** Products page card: line under the name, the coloured strip under the photo (and its Tailwind gradient), and an optional badge. */
+  tagline: string;
+  strip: string;
+  accent: string;
+  badge?: string;
 };
+
+/** "Alkaline, copper & zinc enrichment" from a purifier's enrichment stages (null if it has none). */
+export function enrichmentSummary({ stages }: Purifier): string | null {
+  const minerals = stages.filter((stage) => stage.endsWith(" enrichment")).map((stage) => stage.replace(" enrichment", ""));
+  if (minerals.length === 0) return null;
+  const list = minerals.length === 1 ? minerals[0] : `${minerals.slice(0, -1).join(", ")} & ${minerals[minerals.length - 1]}`;
+  return `${list.charAt(0).toUpperCase()}${list.slice(1).toLowerCase()} enrichment`;
+}
 
 const BLACK = { id: "black", colour: "Midnight Black", swatch: "#111827" } as const;
 const WHITE = { id: "white", colour: "Pearl White", swatch: "#ffffff" } as const;
 
-/** The purifiers on the home page ("Our Product Range"), each in black and white. */
-export const FEATURED_PURIFIERS: Purifier[] = [
+/**
+ * Every purifier we rent, each in black and white. Used by the home page carousel ("Our Product Range")
+ * and the Products page cards ("Find the Purifier that is Right for You"). Every model rents on the same PLANS.
+ */
+export const PURIFIERS: Purifier[] = [
   {
     id: "ultron-plus",
     brand: "Akvinz",
@@ -113,6 +129,10 @@ export const FEATURED_PURIFIERS: Purifier[] = [
       { ...BLACK, image: ultronPlusImage },
       { ...WHITE, image: ultronImage },
     ],
+    tagline: "Our most advanced 9-stage purifier",
+    strip: "RO + UF + UV · Alkaline, Copper & Zinc",
+    accent: "from-[#051838] to-[#0070F3]",
+    badge: "Bestseller",
   },
   {
     // Same body (and photos) as the Ultron+.
@@ -136,6 +156,9 @@ export const FEATURED_PURIFIERS: Purifier[] = [
       { ...BLACK, image: ultronPlusImage },
       { ...WHITE, image: ultronImage },
     ],
+    tagline: "8-stage RO with pre- and post-carbon",
+    strip: "RO + UF + UV · Copper Enriched",
+    accent: "from-sky-500 to-blue-600",
   },
   {
     id: "metaneo",
@@ -158,6 +181,9 @@ export const FEATURED_PURIFIERS: Purifier[] = [
       { ...BLACK, image: metaNeoImage },
       { ...WHITE, image: metaNeoWhiteImage },
     ],
+    tagline: "Triple protection with zinc, copper & alkaline",
+    strip: "RO + UV · Alkaline, Zinc & Copper",
+    accent: "from-slate-700 to-slate-900",
   },
   {
     id: "spark",
@@ -180,68 +206,10 @@ export const FEATURED_PURIFIERS: Purifier[] = [
       { ...BLACK, image: sparkBlackImage },
       { ...WHITE, image: sparkImage },
     ],
-  },
-];
-
-export type CatalogProduct = {
-  id: string;
-  name: string;
-  /** Short line under the name, e.g. who it suits. */
-  tagline: string;
-  capacityLitres: number;
-  /** Line on the coloured strip under the photo. */
-  strip: string;
-  /** Tailwind gradient classes for that strip. */
-  accent: string;
-  /** Leave unset until there's a photo; a placeholder shows instead. */
-  image?: StaticImageData | string;
-  badge?: string;
-  features: string[];
-};
-
-/** The purifier range on the Products page. Every model rents on the same plans (see PLANS). */
-export const PRODUCTS: CatalogProduct[] = [
-  {
-    id: "metaneo",
-    name: "Metaneo RO Water Purifier",
-    tagline: "Bold dark finish for modern kitchens",
-    capacityLitres: 8,
-    strip: "RO Purifier with Essential Minerals",
-    accent: "from-slate-700 to-slate-900",
-    image: metaNeoImage,
-    features: ["Storage Tank of 8L Capacity", "Multi-stage RO purification", "Free installation & maintenance"],
-  },
-  {
-    id: "ultron-plus",
-    name: "ULTRON+ RO Water Purifier",
-    tagline: "Premium black edition of the Ultron",
-    capacityLitres: 8,
-    strip: "RO + UV + UF + Copper Enriched",
-    accent: "from-[#051838] to-[#0070F3]",
-    image: ultronPlusImage,
-    badge: "Bestseller",
-    features: ["Storage Tank of 8L Capacity", "8-stage purification with copper", "Free installation & maintenance"],
-  },
-  {
-    id: "spark",
-    name: "Spark RO Water Purifier",
-    tagline: "Largest storage for bigger families",
-    capacityLitres: 10,
-    strip: "10L Storage for Larger Homes",
+    tagline: "Largest 10 L storage for bigger families",
+    strip: "10 L Storage · RO + UV · Alkaline, Zinc & Copper",
     accent: "from-orange-500 to-amber-500",
-    image: sparkImage,
     badge: "Big family pick",
-    features: ["Storage Tank of 10L Capacity", "Multi-stage RO purification", "Free installation & maintenance"],
-  },
-  {
-    id: "ultron",
-    name: "ULTRON Water Purifier",
-    tagline: "Clean white finish for bright kitchens",
-    capacityLitres: 8,
-    strip: "RO + UV + UF + Copper Enriched",
-    accent: "from-sky-500 to-blue-600",
-    image: ultronImage,
-    features: ["Storage Tank of 8L Capacity", "8-stage purification with copper", "Free installation & maintenance"],
   },
 ];
 
