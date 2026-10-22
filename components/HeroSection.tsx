@@ -31,12 +31,14 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
   const uploaded = content.slides.filter((slide) => slide.image);
   const slides = uploaded.length ? uploaded : [DEFAULT_SLIDE];
 
+  // On laptops the hero fills the viewport below the sticky navbar (76px), capped so big monitors stay compact.
+  // The `short:` variant (globals.css) tightens spacing on short laptop screens.
   return (
-    <section className="relative overflow-hidden bg-white pb-12 pt-6 md:pb-14 lg:pt-10">
+    <section className="relative overflow-hidden bg-white pb-12 pt-6 md:pb-14 lg:flex lg:min-h-[min(calc(100svh-76px),900px)] lg:items-center lg:py-10 short:py-6">
       {/* Soft brand glow behind the image */}
       <div className="pointer-events-none absolute -right-40 top-10 h-[520px] w-[720px] rounded-full bg-sky-100/60 blur-3xl" aria-hidden />
 
-      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8">
+      <div className="relative mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:gap-12 lg:px-8 short:gap-8">
         {/* ================= LEFT: TEXT + CTAs ================= */}
         <motion.div
           initial={{ opacity: 0, y: 22 }}
@@ -44,23 +46,23 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="lg:col-span-5"
         >
-          <p className="mb-4 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Water purifiers. On rent.</p>
+          <p className="mb-4 short:mb-3 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Water purifiers. On rent.</p>
 
-          <h1 className="text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-[#051838] sm:text-6xl lg:text-[64px]">
+          <h1 className="text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-[#051838] sm:text-6xl lg:text-[64px] short:text-[52px]">
             Own Less.
             <span className="block text-[#0084FF]">Live Smart.</span>
           </h1>
 
-          <p className="mt-5 max-w-lg text-justify text-[15px] font-medium leading-relaxed text-slate-600 sm:text-base">
+          <p className="mt-5 short:mt-4 max-w-lg text-justify text-[15px] font-medium leading-relaxed text-slate-600 sm:text-base">
             Why buy a purifier when you can rent one? Get pure, 8-stage purified water at home with{" "}
             <strong className="text-slate-800">zero installation cost</strong>, <strong className="text-slate-800">lifetime free filter service</strong>{" "}
             and <strong className="text-slate-800">zero service cost</strong> — for about ₹{PRICE_PER_DAY} a day.
           </p>
 
-          <ul className="mt-6 grid max-w-lg grid-cols-2 gap-x-5 gap-y-3">
+          <ul className="mt-6 grid max-w-lg grid-cols-2 gap-x-5 gap-y-3 short:mt-4 short:gap-y-2">
             {USPS.map(({ label, icon: Icon }) => (
               <li key={label} className="flex items-center gap-2.5 text-sm font-semibold text-slate-700">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-sky-200 bg-sky-50 text-sky-600">
+                <span className="flex h-9 w-9 short:h-8 short:w-8 shrink-0 items-center justify-center rounded-full border border-sky-200 bg-sky-50 text-sky-600">
                   <Icon className="h-4 w-4" />
                 </span>
                 {label}
@@ -68,13 +70,13 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
             ))}
           </ul>
 
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap short:mt-6">
             <motion.button
               type="button"
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               onClick={onRentNow}
-              className="group inline-flex min-h-14 items-center justify-center rounded-[10px] bg-gradient-to-r from-[#078BDF] to-[#145DFF] px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-110"
+              className="group inline-flex min-h-14 short:min-h-12 items-center justify-center rounded-[10px] bg-gradient-to-r from-[#078BDF] to-[#145DFF] px-8 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-110"
             >
               Rent Now
               <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -83,12 +85,12 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
               href={supportUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-6 py-3.5 text-base font-bold text-[#243650] transition hover:border-sky-300 hover:bg-sky-50"
+              className="inline-flex min-h-14 short:min-h-12 items-center justify-center gap-2 rounded-[10px] border border-slate-200 bg-white px-6 py-3.5 text-base font-bold text-[#243650] transition hover:border-sky-300 hover:bg-sky-50"
             >
               <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> Need Support?
             </a>
           </div>
-          <p className="mt-4 text-sm font-medium text-slate-600">
+          <p className="mt-4 short:mt-3 text-sm font-medium text-slate-600">
             Plans start <span className="font-extrabold text-[#051838]">@₹{LOWEST_PRICE}/month</span>
           </p>
         </motion.div>
@@ -144,7 +146,7 @@ const HeroCarousel: React.FC<{ slides: HeroSlide[] }> = ({ slides }) => {
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
-      className="group relative aspect-[3/2] overflow-hidden rounded-[28px] bg-[#0b1220] shadow-[0_40px_80px_-30px_rgba(5,24,56,0.45)] ring-1 ring-slate-900/5"
+      className="group relative aspect-[3/2] overflow-hidden lg:max-h-[calc(100svh-156px)] lg:min-h-80 short:max-h-[calc(100svh-124px)] rounded-[28px] bg-[#0b1220] shadow-[0_40px_80px_-30px_rgba(5,24,56,0.45)] ring-1 ring-slate-900/5"
       {...(count > 1 && { role: "region", "aria-roledescription": "carousel", "aria-label": "RentOMate highlights" })}
     >
       <AnimatePresence initial={false} custom={direction}>
