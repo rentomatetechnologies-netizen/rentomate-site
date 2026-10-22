@@ -12,9 +12,9 @@ export type BlogBanner = {
 
 export const DEFAULT_BLOG_BANNER_IMAGE = "/banners/7-day-trial-banner.jpg";
 export const DEFAULT_BLOG_BANNER_ALT =
-  "RentOMate 7-day risk-free trial: RO + UV + UF + Copper enriched water purifier on rent starting at ₹449/month";
+  "Rent O' Mate 7-day risk-free trial: RO + UV + UF + Copper enriched water purifier on rent starting at ₹449/month";
 
-/** With no image uploaded, the built-in RentOMate 7-day trial template promo is shown. */
+/** With no image uploaded, the built-in Rent O' Mate 7-day trial template promo is shown. */
 export const DEFAULT_BLOG_BANNER: BlogBanner = {
   enabled: true,
   image: "",

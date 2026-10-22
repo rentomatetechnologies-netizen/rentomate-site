@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "./Logo";
 import { WhatsAppIcon } from "./WhatsAppIcon";
-import { ADDRESS, ADDRESS_LINES, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
+import { ADDRESS_LINES, FACEBOOK_URL, GMAIL_COMPOSE_URL, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import { LEGAL_LINKS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, inr } from "@/lib/site";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 
@@ -35,12 +35,12 @@ const linkClass = "text-[15px] text-slate-400 transition-colors hover:text-sky-3
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const whatsappUrl = whatsappLink("Hi RentOMate! I would like to know more about renting a water purifier.");
+  const whatsappUrl = whatsappLink("Hi Rent O' Mate! I would like to know more about renting a water purifier.");
 
   const contacts = [
     { label: "WhatsApp", value: "Chat with us", href: whatsappUrl, external: true, icon: <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> },
     { label: "Call us", value: PHONE_DISPLAY, href: PHONE_HREF, external: false, icon: <Phone className="h-5 w-5 text-sky-400" /> },
-    { label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, icon: <Mail className="h-5 w-5 text-sky-400" /> },
+    { label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, gmail: true, icon: <Mail className="h-5 w-5 text-sky-400" /> },
   ];
 
   return (
@@ -60,7 +60,7 @@ export const Footer: React.FC = () => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`RentOMate on ${label} (@${SOCIAL_HANDLE})`}
+                  aria-label={`Rent O' Mate on ${label} (@${SOCIAL_HANDLE})`}
                   title={label}
                   className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-slate-100 transition hover:border-sky-400/50 hover:bg-sky-400/10"
                 >
@@ -104,6 +104,16 @@ export const Footer: React.FC = () => {
                       <span className="block break-all text-sm font-semibold text-slate-200 transition-colors group-hover:text-sky-300">{contact.value}</span>
                     </span>
                   </a>
+                  {contact.gmail && (
+                    <a
+                      href={GMAIL_COMPOSE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-[52px] mt-1 inline-block text-xs font-medium text-sky-400 underline-offset-2 hover:text-sky-300 hover:underline"
+                    >
+                      Open in Gmail
+                    </a>
+                  )}
                 </li>
               ))}
               <li className="flex items-start gap-3">
@@ -112,7 +122,6 @@ export const Footer: React.FC = () => {
                 </span>
                 <address className="min-w-0 not-italic">
                   <span className="block text-xs text-slate-500">Office</span>
-                  <span className="block text-sm font-semibold text-slate-200">{ADDRESS.company}</span>
                   {ADDRESS_LINES.map((line) => (
                     <span key={line} className="block text-sm leading-6 text-slate-400">{line}</span>
                   ))}
@@ -167,11 +176,9 @@ export const Footer: React.FC = () => {
         {/* Bottom bar – right padding on desktop keeps "Back to top" clear of the floating "7 day free trial" button */}
         <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 text-sm text-slate-400 md:pr-56 lg:flex-row lg:items-end lg:justify-between">
           <div className="text-center lg:text-left">
-            <p>© {currentYear} RentOMate. All rights reserved.</p>
+            <p>© {currentYear} Rent O&apos; Mate. All rights reserved.</p>
             <p className="mt-1 text-xs leading-5">
               Rent O&apos; Mate is a proprietary brand of Akvinz.
-              <br />
-              All commercial transactions, billing, and GST compliance are managed and operated by M/S Ragavi Enterprises
             </p>
           </div>
           <div className="flex flex-col items-center gap-3 lg:items-end">

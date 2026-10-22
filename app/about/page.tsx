@@ -8,12 +8,12 @@ import { AvailableCities } from "@/components/AvailableCities";
 
 export const metadata: Metadata = pageMetadata({
   title: "About Us",
-  description: "RentOMate is a Coimbatore water purifier rental service by Akvinz Water Purifiers. Pure water at home without buying a machine.",
+  description: "Rent O' Mate is a Coimbatore water purifier rental service by Akvinz Water Purifiers. Pure water at home without buying a machine.",
   path: "/about",
 });
 
 const values = [
-  { icon: BadgeCheck, title: "Certified machines", desc: "Every RentOMate purifier is an ISI certified Akvinz machine." },
+  { icon: BadgeCheck, title: "Certified machines", desc: "Every Rent O' Mate purifier is an ISI certified Akvinz machine." },
   { icon: Wrench, title: "We handle the upkeep", desc: "Installation, servicing and filter replacements are on us for as long as you rent." },
   { icon: MapPin, title: "Local to Coimbatore", desc: "A team based in the city, so installs and service visits are quick." },
 ];
@@ -35,11 +35,11 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About RentOMate"
+        eyebrow="About Rent O' Mate"
         breadcrumbs={[{ label: "About", href: "/about" }]}
         title={<>Own less. <span className="text-[#0084FF]">Live smart.</span></>}
         justify
-        description="Rent O' Mate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by M/S Ragavi Enterprises. We rent RO water purifiers to homes in Coimbatore, so families get safe drinking water without the upfront cost of buying a machine or the hassle of maintaining one."
+        description="Rent O' Mate is a proprietary brand of Akvinz. We rent RO water purifiers to homes in Coimbatore, so families get safe drinking water without the upfront cost of buying a machine or the hassle of maintaining one."
       />
 
       <section className="bg-white pb-12">

@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { name, slug } = found.category;
   return pageMetadata({
     title: `${name} Articles`,
-    description: `Read RentOMate's articles on ${name.toLowerCase()}: guides on purifiers, water quality and healthy drinking water.`,
+    description: `Read Rent O' Mate's articles on ${name.toLowerCase()}: guides on purifiers, water quality and healthy drinking water.`,
     path: `/blog/category/${slug}`,
   });
 }
@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: Params) {
       page={1}
       basePath={`/blog/category/${category.slug}`}
       title={category.name}
-      description={`All our articles on ${category.name.toLowerCase()}, from the RentOMate team.`}
+      description={`All our articles on ${category.name.toLowerCase()}, from the Rent O' Mate team.`}
       breadcrumbs={[
         { label: "Blog", href: "/blog" },
         { label: category.name, href: `/blog/category/${category.slug}` },

@@ -8,7 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = pageMetadata({
   title: "Blog",
-  description: "Tips on safe drinking water, RO purifiers, filters and renting vs buying, from the RentOMate team.",
+  description: "Tips on safe drinking water, RO purifiers, filters and renting vs buying, from the Rent O' Mate team.",
   path: "/blog",
 });
 
@@ -21,7 +21,7 @@ export default async function BlogPage() {
       banner={banner}
       page={1}
       basePath="/blog"
-      title="RentOMate Blogs"
+      title="Rent O' Mate Blogs"
       description={BLOG_DESCRIPTION}
       breadcrumbs={[{ label: "Blog", href: "/blog" }]}
     />

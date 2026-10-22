@@ -105,7 +105,7 @@ export const HowItWorks: React.FC = () => {
         {/* Booking shortcuts */}
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
-            href={whatsappLink("Hi RentOMate! I'd like to book a water purifier on rent.")}
+            href={whatsappLink("Hi Rent O' Mate! I'd like to book a water purifier on rent.")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-[10px] bg-[#25D366] px-6 py-3 text-sm font-bold text-white shadow-md transition hover:bg-[#1ebe5a]"

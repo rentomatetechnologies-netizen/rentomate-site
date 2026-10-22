@@ -75,7 +75,7 @@ export const LeadCaptureModal: React.FC<{ isOpen: boolean; onOpen: () => void; o
 
             {/* Header banner */}
             <div className="relative overflow-hidden bg-gradient-to-br from-sky-100/75 to-blue-100/75 px-6 pb-5 pt-14 sm:px-8 sm:pt-7">
-              <Image src="/rentomate-wordmark-clean.png" alt="RentOMate" width={3967} height={788} className="absolute right-14 top-5 h-6 w-auto" />
+              <Image src="/rentomate-wordmark-clean.png" alt="Rent O' Mate" width={3967} height={788} className="absolute right-14 top-5 h-6 w-auto" />
               <div className="sm:max-w-[62%]">
                 <h2 id="lead-title" className="text-2xl font-extrabold leading-tight tracking-tight text-[#051838] sm:text-[1.7rem]">
                   Own Less. <span className="text-[#0084FF]">Live Smart.</span>
@@ -126,7 +126,7 @@ export const LeadCaptureModal: React.FC<{ isOpen: boolean; onOpen: () => void; o
                 <button type="submit" disabled={submitting} className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-sky-600 to-blue-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/20 transition hover:from-sky-700 hover:to-blue-700 disabled:opacity-70">
                   {submitting && <Loader2 className="h-4 w-4 animate-spin" />} Get a call back
                 </button>
-                <p className="mt-3 text-center text-[11px] text-slate-500">Submit your enquiry, and the RentOMate team will get in touch with you.</p>
+                <p className="mt-3 text-center text-[11px] text-slate-500">Submit your enquiry, and the Rent O&apos; Mate team will get in touch with you.</p>
               </form>
             )}
           </motion.div>

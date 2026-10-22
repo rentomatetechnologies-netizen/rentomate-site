@@ -2,14 +2,14 @@ import { PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
 import { KEY_SPECS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
 
-// /llms.txt: a plain-text summary of RentOMate for AI assistants and AI search.
+// /llms.txt: a plain-text summary of Rent O' Mate for AI assistants and AI search.
 // Built from the same data as the site, so plans, prices and cities never go out of date.
 export function GET() {
   const link = (label: string, path: string, note = "") => `- [${label}](${SITE_URL}${path === "/" ? "" : path})${note ? `: ${note}` : ""}`;
 
-  const body = `# RentOMate
+  const body = `# Rent O' Mate
 
-> RentOMate rents RO water purifiers to homes in Tamil Nadu and Puducherry. Customers pay a monthly rent instead of buying the machine; installation, servicing and filter replacements are included. Rent O' Mate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by M/S Ragavi Enterprises.
+> Rent O' Mate rents RO water purifiers to homes in Tamil Nadu and Puducherry. Customers pay a monthly rent instead of buying the machine; installation, servicing and filter replacements are included. Rent O' Mate is a proprietary brand of Akvinz.
 
 ## Rental plans
 ${PLANS.map((plan) => `- ${plan.months}-month ${plan.name}: ${inr(plan.price)}/month (refundable security deposit ${inr(plan.deposit)})`).join("\n")}

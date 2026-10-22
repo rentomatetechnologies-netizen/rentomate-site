@@ -7,7 +7,7 @@ import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Terms of Use",
-  description: "Rentomate Terms of Use & Subscription Agreement for RO water purifier rentals in Coimbatore, Tamil Nadu.",
+  description: "Rent O' Mate Terms of Use & Subscription Agreement for RO water purifier rentals in Coimbatore, Tamil Nadu.",
   path: "/terms-of-use",
 });
 
@@ -27,11 +27,11 @@ const preamble = (
   <>
     <p className="text-sm font-semibold text-slate-500">Applicable Region: Coimbatore, Tamil Nadu, India</p>
     <p>
-      Welcome to Rentomate (accessible via <a href={SITE_URL}>{SITE_URL}</a>). These Terms of Use (&ldquo;Terms&rdquo;, &ldquo;Agreement&rdquo;) govern your access to
+      Welcome to Rent O&apos; Mate (accessible via <a href={SITE_URL}>{SITE_URL}</a>). These Terms of Use (&ldquo;Terms&rdquo;, &ldquo;Agreement&rdquo;) govern your access to
       our website and define the legally binding conditions under which you subscribe to our domestic reverse osmosis (RO) water purifier rental services.
     </p>
     <p>
-      This Agreement is executed between you (the &ldquo;Subscriber&rdquo;, &ldquo;Customer&rdquo;, &ldquo;User&rdquo;) and Rentomate. By browsing our platform,
+      This Agreement is executed between you (the &ldquo;Subscriber&rdquo;, &ldquo;Customer&rdquo;, &ldquo;User&rdquo;) and Rent O&apos; Mate. By browsing our platform,
       booking a trial, or completing a subscription registration, you unconditionally accept and agree to be bound by these terms. If you do not agree, you must
       immediately cease using the platform and services.
     </p>
@@ -45,10 +45,10 @@ const sections: LegalSection[] = [
       <>
         <Clause n="1.1" title="Age Restriction">
           You must be at least 18 years of age and possess the legal capacity to enter into binding contracts under the Indian Contract Act, 1872 to subscribe to
-          Rentomate.
+          Rent O&apos; Mate.
         </Clause>
         <Clause n="1.2" title="Territorial Limits">
-          Rentomate&apos;s subscription, delivery, installation, and physical maintenance services are strictly limited to selected geographic zones within
+          Rent O&apos; Mate&apos;s subscription, delivery, installation, and physical maintenance services are strictly limited to selected geographic zones within
           Coimbatore, Tamil Nadu, India. Any subscription orders placed from locations outside our service coverage zone will be automatically cancelled and fully
           refunded.
         </Clause>
@@ -61,7 +61,7 @@ const sections: LegalSection[] = [
       <>
         <Clause n="2.1" title="Property Ownership">
           The RO water purifier unit, standard installation plumbing kit, pre-filter housing, filters, membranes, and all structural accessories provided to you
-          remain the exclusive, sole property of Rentomate at all times. This agreement is strictly a rental bailment contract; no transfer of ownership, title,
+          remain the exclusive, sole property of Rent O&apos; Mate at all times. This agreement is strictly a rental bailment contract; no transfer of ownership, title,
           equity, or proprietary right occurs under any circumstances.
         </Clause>
         <Clause n="2.2" title="Prohibition of Subletting">
@@ -80,13 +80,13 @@ const sections: LegalSection[] = [
           at a baseline rate of ₹449 per month (inclusive or exclusive of statutory taxes as highlighted on checkout pages).
         </Clause>
         <Clause n="3.2" title="Security Deposit">
-          Depending on your risk profile or chosen subscription package, Rentomate may request a refundable or non-refundable security deposit prior to dispatch.
+          Depending on your risk profile or chosen subscription package, Rent O&apos; Mate may request a refundable or non-refundable security deposit prior to dispatch.
           Refundable deposits are processed within 7 to 10 working days following account termination and successful de-installation, subject to physical
           equipment clearance.
         </Clause>
         <Clause n="3.3" title="Auto-Debit & Late Fees">
           Subscribers must maintain a valid, authorized payment method linked to our secure third-party payment gateways. If recurring auto-debit payments fail,
-          Rentomate reserves the right to charge an administration late fee of ₹100 per week of delay and suspend access to water delivery via device lockdown or
+          Rent O&apos; Mate reserves the right to charge an administration late fee of ₹100 per week of delay and suspend access to water delivery via device lockdown or
           physical recovery.
         </Clause>
       </>
@@ -121,7 +121,7 @@ const sections: LegalSection[] = [
           elements, operational flooding, or structural hazards.
         </Clause>
         <Clause n="5.2" title="Damage Penalization">
-          While standard functional degradation is completely managed by Rentomate, damages arising out of deliberate negligence, physical drops, internal
+          While standard functional degradation is completely managed by Rent O&apos; Mate, damages arising out of deliberate negligence, physical drops, internal
           tampering, unauthorized third-party repairs, external fire, or theft will attract heavy penalty charges equivalent to the full fair market retail value of
           the unit (up to ₹12,000 INR).
         </Clause>
@@ -134,13 +134,13 @@ const sections: LegalSection[] = [
       <>
         <Clause n="6.1" title="Termination Request">
           Subscribers can submit a cancellation request anytime through their online dashboard or via WhatsApp at{" "}
-          <a href={whatsappLink("Hi RentOMate! I would like to cancel my subscription.")} target="_blank" rel="noopener noreferrer">
+          <a href={whatsappLink("Hi Rent O' Mate! I would like to cancel my subscription.")} target="_blank" rel="noopener noreferrer">
             {PHONE_DISPLAY}
           </a>
           . A mandatory 7-day notice period applies.
         </Clause>
         <Clause n="6.2" title="Physical Retrieval Access">
-          Upon account closure, the subscriber must grant certified Rentomate field engineers unhindered entry to the premises to safely uninstall and recover the RO
+          Upon account closure, the subscriber must grant certified Rent O&apos; Mate field engineers unhindered entry to the premises to safely uninstall and recover the RO
           device, power adapters, and plumbing pipes. Obstructing equipment recovery constitutes a criminal breach of trust under the Indian Penal Code.
         </Clause>
       </>
@@ -156,7 +156,7 @@ const sections: LegalSection[] = [
           barred.
         </Clause>
         <Clause n="7.2" title="Website Uptime Disclaimer">
-          Rentomate provides the web framework on an &ldquo;As-Is&rdquo; and &ldquo;As-Available&rdquo; benchmark. We do not promise uninterrupted web access and are
+          Rent O&apos; Mate provides the web framework on an &ldquo;As-Is&rdquo; and &ldquo;As-Available&rdquo; benchmark. We do not promise uninterrupted web access and are
           not liable for transaction dropouts caused by telecom network dropouts.
         </Clause>
       </>
@@ -168,7 +168,7 @@ const sections: LegalSection[] = [
       <>
         <Clause n="8.1" title="Arbitration Framework">
           Any disagreements, transactional conflicts, or legal claims arising from this subscription framework will first be resolved through friendly dialogue. If
-          mutual consensus fails, claims will be redirected to an independent arbitrator appointed solely by Rentomate.
+          mutual consensus fails, claims will be redirected to an independent arbitrator appointed solely by Rent O&apos; Mate.
         </Clause>
         <Clause n="8.2" title="Exclusive Courts">
           This legal agreement is interpreted exclusively under the laws of India. All matters, legal actions, or consumer panel complaints fall under the exclusive
@@ -186,7 +186,7 @@ const sections: LegalSection[] = [
         </p>
         <ul>
           <li>
-            <strong className="text-[#051838]">Brand Identity:</strong> Rentomate
+            <strong className="text-[#051838]">Brand Identity:</strong> Rent O&apos; Mate
           </li>
           <li>
             <strong className="text-[#051838]">Corporate Base:</strong> Coimbatore, Tamil Nadu, India
@@ -208,7 +208,7 @@ export default function TermsOfUsePage() {
     <LegalPage
       title="Terms of Use"
       path="/terms-of-use"
-      intro="Rentomate Terms of Use & Subscription Agreement."
+      intro="Rent O' Mate Terms of Use & Subscription Agreement."
       updated="October 21, 2026"
       preamble={preamble}
       sections={sections}

@@ -26,8 +26,8 @@ const tabs: { id: Comparison; label: string; shortLabel: string; icon: LucideIco
   { id: "traditional", label: "Renting vs Traditional Methods", shortLabel: "Traditional", icon: FlaskConical },
 ];
 
-// Calculator inputs, based on the "Water Can Supply vs RentOMate" and "Own vs Extend Life" posters.
-// Can water follows the RentOMate savings sheet: a year is 52 weeks and cans start at ₹40.
+// Calculator inputs, based on the "Water Can Supply vs Rent O' Mate" and "Own vs Extend Life" posters.
+// Can water follows the Rent O' Mate savings sheet: a year is 52 weeks and cans start at ₹40.
 const CAN_PRICES = [40, 50, 60, 70, 80];
 const CAN_TYPES = [
   { label: "Unbranded", priceIndex: 0 },
@@ -79,7 +79,7 @@ export const WhyRentomate: React.FC = () => {
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto max-w-3xl text-center">
           <span className="mb-2 inline-block rounded-[10px] bg-sky-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-300 ring-1 ring-sky-400/25">Why Rent</span>
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.25rem] sm:leading-tight">Renting a Water Purifier Makes More Sense Than Your Current Setup</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-300 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a RentOMate purifier on rent compares.</p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-300 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a Rent O&apos; Mate purifier on rent compares.</p>
         </motion.div>
 
         <div role="tablist" className="mt-6 grid grid-cols-3 gap-1 rounded-[10px] border border-slate-200 bg-white p-1 shadow-sm sm:mt-5 sm:gap-2 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
@@ -168,14 +168,14 @@ function CanCalculator() {
     <h4 className="font-extrabold text-slate-900">Your {plan.months}-Month Comparison</h4>
     <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
       <ComparisonValue label="Water can supply" value={`${cans} × ${inr(price)} × ${weeks} weeks`} />
-      <ComparisonValue label={`RentOMate ${plan.name}`} value={`${inr(plan.price)} × ${plan.months} months`} />
+      <ComparisonValue label={`Rent O' Mate ${plan.name}`} value={`${inr(plan.price)} × ${plan.months} months`} />
       <ComparisonValue label="Total spend on cans" value={inr(canTotal)} tone="bad" />
-      <ComparisonValue label="Total spend on RentOMate" value={inr(rentTotal)} tone="good" />
+      <ComparisonValue label="Total spend on Rent O' Mate" value={inr(rentTotal)} tone="good" />
       <ComparisonValue label="Filter change, service & AMC" value="Not applicable" />
       <ComparisonValue label="Installation, filters, service & AMC" value="FREE" tone="good" />
     </div>
     <p className="mt-4 border-t border-sky-200 pt-3 text-sm font-bold text-emerald-700">
-      You save {inr(saving)} in {plan.months} months with RentOMate{years > 1 ? ` (${inr(savingPerYear)} a year)` : ""} — better water, less hassle.
+      You save {inr(saving)} in {plan.months} months with Rent O&apos; Mate{years > 1 ? ` (${inr(savingPerYear)} a year)` : ""} — better water, less hassle.
     </p>
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on {WEEKS_PER_YEAR} weeks a year and the can price and usage entered above. Actual costs may vary.</p>
   </div>;
@@ -206,15 +206,15 @@ function BuyCalculator() {
     <h4 className="font-extrabold text-slate-900">Owning vs Renting for {years} {years === 1 ? "Year" : "Years"}</h4>
     <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
       <ComparisonValue label="Purchase cost" value={inr(purchase)} />
-      <ComparisonValue label={`RentOMate (${inr(SMART_SAVER.price)}/month)`} value={`${years * 12} months`} />
+      <ComparisonValue label={`Rent O' Mate (${inr(SMART_SAVER.price)}/month)`} value={`${years * 12} months`} />
       <ComparisonValue label={`Filter, AMC & repairs (${years} yr)`} value={inr(yearlyUpkeep * years)} />
       <ComparisonValue label="Installation, filters, service & AMC" value="FREE" tone="good" />
       <ComparisonValue label="Total spend to own" value={inr(ownTotal)} tone="bad" />
-      <ComparisonValue label="Total spend on RentOMate" value={inr(rentTotal)} tone="good" />
+      <ComparisonValue label="Total spend on Rent O' Mate" value={inr(rentTotal)} tone="good" />
     </div>
     <p className="mt-4 border-t border-sky-200 pt-3 text-sm font-bold text-emerald-700">
       {extraMonths > 0
-        ? `The same ${inr(ownTotal)} covers ${monthsForSameMoney} months of RentOMate — ${extraMonths} extra months of pure water, zero maintenance.`
+        ? `The same ${inr(ownTotal)} covers ${monthsForSameMoney} months of Rent O' Mate — ${extraMonths} extra months of pure water, zero maintenance.`
         : `Unlimited purified water for about ₹${PRICE_PER_DAY} a day, with zero maintenance and no breakdown bills.`}
     </p>
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the values entered above, compared with the {SMART_SAVER.months}-month {SMART_SAVER.name} plan.</p>
@@ -271,7 +271,7 @@ function BenefitsPanel({ comparison }: { comparison: "cans" | "buy" }) {
   const { title, issues, wins } = BENEFITS[comparison];
   return <div className="space-y-4 lg:space-y-3">
     <div className="relative overflow-hidden rounded-[10px] border border-slate-200 bg-white p-5"><Droplets className="absolute bottom-4 right-5 h-16 w-16 text-sky-100" /><h3 className="text-lg font-extrabold text-slate-900">{title}</h3><ul className="relative mt-3 space-y-1.5">{issues.map((issue) => <li key={issue} className="flex gap-2 text-sm text-slate-600"><X className="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />{issue}</li>)}</ul></div>
-    <div className="relative overflow-hidden rounded-[10px] border border-sky-300 bg-gradient-to-br from-sky-50 to-blue-50 p-5"><CheckCircle2 className="absolute bottom-4 right-5 h-16 w-16 text-sky-200" /><h3 className="text-lg font-extrabold text-sky-800">With RentOMate, You Get</h3><ul className="relative mt-3 space-y-1.5">{wins.map((win) => <li key={win} className="flex gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{win}</li>)}</ul></div>
+    <div className="relative overflow-hidden rounded-[10px] border border-sky-300 bg-gradient-to-br from-sky-50 to-blue-50 p-5"><CheckCircle2 className="absolute bottom-4 right-5 h-16 w-16 text-sky-200" /><h3 className="text-lg font-extrabold text-sky-800">With Rent O&apos; Mate, You Get</h3><ul className="relative mt-3 space-y-1.5">{wins.map((win) => <li key={win} className="flex gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{win}</li>)}</ul></div>
   </div>;
 }
 

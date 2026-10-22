@@ -6,7 +6,7 @@ import { ADDRESS, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } fr
 import { HOME_DESCRIPTION, HOME_TITLE, OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import { BRAND, PLANS, SERVICE_LOCATIONS, SITE_URL } from "@/lib/site";
 
-// What search engines and AI search (e.g. ChatGPT) read about the business. RentOMate is the consumer brand
+// What search engines and AI search (e.g. ChatGPT) read about the business. Rent O' Mate is the consumer brand
 // (WebSite + LocalBusiness); Akvinz Water Purifiers is the business that operates it (parentOrganization).
 const structuredData = {
   "@context": "https://schema.org",
@@ -28,7 +28,7 @@ const structuredData = {
       logo: `${SITE_URL}/rentomate-wordmark-clean.png`,
       image: `${SITE_URL}/hero/rentomate-hero.webp`,
       description:
-        "RentOMate rents ISI certified Akvinz RO water purifiers (8-stage RO + UV + UF with TDS control, copper and minerals, pH-balanced alkaline water) to homes, with free installation, servicing and filter replacements included in the monthly rent.",
+        "Rent O' Mate rents ISI certified Akvinz RO water purifiers (8-stage RO + UV + UF with TDS control, copper and minerals, pH-balanced alkaline water) to homes, with free installation, servicing and filter replacements included in the monthly rent.",
       telephone: PHONE_DISPLAY,
       email: SUPPORT_EMAIL,
       priceRange: `₹${Math.min(...PLANS.map((plan) => plan.price))}–₹${Math.max(...PLANS.map((plan) => plan.price))} per month`,
@@ -65,8 +65,13 @@ export const metadata: Metadata = {
   description: HOME_DESCRIPTION,
   keywords: [
     "water purifier on rent in Coimbatore",
+    "water purifier rental Coimbatore",
+    "RO on rent Coimbatore",
+    "RO water purifier on rent",
+    "RO purifier on rent near me",
     "RO purifier rental",
     "Akvinz Ultron",
+    "Rent O' Mate",
     "RentOMate",
   ],
   // Brand-wide defaults only. Canonical URLs, og:url and og:title are set per page (see lib/seo.ts).

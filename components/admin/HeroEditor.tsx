@@ -55,7 +55,7 @@ export function HeroEditor({ initial }: { initial: HeroContent }) {
         <h2 className="panel-title">Carousel images</h2>
         <p className="-mt-2 mb-4 text-sm text-slate-500">
           Shown on the right of the hero, changing every 5 seconds. Use 3:2 landscape images (at least 1500 × 1000 px); edges are
-          cropped to fit. Empty slots are skipped, and with no images the default RentOMate ambassador image is shown.
+          cropped to fit. Empty slots are skipped, and with no images the default Rent O&apos; Mate ambassador image is shown.
         </p>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           {hero.slides.map((slide, index) => (

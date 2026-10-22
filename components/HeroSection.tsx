@@ -13,7 +13,7 @@ import { useSiteActions } from "@/components/SiteShell";
 
 // Two-column hero: headline, benefits and CTAs on the left; the hero image on the right.
 // The right side rotates through the carousel images set in the admin panel (Homepage hero),
-// and shows the RentOMate ambassador image when none are uploaded.
+// and shows the Rent O' Mate ambassador image when none are uploaded.
 
 const USPS: { label: string; icon: LucideIcon }[] = [
   { label: "Zero installation cost", icon: BadgeIndianRupee },
@@ -27,7 +27,7 @@ const SWIPE_DISTANCE = 60;
 
 export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => {
   const { openLeadForm: onRentNow } = useSiteActions();
-  const supportUrl = whatsappLink("Hi RentOMate! I need support regarding a water purifier on rent.");
+  const supportUrl = whatsappLink("Hi Rent O' Mate! I need support regarding a water purifier on rent.");
   const uploaded = content.slides.filter((slide) => slide.image);
   const slides = uploaded.length ? uploaded : [DEFAULT_SLIDE];
 
@@ -46,12 +46,13 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="lg:col-span-5"
         >
-          <p className="mb-4 short:mb-3 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Water purifiers. On rent.</p>
+          {/* The small eyebrow line is the page's <h1>, so search engines read the search phrase as the main heading. */}
+          <h1 className="mb-4 short:mb-3 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Water purifier on rent in Coimbatore</h1>
 
-          <h1 className="text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-[#051838] sm:text-6xl lg:text-[64px] short:text-[52px]">
+          <p className="text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-[#051838] sm:text-6xl lg:text-[64px] short:text-[52px]">
             Own Less.
             <span className="block text-[#0084FF]">Live Smart.</span>
-          </h1>
+          </p>
 
           <p className="mt-5 short:mt-4 max-w-lg text-justify text-[15px] font-medium leading-relaxed text-slate-600 sm:text-base">
             Why buy a purifier when you can rent one? Get pure, 8-stage purified water at home with{" "}
@@ -147,7 +148,7 @@ const HeroCarousel: React.FC<{ slides: HeroSlide[] }> = ({ slides }) => {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
       className="group relative aspect-[3/2] overflow-hidden lg:max-h-[calc(100svh-156px)] lg:min-h-80 short:max-h-[calc(100svh-124px)] rounded-[28px] bg-[#0b1220] shadow-[0_40px_80px_-30px_rgba(5,24,56,0.45)] ring-1 ring-slate-900/5"
-      {...(count > 1 && { role: "region", "aria-roledescription": "carousel", "aria-label": "RentOMate highlights" })}
+      {...(count > 1 && { role: "region", "aria-roledescription": "carousel", "aria-label": "Rent O' Mate highlights" })}
     >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div

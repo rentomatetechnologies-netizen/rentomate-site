@@ -6,6 +6,12 @@ const backendUrl = (process.env.BACKEND_URL || "http://localhost:4000").replace(
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  async redirects() {
+    return [
+      // The old plans page ranks in Google; send its visitors (and its ranking) to the home page.
+      { source: "/water-purifier-rental-coimbatore", destination: "/", permanent: true },
+    ];
+  },
   async rewrites() {
     return [
       { source: "/api/auth/:path*", destination: `${backendUrl}/api/auth/:path*` },

@@ -134,7 +134,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {/* Fixed call to action on every post, not configurable from the admin. */}
               <div className="mt-10 flex flex-col items-center gap-4 rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-center text-white shadow-lg sm:flex-row sm:justify-between sm:text-left">
                 <div>
-                  <p className="text-xl font-extrabold tracking-tight sm:text-2xl">Try RentOMate free for 7 days</p>
+                  <p className="text-xl font-extrabold tracking-tight sm:text-2xl">Try Rent O&apos; Mate free for 7 days</p>
                   <p className="mt-1 text-sm text-sky-100">
                     Starts from ₹{LOWEST_PRICE}/month – Get pure RO water at home, with free installation and zero maintenance worries.
                   </p>

@@ -27,12 +27,12 @@ const NAV = [
   { href: "/admin/admins", label: "Admins", icon: Users },
 ];
 
-/** The real RentOMate wordmark. On dark backgrounds (`onDark`) it sits on a white badge, since the lettering is navy. */
+/** The real Rent O' Mate wordmark. On dark backgrounds (`onDark`) it sits on a white badge, since the lettering is navy. */
 export const AdminLogo = ({ onDark = false, className = "h-7" }: { onDark?: boolean; className?: string }) => {
   const image = (
     <Image
       src="/rentomate-wordmark-clean.png"
-      alt="RentOMate"
+      alt="Rent O' Mate"
       width={176}
       height={35}
       preload

@@ -76,7 +76,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
           <div>
             <p className="label">Banner image</p>
             <p className="mb-2 text-xs text-slate-500">
-              Optional. Wide landscape image, about 1600 × 900 px (roughly 16:9), shown at full width. With no image, the built-in RentOMate
+              Optional. Wide landscape image, about 1600 × 900 px (roughly 16:9), shown at full width. With no image, the built-in Rent O&apos; Mate
               7-day risk-free trial template is shown instead.
             </p>
             <ImageField value={banner.image} onChange={(image) => update({ image })} label="Upload banner" folder="blog" />
@@ -88,7 +88,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
               id="banner-alt"
               className="input"
               maxLength={200}
-              placeholder="e.g. RentOMate RO purifier on rent – 7-day risk-free trial, plans from ₹449/month"
+              placeholder="e.g. Rent O' Mate RO purifier on rent – 7-day risk-free trial, plans from ₹449/month"
               value={banner.alt}
               onChange={(e) => update({ alt: e.target.value })}
             />
@@ -114,7 +114,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
               <input
                 className="input mt-2"
                 maxLength={500}
-                placeholder="/water-purifier-rental-coimbatore or https://…"
+                placeholder="/#plans or https://…"
                 value={banner.link}
                 onChange={(e) => update({ link: e.target.value.trim() })}
               />

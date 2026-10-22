@@ -75,7 +75,7 @@ export const formatDate = (iso: string) =>
 export const POSTS_PER_PAGE = 10;
 
 export const BLOG_DESCRIPTION =
-  "Simple guides on RO purifiers, filters, water quality and healthy drinking habits from the RentOMate team.";
+  "Simple guides on RO purifiers, filters, water quality and healthy drinking habits from the Rent O' Mate team.";
 
 const toSlug = (value: string) =>
   value

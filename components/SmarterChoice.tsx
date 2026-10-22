@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import { LOWEST_PRICE, PRICE_PER_DAY } from "@/lib/site";
 
-const columns = ["RentOMate (Rent)", "Water Cans", "Buying a Purifier"];
+const columns = ["Rent O' Mate (Rent)", "Water Cans", "Buying a Purifier"];
 
 const rows: [string, string, string, string][] = [
   ["Water safety", "8 stage purified at your tap", "Source unclear", "Varies, often limited filtration"],
@@ -34,7 +34,7 @@ export const SmarterChoice: React.FC = () => (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
         <motion.span initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-3 inline-block rounded-[10px] bg-sky-100/70 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-700">Can vs Buy vs Rent</motion.span>
-        <motion.h2 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Why RentOMate Is the <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">Smarter Choice</span></motion.h2>
+        <motion.h2 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Why Rent O&apos; Mate Is the <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">Smarter Choice</span></motion.h2>
         <p className="mt-3 text-sm text-slate-600 sm:text-base">Choose your current drinking water solution and discover how renting a water purifier can save you time, protect your health, and reduce costs.</p>
       </div>
 

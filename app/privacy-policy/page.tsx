@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
-import { ADDRESS, ADDRESS_LINES, PHONE_DISPLAY, PHONE_HREF, SUPPORT_EMAIL } from "@/lib/contact";
+import { ADDRESS_LINES, GMAIL_COMPOSE_URL, PHONE_DISPLAY, PHONE_HREF, SUPPORT_EMAIL } from "@/lib/contact";
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How RentOMate collects, uses and protects the personal details you share when you enquire about or rent a water purifier.",
+  description: "How Rent O' Mate collects, uses and protects the personal details you share when you enquire about or rent a water purifier.",
   path: "/privacy-policy",
 });
 
@@ -14,8 +14,7 @@ const sections: LegalSection[] = [
     heading: "Who we are",
     body: (
       <p>
-        Rent O&apos; Mate (&ldquo;RentOMate&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;) is a proprietary brand of Akvinz. All commercial transactions, billing, and GST
-        compliance are managed and operated by M/S Ragavi Enterprises. This policy explains how we handle personal information collected through this website and our
+        Rent O&apos; Mate (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a proprietary brand of Akvinz. This policy explains how we handle personal information collected through this website and our
         rental service.
       </p>
     ),
@@ -61,7 +60,7 @@ const sections: LegalSection[] = [
       <>
         <p>We do not sell or rent your personal information. We share it only where needed to run the service:</p>
         <ul>
-          <li>With M/S Ragavi Enterprises for billing and GST compliance, and with Akvinz for product and service support.</li>
+          <li>With our billing partner for billing and GST compliance, and with Akvinz for product and service support.</li>
           <li>With our installation and service technicians, so they can reach you.</li>
           <li>With WhatsApp (Meta) when you choose to contact us there, under WhatsApp&apos;s own privacy policy.</li>
           <li>Where required by law or to protect our rights.</li>
@@ -96,10 +95,11 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          For any privacy question or request, email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> or call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
+          For any privacy question or request, email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> (
+          <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">open in Gmail</a>) or call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
         </p>
         <p>
-          Or write to us at: {ADDRESS.company}, {ADDRESS_LINES.join(", ")}.
+          Or write to us at: {ADDRESS_LINES.join(", ")}.
         </p>
       </>
     ),

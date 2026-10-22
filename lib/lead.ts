@@ -50,7 +50,7 @@ export async function submitLead(lead: Lead): Promise<SavedLead> {
     if (!response.ok) throw new Error(`Lead submission failed (${response.status})`);
   } else {
     const message = [
-      "Hi RentOMate! I'd like a water purifier on rent.",
+      "Hi Rent O' Mate! I'd like a water purifier on rent.",
       `Name: ${saved.name}`,
       `Phone: ${saved.phone}`,
       `Pincode: ${saved.pincode}`,

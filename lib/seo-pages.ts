@@ -29,7 +29,7 @@ const areaPage = (area: string, slug: string): SeoPage => ({
   heading: { lead: "Water purifier on rent in", highlight: area },
   description: `Pure, 8-stage purified drinking water for homes in ${area} — no machine to buy, nothing to maintain. Plans start at ${price}.`,
   intro: [
-    `RentOMate installs Akvinz RO water purifiers in homes across ${area} and the rest of Coimbatore. You pay a small monthly rent instead of buying the machine, and installation, servicing and filter replacements are included for as long as you rent.`,
+    `Rent O' Mate installs Akvinz RO water purifiers in homes across ${area} and the rest of Coimbatore. You pay a small monthly rent instead of buying the machine, and installation, servicing and filter replacements are included for as long as you rent.`,
     `Our team is based in Coimbatore, so installation in ${area} is usually done within 24–48 hours of booking, and service visits are quick when you need them.`,
   ],
   highlights: [
@@ -50,7 +50,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Water purifier on rent in", highlight: "Coimbatore" },
     description: `Get an ISI certified Akvinz RO purifier at home for a small monthly rent — from ${price}, with installation, service and filters included.`,
     intro: [
-      "RentOMate is a water purifier rental service from Akvinz Water Purifiers, based in Coimbatore. Instead of paying for a machine up front, you rent one for a fixed monthly fee and we take care of everything else.",
+      "Rent O' Mate is a water purifier rental service from Akvinz Water Purifiers, based in Coimbatore. Instead of paying for a machine up front, you rent one for a fixed monthly fee and we take care of everything else.",
       "Installation is free and usually done within 24–48 hours. Servicing and filter replacements are included for as long as you rent, so there are no surprise repair or AMC bills.",
     ],
     highlights: ["Zero machine and installation cost", "Lifetime free maintenance and filter changes", "ISI certified Akvinz purifiers", "7-day risk-free trial"],
@@ -64,7 +64,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "RO water purifier rental in", highlight: "Coimbatore" },
     description: "Rent a purifier with 8-stage RO + UV + UF purification and TDS control — the same technology you would buy, without the purchase price.",
     intro: [
-      "Every RentOMate purifier uses reverse osmosis together with UV and UF stages and TDS control, then adds copper and essential minerals back and balances the pH, so the water is both safe and pleasant to drink.",
+      "Every Rent O' Mate purifier uses reverse osmosis together with UV and UF stages and TDS control, then adds copper and essential minerals back and balances the pH, so the water is both safe and pleasant to drink.",
       `Renting gives you that technology from ${price}. We install it, service it and replace the filters when they are due, so the purifier keeps performing the way it did on day one.`,
     ],
     highlights: ["RO + UV + UF with TDS control", "Copper and essential minerals retained", "pH-balanced alkaline water", "8 L food-grade storage tank"],
@@ -78,7 +78,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Rent an RO purifier in", highlight: "Coimbatore" },
     description: "Choose a plan, share your address and we install the purifier at your home — usually within 24–48 hours.",
     intro: [
-      "Renting with RentOMate takes a few minutes. Pick the 24-month Smart Saver or the 12-month Easy Flexi plan, tell us where you live, and our team schedules the installation.",
+      "Renting with Rent O' Mate takes a few minutes. Pick the 24-month Smart Saver or the 12-month Easy Flexi plan, tell us where you live, and our team schedules the installation.",
       "There is no machine cost and no installation charge. A refundable security deposit applies, and your monthly rent covers servicing and filter replacements for the whole plan.",
     ],
     highlights: ["Choose a 12 or 24-month plan", "Free installation within 24–48 hours", "Refundable security deposit", "Service and filters included in the rent"],
@@ -87,12 +87,12 @@ export const SEO_PAGES: SeoPage[] = [
     slug: "ro-on-rent-near-me",
     search: "RO on rent near me",
     title: "RO on Rent Near Me",
-    metaDescription: `Looking for RO on rent near you? RentOMate rents RO water purifiers from ${price} with free installation and a local service team.`,
+    metaDescription: `Looking for RO on rent near you? Rent O' Mate rents RO water purifiers from ${price} with free installation and a local service team.`,
     eyebrow: "Near you",
     heading: { lead: "RO on rent", highlight: "near you" },
     description: "A local team that installs, services and supports your purifier — with plans from " + price + ".",
     intro: [
-      "RentOMate has its team on the ground, so installation and service visits are quick. Check your area to confirm we cover your address, then book and we will schedule the installation.",
+      "Rent O' Mate has its team on the ground, so installation and service visits are quick. Check your area to confirm we cover your address, then book and we will schedule the installation.",
       "Your rent covers servicing and filter changes, so when you need help you contact us — there is no separate AMC to buy and no technician to find.",
     ],
     highlights: ["Local installation and service team", "Installation within 24–48 hours", "No separate AMC to buy", "Check availability for your address"],
@@ -107,7 +107,7 @@ export const SEO_PAGES: SeoPage[] = [
     description: "Safe drinking water in a rented home, without buying a machine you will have to carry to your next house.",
     intro: [
       "When you live in a rented home, buying a purifier means paying for a machine, then paying again to uninstall and reinstall it every time you move. Renting avoids both.",
-      "RentOMate includes relocation support with your plan, along with servicing and filter changes, so the purifier moves with you and keeps working without extra costs.",
+      "Rent O' Mate includes relocation support with your plan, along with servicing and filter changes, so the purifier moves with you and keeps working without extra costs.",
     ],
     highlights: ["No machine to buy", "Relocation support when you move", "Choose a 12-month plan for flexibility", "Service and filters included"],
   },
@@ -134,7 +134,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Copper RO purifier", highlight: "on rent" },
     description: "RO purification with copper enrichment and essential minerals retained, for water that is safe and tastes fresh.",
     intro: [
-      "Reverse osmosis removes impurities very effectively, but it can also strip out minerals. RentOMate purifiers add copper and retain essential minerals after purification, so the water you drink is not flat or empty.",
+      "Reverse osmosis removes impurities very effectively, but it can also strip out minerals. Rent O' Mate purifiers add copper and retain essential minerals after purification, so the water you drink is not flat or empty.",
       `You get this copper-enriched purifier on rent from ${price}, with installation, servicing and filter changes included.`,
     ],
     highlights: ["Copper enrichment", "Essential minerals retained", "8-stage RO + UV + UF purification", "Free filter changes while you rent"],
@@ -148,7 +148,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Alkaline water purifier", highlight: "on rent" },
     description: "pH-balanced alkaline drinking water from an 8-stage RO purifier — without buying the machine.",
     intro: [
-      "RentOMate purifiers balance the pH of the water after purification, giving you fresh, alkaline drinking water for your family every day.",
+      "Rent O' Mate purifiers balance the pH of the water after purification, giving you fresh, alkaline drinking water for your family every day.",
       `Along with pH balancing, each purifier adds copper and retains essential minerals. Plans start at ${price} and include installation, servicing and filters.`,
     ],
     highlights: ["pH-balanced alkaline water", "Copper and minerals retained", "8-stage RO + UV + UF purification", "ISI certified machine"],

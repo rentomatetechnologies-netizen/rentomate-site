@@ -11,9 +11,9 @@ export const FAQ_SEGMENTS: FaqSegment[] = [
     id: "trust",
     label: "Trust",
     faqs: [
-      ["Who is behind RentOMate?", "RentOMate is a registered rental service of Akvinz Water Purifiers, a water solutions company serving homes across Coimbatore."],
+      ["Who is behind Rent O' Mate?", "Rent O' Mate is a registered rental service of Akvinz Water Purifiers, a water solutions company serving homes across Coimbatore."],
       ["Which purifier will I get?", "You get an Akvinz Ultron 8-stage RO purifier (RO + UV + UF + TDS with copper and essential minerals), available in Midnight Black and Pearl White."],
-      ["Are the purifiers certified?", "Yes. RentOMate provides ISI certified machines."],
+      ["Are the purifiers certified?", "Yes. Rent O' Mate provides ISI certified machines."],
       ["Who services the purifier?", "Our own trained technicians handle installation, servicing and filter swaps, free of cost while you rent."],
       ["How do I reach support?", `Call or WhatsApp our official number ${PHONE_DISPLAY}. Priority service support is included with every plan.`],
     ],

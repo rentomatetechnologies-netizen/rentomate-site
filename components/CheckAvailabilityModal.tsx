@@ -20,7 +20,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
   );
 
   const getWhatsAppBooking = (area: string) => {
-    const msg = encodeURIComponent(`Hi RentOMate! I am located in ${area}, Coimbatore and want to get a water purifier installed on rent.`);
+    const msg = encodeURIComponent(`Hi Rent O' Mate! I am located in ${area}, Coimbatore and want to get a water purifier installed on rent.`);
     return `https://wa.me/${PHONE_DIGITS}?text=${msg}`;
   };
 

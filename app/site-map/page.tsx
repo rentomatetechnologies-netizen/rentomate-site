@@ -10,7 +10,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = pageMetadata({
   title: "Sitemap",
-  description: "Every page on the RentOMate website in one place: rental plans, products, guides and blog articles.",
+  description: "Every page on the Rent O' Mate website in one place: rental plans, products, guides and blog articles.",
   path: "/site-map",
 });
 
@@ -33,7 +33,7 @@ export default async function SiteMapPage() {
         eyebrow="Sitemap"
         breadcrumbs={[{ label: "Sitemap", href: "/site-map" }]}
         title={<>Find your way <span className="text-[#0084FF]">around</span></>}
-        description="Every page on the RentOMate website in one place."
+        description="Every page on the Rent O' Mate website in one place."
       />
 
       <section className="bg-white pb-16">

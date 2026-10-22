@@ -11,7 +11,7 @@ export type HeroContent = {
 export const HERO_SLIDE_COUNT = 3;
 
 /** Alt text used when the admin leaves a slide's description blank. */
-export const DEFAULT_SLIDE_ALT = "RentOMate ambassador with Akvinz RO water purifiers in black and white, available on rent";
+export const DEFAULT_SLIDE_ALT = "Rent O' Mate ambassador with Akvinz RO water purifiers in black and white, available on rent";
 
 /** Shown when no carousel images are uploaded. */
 export const DEFAULT_SLIDE: HeroSlide = { image: "/hero/rentomate-hero.webp", alt: DEFAULT_SLIDE_ALT };

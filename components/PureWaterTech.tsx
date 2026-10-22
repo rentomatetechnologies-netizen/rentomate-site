@@ -47,7 +47,7 @@ export const PureWaterTech: React.FC = () => (
       <div className="mx-auto mb-8 mt-12 max-w-2xl text-center">
         <span className="mb-3 inline-block rounded-[10px] bg-sky-100/70 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-700">Product Technology</span>
         <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">Technology Behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">Pure Water</span></h2>
-        <p className="mt-3 text-sm text-slate-600 sm:text-base">Every RentOMate purifier is an Akvinz 8-stage RO system. Here is what each stage does for your water.</p>
+        <p className="mt-3 text-sm text-slate-600 sm:text-base">Every Rent O&apos; Mate purifier is an Akvinz 8-stage RO system. Here is what each stage does for your water.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -64,11 +64,11 @@ export const PureWaterTech: React.FC = () => (
         ))}
       </div>
 
-      {/* RentOMate assurance */}
+      {/* Rent O' Mate assurance */}
       <div className="mt-12 grid gap-4 md:grid-cols-3">
         {assurances.map((item) => (
           <div key={item.title} className="rounded-[10px] border border-slate-200 bg-white p-6 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-wider text-sky-600">RentOMate Assurance</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-sky-600">Rent O&apos; Mate Assurance</p>
             <h3 className="mt-1 text-xl font-extrabold text-slate-900">{item.title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.desc}</p>
           </div>

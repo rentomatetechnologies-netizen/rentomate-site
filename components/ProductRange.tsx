@@ -53,7 +53,7 @@ export const ProductRange: React.FC = () => {
               What Is a Water Purifier <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-600">Rental?</span>
             </h2>
             <p className="mt-4 text-justify text-sm leading-relaxed text-slate-600 sm:text-base">
-              With RentOMate, you use an Akvinz RO water purifier at home without paying the machine cost. Instead, you pay a small monthly rent that covers installation, servicing, filter swaps and relocation support.
+              With Rent O&apos; Mate, you use an Akvinz RO water purifier at home without paying the machine cost. Instead, you pay a small monthly rent that covers installation, servicing, filter swaps and relocation support.
             </p>
             <p className="mt-3 text-justify text-sm leading-relaxed text-slate-600 sm:text-base">
               It is ideal for families, tenants and young professionals who want safe drinking water without the upfront cost or maintenance headaches of owning a purifier.

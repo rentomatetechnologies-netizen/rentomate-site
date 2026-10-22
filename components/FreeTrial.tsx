@@ -22,7 +22,7 @@ export const FreeTrial: React.FC = () => {
           <div>
             <span className="inline-flex items-center gap-1.5 rounded-[10px] bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider"><ShieldCheck className="h-3.5 w-3.5" /> Risk-Free</span>
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">7-Day Risk-Free Trial</h2>
-            <p className="mt-3 text-sm leading-relaxed text-sky-100 sm:text-base">Try a RentOMate purifier at home for 7 days. If it isn&apos;t right for you, cancel — no questions asked.</p>
+            <p className="mt-3 text-sm leading-relaxed text-sky-100 sm:text-base">Try a Rent O&apos; Mate purifier at home for 7 days. If it isn&apos;t right for you, cancel — no questions asked.</p>
             <button type="button" onClick={onRentNow} className="mt-6 rounded-[10px] bg-white px-7 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">Start My Free Trial</button>
             <p className="mt-3 text-[11px] text-sky-200">*Conditions apply.</p>
           </div>

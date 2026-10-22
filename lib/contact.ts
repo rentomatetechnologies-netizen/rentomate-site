@@ -1,12 +1,13 @@
-// Single source of truth for RentOMate contact details.
+// Single source of truth for Rent O' Mate contact details.
 export const PHONE_DIGITS = "918110016161";
 export const PHONE_DISPLAY = "+91 81100 16161";
 export const PHONE_HREF = `tel:+${PHONE_DIGITS}`;
 export const SUPPORT_EMAIL = "rentomate@akvinz.com";
+// Fallback for visitors with no mail app set up to open mailto: links.
+export const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}`;
 
-// Registered office of M/S Ragavi Enterprises, which handles billing and GST for RentOMate.
+// Office address shown on the contact page, footer and privacy policy.
 export const ADDRESS = {
-  company: "M/S Ragavi Enterprises",
   street: "No: B-3, Castle Park Apartments, Kamarajar Road, Ramanujanagar, Upplipalayam",
   city: "Coimbatore",
   state: "Tamil Nadu",

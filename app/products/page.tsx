@@ -8,7 +8,7 @@ import { PureWaterTech } from "@/components/PureWaterTech";
 
 export const metadata: Metadata = pageMetadata({
   title: "Products",
-  description: "Explore the Akvinz Ultron RO+UV water purifier available on rent from RentOMate: 8-stage purification, copper and minerals, 8 L storage.",
+  description: "Explore the Akvinz Ultron RO+UV water purifier available on rent from Rent O' Mate: 8-stage purification, copper and minerals, 8 L storage.",
   path: "/products",
 });
 

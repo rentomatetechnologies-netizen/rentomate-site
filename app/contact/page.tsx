@@ -3,12 +3,12 @@ import { pageMetadata } from "@/lib/seo";
 import { AtSign, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { RentNowButton } from "@/components/RentNowButton";
-import { ADDRESS, ADDRESS_LINES, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
+import { ADDRESS_LINES, GMAIL_COMPOSE_URL, INSTAGRAM_URL, PHONE_DISPLAY, PHONE_HREF, SOCIAL_HANDLE, SUPPORT_EMAIL, whatsappLink } from "@/lib/contact";
 import { CITIES } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
-  description: `Call, WhatsApp or email RentOMate for water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
+  description: `Call, WhatsApp or email Rent O' Mate for water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
   path: "/contact",
 });
 
@@ -18,10 +18,10 @@ const channels = [
     icon: MessageCircle,
     label: "WhatsApp",
     value: "Chat with our team",
-    href: whatsappLink("Hello RentOMate! I want to enquire about renting a water purifier in Coimbatore."),
+    href: whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier in Coimbatore."),
     external: true,
   },
-  { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false },
+  { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, gmail: true },
   { icon: AtSign, label: "Instagram", value: `@${SOCIAL_HANDLE}`, href: INSTAGRAM_URL, external: true },
 ];
 
@@ -39,19 +39,34 @@ export default function ContactPage() {
 
       <section className="bg-white pb-12">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {channels.map(({ icon: Icon, label, value, href, external }) => (
-            <a
+          {channels.map(({ icon: Icon, label, value, href, external, gmail }) => (
+            // The main link is stretched over the whole card, so the Gmail link can sit inside without nesting <a> tags.
+            <div
               key={label}
-              href={href}
-              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="group rounded-[10px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
+              className="group relative rounded-[10px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-sky-600">
                 <Icon className="h-5 w-5" />
               </span>
               <p className="mt-4 text-sm font-semibold text-slate-500">{label}</p>
-              <p className="mt-1 break-words text-base font-bold text-slate-900 group-hover:text-sky-700">{value}</p>
-            </a>
+              <a
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="mt-1 block break-words text-base font-bold text-slate-900 after:absolute after:inset-0 after:rounded-[10px] group-hover:text-sky-700"
+              >
+                {value}
+              </a>
+              {gmail && (
+                <a
+                  href={GMAIL_COMPOSE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative z-10 mt-2 inline-block text-sm font-semibold text-sky-600 underline-offset-2 hover:underline"
+                >
+                  Open in Gmail
+                </a>
+              )}
+            </div>
           ))}
         </div>
       </section>
@@ -72,7 +87,6 @@ export default function ContactPage() {
             <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
               <MapPin className="h-5 w-5 text-sky-600" aria-hidden /> Our office
             </h2>
-            <p className="mt-3 text-sm font-bold text-sky-700">{ADDRESS.company}</p>
             {ADDRESS_LINES.map((line) => (
               <p key={line} className="mt-1 text-sm leading-6 text-slate-600">{line}</p>
             ))}

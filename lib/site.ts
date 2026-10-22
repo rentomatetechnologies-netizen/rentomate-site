@@ -1,4 +1,4 @@
-// Single source of truth for RentOMate plans, models and service areas.
+// Single source of truth for Rent O' Mate plans, models and service areas.
 
 import type { StaticImageData } from "next/image";
 import metaNeoImage from "@/app/metaNeo.png";
@@ -8,10 +8,10 @@ import ultronImage from "@/app/ultronz.png";
 
 export const SITE_URL = "https://rentomate.life";
 
-/** RentOMate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
+/** Rent O' Mate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
 export const BRAND = {
-  name: "RentOMate",
-  alternateNames: ["Rent O Mate", "Rentomate"],
+  name: "Rent O' Mate",
+  alternateNames: ["RentOMate", "Rent O Mate", "Rentomate"],
   operator: "Akvinz Water Purifiers",
 };
 
@@ -144,7 +144,7 @@ export const CITIES: City[] = [
 
 export const DEFAULT_CITY = CITIES[0].name;
 
-/** Cities RentOMate serves: the header location picker and the "Where We Serve" section. */
+/** Cities Rent O' Mate serves: the header location picker and the "Where We Serve" section. */
 export const SERVICE_LOCATIONS = [
   "Coimbatore",
   "Tiruppur",
@@ -162,8 +162,8 @@ export const SERVICE_LOCATIONS = [
   "Chengalpattu",
 ];
 
-/** The plans, prices and rental terms page. */
-export const PLANS_PAGE_PATH = "/water-purifier-rental-coimbatore";
+/** The plans section on the home page. The old /water-purifier-rental-coimbatore page redirects to the home page (next.config.ts). */
+export const PLANS_PAGE_PATH = "/#plans";
 
 export const inr =(value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 
