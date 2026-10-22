@@ -10,7 +10,7 @@ export type BlogBanner = {
   afterParagraph: number;
 };
 
-export const DEFAULT_BLOG_BANNER_IMAGE = "/banners/7-day-trial-banner.jpg";
+export const DEFAULT_BLOG_BANNER_IMAGE = "/images/banners/7-day-trial-banner.jpeg";
 export const DEFAULT_BLOG_BANNER_ALT =
   "Rent O' Mate 7-day risk-free trial: RO + UV + UF + Copper enriched water purifier on rent starting at ₹449/month";
 

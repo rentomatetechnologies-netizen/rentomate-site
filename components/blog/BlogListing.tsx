@@ -36,7 +36,7 @@ export const BlogListing: React.FC<Props> = ({ allPosts, posts, page, basePath, 
         <div className="pointer-events-none absolute -left-24 top-10 h-80 w-80 rounded-full bg-sky-300/30 blur-3xl" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 py-8 sm:px-6 md:grid-cols-[1fr_1.2fr] lg:px-8 lg:py-10">
           <div className="relative mx-auto hidden h-72 w-full max-w-sm md:block">
-            <Image src="/hero/purifier-transparent.png" alt="" fill sizes="384px" preload className="object-contain drop-shadow-[0_25px_35px_rgb(14_116_204/0.35)]" />
+            <Image src="/images/products/ultron-midnight-black.png" alt="" fill sizes="384px" preload className="object-contain drop-shadow-[0_25px_35px_rgb(14_116_204/0.35)]" />
           </div>
           <div className="text-center md:text-left">
             <Breadcrumbs items={breadcrumbs} className="mb-4 flex justify-center md:justify-start" />

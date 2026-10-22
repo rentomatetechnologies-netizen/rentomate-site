@@ -3,7 +3,7 @@ export const PHONE_DIGITS = "918110016161";
 export const PHONE_DISPLAY = "+91 81100 16161";
 export const PHONE_HREF = `tel:+${PHONE_DIGITS}`;
 export const SUPPORT_EMAIL = "rentomate@akvinz.com";
-// Fallback for visitors with no mail app set up to open mailto: links.
+// Every email link on the site opens Gmail's compose page, since many visitors have no mail app set up for mailto: links.
 export const GMAIL_COMPOSE_URL = `https://mail.google.com/mail/?view=cm&fs=1&to=${SUPPORT_EMAIL}`;
 
 // Office address shown on the contact page, footer and privacy policy.

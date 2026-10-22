@@ -43,9 +43,22 @@ const CAN_STEPS = 5;
  */
 const minCansFor = (plan: Plan) => Math.floor((plan.price * 12) / (CAN_PRICES[0] * WEEKS_PER_YEAR)) + 1;
 const canOptionsFor = (plan: Plan) => Array.from({ length: CAN_STEPS }, (_, step) => minCansFor(plan) + step);
-const PURCHASE_COSTS = [10000, 12500, 15000, 17500, 20000];
-const YEARS_USED = [1, 2, 3, 4, 5];
-const YEARLY_UPKEEP = [1500, 2000, 2500, 3000];
+// Purchase cost and years used are picked as ranges; the calculation uses the top of the range picked.
+const PURCHASE_COST_RANGES = [
+  [8000, 10000],
+  [10000, 12000],
+  [12000, 14000],
+  [14000, 16000],
+  [16000, 18000],
+  [18000, 20000],
+];
+const YEARS_USED_RANGES = [
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [4, 5],
+];
+const YEARLY_UPKEEP = [2500, 3000, 3500, 4000];
 
 const SMART_SAVER = PLANS.find((plan) => plan.months === 24) ?? PLANS[0];
 
@@ -185,11 +198,11 @@ function CanCalculator() {
 
 function BuyCalculator() {
   const [purchaseCost, setPurchaseCost] = useState(1);
-  const [yearsUsed, setYearsUsed] = useState(1);
-  const [upkeep, setUpkeep] = useState(1);
+  const [yearsUsed, setYearsUsed] = useState(0);
+  const [upkeep, setUpkeep] = useState(0);
 
-  const years = YEARS_USED[yearsUsed];
-  const purchase = PURCHASE_COSTS[purchaseCost];
+  const years = YEARS_USED_RANGES[yearsUsed][1];
+  const purchase = PURCHASE_COST_RANGES[purchaseCost][1];
   const yearlyUpkeep = YEARLY_UPKEEP[upkeep];
   const ownTotal = purchase + yearlyUpkeep * years;
   const rentTotal = SMART_SAVER.price * 12 * years;
@@ -197,8 +210,8 @@ function BuyCalculator() {
   const extraMonths = monthsForSameMoney - years * 12;
 
   const inputs = <>
-    <RangeInput label="Purifier purchase cost" value={purchaseCost} onChange={setPurchaseCost} marks={PURCHASE_COSTS.map((value) => `₹${value / 1000}k`)} />
-    <RangeInput label="Years used" value={yearsUsed} onChange={setYearsUsed} marks={YEARS_USED.map(String)} />
+    <RangeInput label="Purifier purchase cost" value={purchaseCost} onChange={setPurchaseCost} marks={PURCHASE_COST_RANGES.map(([low, high]) => `₹${low / 1000}–${high / 1000}k`)} />
+    <RangeInput label="Years used" value={yearsUsed} onChange={setYearsUsed} marks={YEARS_USED_RANGES.map(([low, high]) => `${low}–${high} yrs`)} />
     <RangeInput label="Yearly filter, AMC & repairs" value={upkeep} onChange={setUpkeep} marks={YEARLY_UPKEEP.map((value) => `₹${value / 1000}k`)} />
   </>;
 
@@ -217,7 +230,7 @@ function BuyCalculator() {
         ? `The same ${inr(ownTotal)} covers ${monthsForSameMoney} months of Rent O' Mate — ${extraMonths} extra months of pure water, zero maintenance.`
         : `Unlimited purified water for about ₹${PRICE_PER_DAY} a day, with zero maintenance and no breakdown bills.`}
     </p>
-    <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the values entered above, compared with the {SMART_SAVER.months}-month {SMART_SAVER.name} plan.</p>
+    <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the values entered above, using the top of each range, compared with the {SMART_SAVER.months}-month {SMART_SAVER.name} plan.</p>
   </div>;
 
   return <CalculatorShell subtitle="Compare the real cost of owning a purifier." inputs={inputs} result={result} />;

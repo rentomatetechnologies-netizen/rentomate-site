@@ -21,7 +21,7 @@ const channels = [
     href: whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier in Coimbatore."),
     external: true,
   },
-  { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, gmail: true },
+  { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: GMAIL_COMPOSE_URL, external: true },
   { icon: AtSign, label: "Instagram", value: `@${SOCIAL_HANDLE}`, href: INSTAGRAM_URL, external: true },
 ];
 
@@ -39,34 +39,19 @@ export default function ContactPage() {
 
       <section className="bg-white pb-12">
         <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-          {channels.map(({ icon: Icon, label, value, href, external, gmail }) => (
-            // The main link is stretched over the whole card, so the Gmail link can sit inside without nesting <a> tags.
-            <div
+          {channels.map(({ icon: Icon, label, value, href, external }) => (
+            <a
               key={label}
-              className="group relative rounded-[10px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
+              href={href}
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="group rounded-[10px] border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow-md"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-50 text-sky-600">
                 <Icon className="h-5 w-5" />
               </span>
               <p className="mt-4 text-sm font-semibold text-slate-500">{label}</p>
-              <a
-                href={href}
-                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="mt-1 block break-words text-base font-bold text-slate-900 after:absolute after:inset-0 after:rounded-[10px] group-hover:text-sky-700"
-              >
-                {value}
-              </a>
-              {gmail && (
-                <a
-                  href={GMAIL_COMPOSE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 mt-2 inline-block text-sm font-semibold text-sky-600 underline-offset-2 hover:underline"
-                >
-                  Open in Gmail
-                </a>
-              )}
-            </div>
+              <p className="mt-1 break-words text-base font-bold text-slate-900 group-hover:text-sky-700">{value}</p>
+            </a>
           ))}
         </div>
       </section>

@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, MapPin } from "lucide-react";
-import { CITIES, SERVICE_LOCATIONS } from "@/lib/site";
+import { CITIES, SERVICE_LOCATIONS, findServedCity } from "@/lib/site";
 import { whatsappLink } from "@/lib/contact";
 import { useSiteActions } from "@/components/SiteShell";
 
@@ -92,8 +92,9 @@ const CITY_REQUEST_KEY = "rentomate_city_request";
 const inputClass =
   "w-full rounded-[10px] border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/30";
 
-// "Don't see your city?": collects city + pincode, hands them to the team on WhatsApp,
-// then shows a reply once the visitor comes back to the site (and on later visits).
+// "Don't see your city?": if the visitor's city is one we already serve, says so straight away.
+// Otherwise it hands city + pincode to the team on WhatsApp, then shows a reply once the visitor
+// comes back to the site (and on later visits).
 const subscribeToStorage = (onChange: () => void) => {
   window.addEventListener("storage", onChange);
   return () => window.removeEventListener("storage", onChange);
@@ -108,8 +109,10 @@ const readSavedRequest = () => {
 };
 
 const CityRequest: React.FC = () => {
-  const [step, setStep] = React.useState<"idle" | "form" | "waiting" | "done">("idle");
+  const { openLeadForm } = useSiteActions();
+  const [step, setStep] = React.useState<"idle" | "form" | "waiting" | "done" | "available">("idle");
   const [form, setForm] = React.useState<CityRequestData>({ city: "", pincode: "" });
+  const [servedCity, setServedCity] = React.useState("");
   const [error, setError] = React.useState("");
 
   // A request from an earlier visit goes straight to the reply.
@@ -121,7 +124,10 @@ const CityRequest: React.FC = () => {
       return null;
     }
   }, [savedRaw]);
-  const showReply = step === "done" || (step === "idle" && saved !== null);
+  // A request saved before we started serving that city now shows as available.
+  const savedServedCity = saved ? findServedCity(saved.city, saved.pincode) : null;
+  const availableCity = step === "available" ? servedCity : step === "idle" ? savedServedCity : null;
+  const showReply = step === "done" || (step === "idle" && saved !== null && !savedServedCity);
   const replyCity = step === "done" ? form.city : saved?.city;
 
   // Show the reply when the visitor returns from WhatsApp.
@@ -144,6 +150,14 @@ const CityRequest: React.FC = () => {
 
     setError("");
     setForm(request);
+
+    const served = findServedCity(request.city, request.pincode);
+    if (served) {
+      setServedCity(served);
+      setStep("available");
+      return;
+    }
+
     try {
       window.localStorage.setItem(CITY_REQUEST_KEY, JSON.stringify(request));
     } catch {
@@ -165,7 +179,29 @@ const CityRequest: React.FC = () => {
 
   return (
     <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 sm:p-6">
-      {showReply ? (
+      {availableCity ? (
+        <div role="status" className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-0.5 h-6 w-6 shrink-0 text-emerald-600" aria-hidden />
+            <div>
+              <h3 className="text-lg font-extrabold text-slate-900">
+                Good news! We already serve <span className="text-emerald-700">{availableCity}</span>.
+              </h3>
+              <p className="mt-1 text-sm text-slate-600">You can rent a purifier today, with free installation at your home.</p>
+              <button type="button" onClick={reset} className="mt-2 text-xs font-semibold text-sky-600 underline-offset-2 hover:underline">
+                Check another city
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={openLeadForm}
+            className="inline-flex shrink-0 items-center gap-2 rounded-[10px] bg-gradient-to-r from-sky-600 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110"
+          >
+            Rent Now <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      ) : showReply ? (
         <div className="space-y-3 text-sm leading-relaxed text-slate-600">
           <p>
             Currently, we are not serving <strong className="text-slate-900">{replyCity}</strong>, but it is definitely on our expansion wishlist. We&apos;ll keep

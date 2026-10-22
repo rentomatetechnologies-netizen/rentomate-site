@@ -14,7 +14,7 @@ export const HERO_SLIDE_COUNT = 3;
 export const DEFAULT_SLIDE_ALT = "Rent O' Mate ambassador with Akvinz RO water purifiers in black and white, available on rent";
 
 /** Shown when no carousel images are uploaded. */
-export const DEFAULT_SLIDE: HeroSlide = { image: "/hero/rentomate-hero.webp", alt: DEFAULT_SLIDE_ALT };
+export const DEFAULT_SLIDE: HeroSlide = { image: "/images/hero/rentomate-hero.webp", alt: DEFAULT_SLIDE_ALT };
 
 export const DEFAULT_HERO: HeroContent = {
   slides: Array.from({ length: HERO_SLIDE_COUNT }, () => ({ image: "", alt: "" })),

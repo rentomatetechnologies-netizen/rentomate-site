@@ -4,7 +4,6 @@ import { OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, Clock } from "lucide-react";
-import { RentNowButton } from "@/components/RentNowButton";
 import { BlogCover } from "@/components/BlogCover";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { BlogBanner } from "@/components/blog/BlogBanner";
@@ -14,7 +13,7 @@ import { CategoryBadge } from "@/components/blog/CategoryBadge";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import { BlogTrialForm } from "@/components/blog/BlogTrialForm";
 import { IndexDrawer, TableOfContents } from "@/components/blog/TableOfContents";
-import { BRAND, LOWEST_PRICE, SITE_URL } from "@/lib/site";
+import { BRAND, CUSTOMER_FORM_URL, LOWEST_PRICE, SITE_URL } from "@/lib/site";
 import { getBlogBanner } from "@/lib/blog-banner";
 import { categoryHref, formatDate, getHeadings, getNeighbours, getPost, getPosts, metaDescription, plainTitle, type BlogPostSummary } from "@/lib/blog";
 
@@ -139,9 +138,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     Starts from ₹{LOWEST_PRICE}/month – Get pure RO water at home, with free installation and zero maintenance worries.
                   </p>
                 </div>
-                <RentNowButton className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">
+                <a
+                  href={CUSTOMER_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50"
+                >
                   <CalendarCheck className="h-4 w-4" aria-hidden /> Book Free Trial
-                </RentNowButton>
+                </a>
               </div>
               <p className="mt-6 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-5 text-sm text-slate-600">
                 <CalendarDays className="h-4 w-4 text-slate-400" aria-hidden />

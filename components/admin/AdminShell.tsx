@@ -31,7 +31,7 @@ const NAV = [
 export const AdminLogo = ({ onDark = false, className = "h-7" }: { onDark?: boolean; className?: string }) => {
   const image = (
     <Image
-      src="/rentomate-wordmark-clean.png"
+      src="/images/brand/rentomate-wordmark.png"
       alt="Rent O' Mate"
       width={176}
       height={35}

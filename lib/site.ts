@@ -1,10 +1,12 @@
 // Single source of truth for Rent O' Mate plans, models and service areas.
 
 import type { StaticImageData } from "next/image";
-import metaNeoImage from "@/app/metaNeo.png";
-import ultronPlusImage from "@/app/ultron.png";
-import sparkImage from "@/app/spark.png";
-import ultronImage from "@/app/ultronz.png";
+import metaNeoImage from "@/assets/images/products/metaNeoRoBlack.png";
+import metaNeoWhiteImage from "@/assets/images/products/metaNeoRoWhite.png";
+import ultronPlusImage from "@/assets/images/products/ultron+RoBlack.png";
+import sparkImage from "@/assets/images/products/spark+roWhite.png";
+import sparkBlackImage from "@/assets/images/products/spark+roBlack.png";
+import ultronImage from "@/assets/images/products/ultron+RoWhite.png";
 
 export const SITE_URL = "https://rentomate.life";
 
@@ -35,6 +37,26 @@ export const LOWEST_PRICE = Math.min(...PLANS.map((plan) => plan.price));
 // ₹449/month works out to roughly ₹15 a day.
 export const PRICE_PER_DAY = Math.round(LOWEST_PRICE / 30);
 
+/** The floating "happy customers" badge (bottom-left) starts at this count on this date (IST)... */
+const HAPPY_CUSTOMERS_BASE = 1956;
+const HAPPY_CUSTOMERS_SINCE = Date.UTC(2026, 9, 22);
+const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** ...and grows by 0–5 each day. The step is derived from the day number, so every visitor sees the same count and it never goes down. */
+const dailyStep = (day: number) => {
+  let x = Math.imul(day + 1, 0x9e3779b1) >>> 0;
+  x = Math.imul(x ^ (x >>> 16), 0x45d9f3b) >>> 0;
+  return ((x ^ (x >>> 16)) >>> 0) % 6;
+};
+
+export function happyCustomers(now: Date = new Date()): number {
+  const days = Math.floor((now.getTime() + IST_OFFSET_MS - HAPPY_CUSTOMERS_SINCE) / DAY_MS);
+  let total = HAPPY_CUSTOMERS_BASE;
+  for (let day = 1; day <= days; day++) total += dailyStep(day);
+  return total;
+}
+
 export const PLAN_FEATURES = [
   "Multi-stage purification at ZERO machine cost",
   "Installation at zero charges, within 24–48 hrs",
@@ -43,18 +65,122 @@ export const PLAN_FEATURES = [
   "Priority service support",
 ];
 
-export type ProductModel = {
-  id: string;
-  name: string;
+export type PurifierColour = {
+  id: "black" | "white";
   colour: string;
   /** Any CSS background: a plain colour, or a gradient for two-tone bodies. */
   swatch: string;
-  image: string;
+  image: StaticImageData | string;
 };
 
-export const MODELS: ProductModel[] = [
-  { id: "black", name: "Akvinz Ultron", colour: "Midnight Black", swatch: "#111827", image: "/hero/purifier-transparent.png" },
-  { id: "white", name: "Akvinz Ultron", colour: "Pearl White", swatch: "conic-gradient(from 270deg, #b4c3cf 0 25%, #ffffff 0)", image: "/hero/purifier-white.webp" },
+export type Purifier = {
+  id: string;
+  brand: string;
+  /** Short name for the model switch, e.g. "Ultron+". */
+  shortName: string;
+  name: string;
+  storageLitres: number;
+  tdsAdjustment: boolean;
+  /** Filtration components in the order water passes through them; one per purification stage. */
+  stages: string[];
+  colours: PurifierColour[];
+};
+
+const BLACK = { id: "black", colour: "Midnight Black", swatch: "#111827" } as const;
+const WHITE = { id: "white", colour: "Pearl White", swatch: "#ffffff" } as const;
+
+/** The purifiers on the home page ("Our Product Range"), each in black and white. */
+export const FEATURED_PURIFIERS: Purifier[] = [
+  {
+    id: "ultron-plus",
+    brand: "Akvinz",
+    shortName: "Ultron+",
+    name: "Ultron+ RO Water Purifier",
+    storageLitres: 8,
+    tdsAdjustment: true,
+    stages: [
+      "Spun filter",
+      "Sediment filter",
+      "Pre-carbon filter",
+      "RO membrane",
+      "Ultrafiltration (UF)",
+      "In-tank UV",
+      "Alkaline enrichment",
+      "Copper enrichment",
+      "Zinc enrichment",
+    ],
+    colours: [
+      { ...BLACK, image: ultronPlusImage },
+      { ...WHITE, image: ultronImage },
+    ],
+  },
+  {
+    // Same body (and photos) as the Ultron+.
+    id: "ultron",
+    brand: "Akvinz",
+    shortName: "Ultron",
+    name: "Ultron RO Water Purifier",
+    storageLitres: 8,
+    tdsAdjustment: true,
+    stages: [
+      "Spun filter",
+      "Sediment filter",
+      "Pre-carbon filter",
+      "RO membrane",
+      "Ultrafiltration (UF)",
+      "Post-carbon filter",
+      "In-tank UV",
+      "Copper enrichment",
+    ],
+    colours: [
+      { ...BLACK, image: ultronPlusImage },
+      { ...WHITE, image: ultronImage },
+    ],
+  },
+  {
+    id: "metaneo",
+    brand: "Akvinz",
+    shortName: "Metaneo",
+    name: "Metaneo RO Water Purifier",
+    storageLitres: 8,
+    tdsAdjustment: true,
+    stages: [
+      "Spun filter",
+      "Sediment filter",
+      "RO membrane",
+      "Activated carbon",
+      "UV treatment",
+      "Alkaline enrichment",
+      "Zinc enrichment",
+      "Copper enrichment",
+    ],
+    colours: [
+      { ...BLACK, image: metaNeoImage },
+      { ...WHITE, image: metaNeoWhiteImage },
+    ],
+  },
+  {
+    id: "spark",
+    brand: "Akvinz",
+    shortName: "Spark",
+    name: "Spark RO Water Purifier",
+    storageLitres: 10,
+    tdsAdjustment: true,
+    stages: [
+      "Spun filter",
+      "Sediment filter",
+      "RO membrane",
+      "Activated carbon",
+      "UV treatment",
+      "Alkaline enrichment",
+      "Zinc enrichment",
+      "Copper enrichment",
+    ],
+    colours: [
+      { ...BLACK, image: sparkBlackImage },
+      { ...WHITE, image: sparkImage },
+    ],
+  },
 ];
 
 export type CatalogProduct = {
@@ -161,6 +287,48 @@ export const SERVICE_LOCATIONS = [
   "Puducherry",
   "Chengalpattu",
 ];
+
+/** Other names and spellings people type for the cities above. */
+const CITY_ALIASES: Record<string, string> = {
+  kovai: "Coimbatore",
+  cbe: "Coimbatore",
+  tirupur: "Tiruppur",
+  thiruppur: "Tiruppur",
+  tiruchirappalli: "Trichy",
+  tiruchirapalli: "Trichy",
+  tiruchi: "Trichy",
+  trichirappalli: "Trichy",
+  pondicherry: "Puducherry",
+  pondy: "Puducherry",
+  udhagamandalam: "Ooty",
+  udhagai: "Ooty",
+  ootacamund: "Ooty",
+  nellai: "Tirunelveli",
+  thirunelveli: "Tirunelveli",
+  chengalpet: "Chengalpattu",
+  madura: "Madurai",
+};
+
+const normalizePlace = (value: string) => value.toLowerCase().replace(/[^a-z]/g, "");
+
+// Coimbatore and Tiruppur pincodes (641xxx); both are served.
+const SERVED_PINCODE_PREFIXES = ["641"];
+
+/**
+ * The served city a visitor means, from what they typed in the "Don't see your city?" form: a city above, one of its
+ * other names, a Coimbatore area, or a served pincode. Returns null when we don't serve them yet.
+ */
+export function findServedCity(city: string, pincode = ""): string | null {
+  const typed = normalizePlace(city);
+  if (typed) {
+    const direct = SERVICE_LOCATIONS.find((name) => normalizePlace(name) === typed);
+    if (direct) return direct;
+    if (CITY_ALIASES[typed]) return CITY_ALIASES[typed];
+    const byArea = CITIES.find((entry) => entry.areas.some((area) => normalizePlace(area) === typed));
+    if (byArea) return byArea.name;
+  }
+  return SERVED_PINCODE_PREFIXES.some((prefix) => pincode.trim().startsWith(prefix)) ? DEFAULT_CITY : null;
+}
 
 /** The plans section on the home page. The old /water-purifier-rental-coimbatore page redirects to the home page (next.config.ts). */
 export const PLANS_PAGE_PATH = "/#plans";

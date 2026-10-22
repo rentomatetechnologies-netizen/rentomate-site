@@ -9,6 +9,7 @@ import { LeadCaptureModal } from "@/components/LeadCaptureModal";
 import { CursorAnimation } from "@/components/CursorAnimation";
 import { MobileContactBar } from "@/components/MobileContactBar";
 import { BookNowButton } from "@/components/BookNowButton";
+import { CustomerCountBadge } from "@/components/CustomerCountBadge";
 
 type SiteActions = { openLeadForm: () => void; openAvailability: () => void };
 
@@ -43,7 +44,8 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
         <Footer />
 
         <MobileContactBar />
-        <BookNowButton onClick={openLeadForm} />
+        <BookNowButton />
+        <CustomerCountBadge onClick={openLeadForm} />
 
         <CheckAvailabilityModal isOpen={availabilityOpen} onClose={() => setAvailabilityOpen(false)} />
         {/* Opening popup – shows on every load until submitted on this device; "Rent Now" reopens it */}

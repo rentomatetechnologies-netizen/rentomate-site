@@ -40,12 +40,14 @@ export const Footer: React.FC = () => {
   const contacts = [
     { label: "WhatsApp", value: "Chat with us", href: whatsappUrl, external: true, icon: <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> },
     { label: "Call us", value: PHONE_DISPLAY, href: PHONE_HREF, external: false, icon: <Phone className="h-5 w-5 text-sky-400" /> },
-    { label: "Email", value: SUPPORT_EMAIL, href: `mailto:${SUPPORT_EMAIL}`, external: false, gmail: true, icon: <Mail className="h-5 w-5 text-sky-400" /> },
+    { label: "Email", value: SUPPORT_EMAIL, href: GMAIL_COMPOSE_URL, external: true, icon: <Mail className="h-5 w-5 text-sky-400" /> },
   ];
 
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
-      <div className="mx-auto max-w-7xl px-4 pt-14 pb-28 sm:px-6 md:pb-8 lg:px-8">
+      {/* Bottom padding keeps the last row clear of the floating buttons (customer badge on the left, free trial on the right,
+          and on mobile the Call / WhatsApp bar), which stack higher on phones. */}
+      <div className="mx-auto max-w-7xl px-4 pt-14 pb-56 sm:px-6 sm:pb-40 md:pb-28 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-4 lg:pr-6">
@@ -104,16 +106,6 @@ export const Footer: React.FC = () => {
                       <span className="block break-all text-sm font-semibold text-slate-200 transition-colors group-hover:text-sky-300">{contact.value}</span>
                     </span>
                   </a>
-                  {contact.gmail && (
-                    <a
-                      href={GMAIL_COMPOSE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-[52px] mt-1 inline-block text-xs font-medium text-sky-400 underline-offset-2 hover:text-sky-300 hover:underline"
-                    >
-                      Open in Gmail
-                    </a>
-                  )}
                 </li>
               ))}
               <li className="flex items-start gap-3">
@@ -156,15 +148,16 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Popular searches (SEO): each links to its landing page in app/rent/[slug] */}
+        {/* Popular searches (SEO): each links to its landing page in app/rent/[slug].
+            Chips grow to fill each row, so every row runs edge to edge. */}
         <div className="mt-12 border-t border-white/10 pt-8">
           <h3 className={headingClass}>Popular searches</h3>
-          <ul className="mt-4 flex flex-wrap gap-2">
+          <ul className="mt-5 flex flex-wrap gap-3">
             {SEO_PAGES.map((page) => (
-              <li key={page.slug}>
+              <li key={page.slug} className="grow">
                 <Link
                   href={seoPageHref(page)}
-                  className="inline-block rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-400 transition hover:border-sky-400/40 hover:text-sky-300"
+                  className="block whitespace-nowrap rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-center text-xs text-slate-400 transition hover:border-sky-400/40 hover:bg-white/[0.06] hover:text-sky-300"
                 >
                   {page.search}
                 </Link>
@@ -173,31 +166,35 @@ export const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* Bottom bar – right padding on desktop keeps "Back to top" clear of the floating "7 day free trial" button */}
-        <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 text-sm text-slate-400 md:pr-56 lg:flex-row lg:items-end lg:justify-between">
-          <div className="text-center lg:text-left">
-            <p>© {currentYear} Rent O&apos; Mate. All rights reserved.</p>
-            <p className="mt-1 text-xs leading-5">
-              Rent O&apos; Mate is a proprietary brand of Akvinz.
-            </p>
+        {/* Bottom bar: copyright | legal links | location + back to top. Stacks and centres on smaller screens. */}
+        <div className="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center text-xs text-slate-400 lg:flex-row lg:justify-between lg:text-left">
+          <div className="space-y-1">
+            <p className="text-sm text-slate-300">© {currentYear} Rent O&apos; Mate. All rights reserved.</p>
+            <p>Rent O&apos; Mate is a proprietary brand of Akvinz.</p>
           </div>
-          <div className="flex flex-col items-center gap-3 lg:items-end">
-            <nav aria-label="Legal" className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-xs">
-              {LEGAL_LINKS.map((link) => (
-                <Link key={link.href} href={link.href} className="font-medium text-slate-300 underline-offset-2 transition-colors hover:text-sky-300 hover:underline">
+
+          <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            {LEGAL_LINKS.map((link, index) => (
+              <React.Fragment key={link.href}>
+                {index > 0 && <span className="text-white/20" aria-hidden="true">•</span>}
+                <Link href={link.href} className="px-1 font-medium text-slate-300 underline-offset-2 transition-colors hover:text-sky-300 hover:underline">
                   {link.label}
                 </Link>
-              ))}
-            </nav>
-            <div className="flex items-center gap-4 text-xs">
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-sky-400" aria-hidden /> Coimbatore, Tamil Nadu
-              </span>
-              <span className="h-4 w-px bg-white/15" aria-hidden="true" />
-              <a href="#" className="inline-flex items-center gap-1 font-medium text-slate-200 transition-colors hover:text-white">
-                Back to top <ArrowUp className="h-4 w-4" aria-hidden />
-              </a>
-            </div>
+              </React.Fragment>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin className="h-4 w-4 text-sky-400" aria-hidden /> Coimbatore, Tamil Nadu
+            </span>
+            <span className="h-4 w-px bg-white/15" aria-hidden="true" />
+            <a
+              href="#"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 font-medium text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Back to top <ArrowUp className="h-3.5 w-3.5" aria-hidden />
+            </a>
           </div>
         </div>
       </div>

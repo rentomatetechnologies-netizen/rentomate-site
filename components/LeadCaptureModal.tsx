@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Loader2, X } from "lucide-react";
-import isiLogo from "@/app/isi.png";
+import isiLogo from "@/assets/images/badges/isi.png";
 import { getSavedLead, submitLead, type Lead, type SavedLead } from "@/lib/lead";
 import { LOWEST_PRICE } from "@/lib/site";
 
@@ -75,7 +75,7 @@ export const LeadCaptureModal: React.FC<{ isOpen: boolean; onOpen: () => void; o
 
             {/* Header banner */}
             <div className="relative overflow-hidden bg-gradient-to-br from-sky-100/75 to-blue-100/75 px-6 pb-5 pt-14 sm:px-8 sm:pt-7">
-              <Image src="/rentomate-wordmark-clean.png" alt="Rent O' Mate" width={3967} height={788} className="absolute right-14 top-5 h-6 w-auto" />
+              <Image src="/images/brand/rentomate-wordmark.png" alt="Rent O' Mate" width={3967} height={788} className="absolute right-14 top-5 h-6 w-auto" />
               <div className="sm:max-w-[62%]">
                 <h2 id="lead-title" className="text-2xl font-extrabold leading-tight tracking-tight text-[#051838] sm:text-[1.7rem]">
                   Own Less. <span className="text-[#0084FF]">Live Smart.</span>
@@ -100,7 +100,7 @@ export const LeadCaptureModal: React.FC<{ isOpen: boolean; onOpen: () => void; o
                   <span className="text-sm font-semibold text-[#051838]">Certified</span>
                 </div>
               </div>
-              <Image src="/hero/purifier-transparent.png" alt="" width={220} height={220} className="pointer-events-none absolute -bottom-2 right-6 hidden h-48 w-auto drop-shadow-xl sm:block" />
+              <Image src="/images/products/ultron-midnight-black.png" alt="" width={220} height={220} className="pointer-events-none absolute -bottom-2 right-6 hidden h-48 w-auto drop-shadow-xl sm:block" />
             </div>
 
             {done ? (

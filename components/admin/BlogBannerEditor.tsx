@@ -130,7 +130,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
             <p>Reading time 5 mins</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={banner.image || "/banners/7-day-trial-banner.jpg"}
+              src={banner.image || "/images/banners/7-day-trial-banner.jpeg"}
               alt={banner.alt || "7-Day Risk-Free Trial"}
               className={`w-full rounded-md shadow-sm ${banner.enabled ? "" : "opacity-40 grayscale"}`}
             />

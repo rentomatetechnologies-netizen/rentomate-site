@@ -95,8 +95,7 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          For any privacy question or request, email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> (
-          <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">open in Gmail</a>) or call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
+          For any privacy question or request, email <a href={GMAIL_COMPOSE_URL} target="_blank" rel="noopener noreferrer">{SUPPORT_EMAIL}</a> or call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>.
         </p>
         <p>
           Or write to us at: {ADDRESS_LINES.join(", ")}.
