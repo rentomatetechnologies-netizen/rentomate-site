@@ -41,6 +41,35 @@ function PreviewBlock({ block }: { block: EditorBlock }) {
           </div>
         )
       );
+    case "callout":
+      return (
+        block.text && (
+          <div className="rounded-lg border border-sky-200 bg-sky-50 p-3">
+            {block.title && <p className="font-extrabold text-navy">{block.title}</p>}
+            <p className="whitespace-pre-line">{block.text}</p>
+          </div>
+        )
+      );
+    case "table":
+      return (
+        block.rows.some((row) => row.some(Boolean)) && (
+          <div className="overflow-x-auto rounded-md border border-slate-200">
+            <table className="w-full text-left text-[11px]">
+              <tbody>
+                {block.rows.filter((row) => row.some(Boolean)).map((row, r) => (
+                  <tr key={r} className={r === 0 ? "bg-navy font-bold text-white" : "border-t border-slate-200"}>
+                    {row.map((cell, i) => (
+                      <td key={i} className="px-2 py-1 align-top">
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )
+      );
     case "cta":
       return null; // retired: every post now ends with a fixed call to action
     default:

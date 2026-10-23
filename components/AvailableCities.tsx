@@ -1,17 +1,18 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, MapPin } from "lucide-react";
 import { CITIES, SERVICE_LOCATIONS, findServedCity } from "@/lib/site";
 import { whatsappLink } from "@/lib/contact";
 import { useSiteActions } from "@/components/SiteShell";
 
 // "Where We Serve": the cities from the header location picker, on a white band.
-// The first city is featured with its service areas; the rest are listed beside it.
+// The selected city (Coimbatore to start) is featured with its service areas; clicking another city features it instead.
 export const AvailableCities: React.FC = () => {
-  const { openAvailability: onCheckAvailability } = useSiteActions();
-  const [featured, ...otherCities] = SERVICE_LOCATIONS;
+  const { openAvailability } = useSiteActions();
+  const [featured, setFeatured] = React.useState(SERVICE_LOCATIONS[0]);
+  const otherCities = SERVICE_LOCATIONS.filter((city) => city !== featured);
   const featuredAreas = CITIES.find((city) => city.name === featured)?.areas ?? [];
 
   return (
@@ -39,20 +40,26 @@ export const AvailableCities: React.FC = () => {
             viewport={{ once: true }}
             className="relative overflow-hidden rounded-2xl border border-sky-200 bg-gradient-to-br from-sky-50 via-white to-white p-6 shadow-sm sm:p-7 lg:col-span-5"
           >
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="flex items-center gap-2 text-2xl font-extrabold text-slate-900">
-                <MapPin className="h-6 w-6 text-sky-500" /> {featured}
-              </h3>
-              <span className="inline-flex items-center gap-1 rounded-[10px] bg-emerald-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700 ring-1 ring-emerald-200">
-                <CheckCircle2 className="h-3.5 w-3.5" /> Live
-              </span>
-            </div>
-            {featuredAreas.length > 0 && (
-              <p className="mt-4 text-sm leading-relaxed text-slate-600">{featuredAreas.slice(0, 10).join(" · ")} and more.</p>
-            )}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div key={featured} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 16 }} transition={{ duration: 0.2 }}>
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="flex items-center gap-2 text-2xl font-extrabold text-slate-900">
+                    <MapPin className="h-6 w-6 text-sky-500" /> {featured}
+                  </h3>
+                  <span className="inline-flex items-center gap-1 rounded-[10px] bg-emerald-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700 ring-1 ring-emerald-200">
+                    <CheckCircle2 className="h-3.5 w-3.5" /> Live
+                  </span>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-slate-600">
+                  {featuredAreas.length > 0
+                    ? `${featuredAreas.slice(0, 10).join(" · ")} and more.`
+                    : `Rent O' Mate purifiers are available for homes across ${featured}, with free installation. Check your area to book.`}
+                </p>
+              </motion.div>
+            </AnimatePresence>
             <button
               type="button"
-              onClick={onCheckAvailability}
+              onClick={() => openAvailability(featured)}
               className="mt-6 inline-flex items-center gap-2 rounded-[10px] bg-gradient-to-r from-sky-600 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:brightness-110"
             >
               Check My Area <ArrowRight className="h-4 w-4" />
@@ -68,12 +75,15 @@ export const AvailableCities: React.FC = () => {
             className="grid grid-cols-2 content-start gap-3 sm:grid-cols-3 lg:col-span-7"
           >
             {otherCities.map((city) => (
-              <li
-                key={city}
-                className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50"
-              >
-                <MapPin className="h-4 w-4 shrink-0 text-sky-500" />
-                {city}
+              <li key={city}>
+                <button
+                  type="button"
+                  onClick={() => setFeatured(city)}
+                  className="flex w-full items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-800 shadow-sm transition hover:border-sky-300 hover:bg-sky-50"
+                >
+                  <MapPin className="h-4 w-4 shrink-0 text-sky-500" />
+                  {city}
+                </button>
               </li>
             ))}
           </motion.ul>

@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     return [
       // The old plans page ranks in Google; send its visitors (and its ranking) to the home page.
       { source: "/water-purifier-rental-coimbatore", destination: "/", permanent: true },
+      // The About page moved to /about-us.
+      { source: "/about", destination: "/about-us", permanent: true },
     ];
   },
   async rewrites() {

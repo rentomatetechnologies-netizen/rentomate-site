@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CalendarCheck, RotateCcw, ShieldCheck, Wrench } from "lucide-react";
+import { CalendarCheck, RotateCcw, Wrench } from "lucide-react";
 import { CUSTOMER_FORM_URL } from "@/lib/site";
 
 const points = [
@@ -19,8 +19,7 @@ export const FreeTrial: React.FC = () => {
         <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl" />
         <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_1.3fr]">
           <div>
-            <span className="inline-flex items-center gap-1.5 rounded-[10px] bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wider"><ShieldCheck className="h-3.5 w-3.5" /> Risk-Free</span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">7-Day Risk-Free Trial</h2>
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">7-Day Risk-Free Trial</h2>
             <p className="mt-3 text-sm leading-relaxed text-sky-100 sm:text-base">Try a Rent O&apos; Mate purifier at home for 7 days. If it isn&apos;t right for you, cancel — no questions asked.</p>
             <a href={CUSTOMER_FORM_URL} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block rounded-[10px] bg-white px-7 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">Start My Free Trial</a>
             <p className="mt-3 text-[11px] text-sky-200">*Conditions apply.</p>

@@ -312,7 +312,7 @@ export const LEGAL_LINKS = [
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
+  { label: "About", href: "/about-us" },
   { label: "RO on Rent", href: "/ro-on-rent" },
   { label: "Products", href: "/products" },
   { label: "Blog", href: "/blog" },

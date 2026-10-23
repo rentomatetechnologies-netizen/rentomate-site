@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowLeft, ArrowUp, ExternalLink, Loader2, Save, Trash2, X } from "lucide-react";
 import { apiFetch, useApi } from "@/lib/admin/api";
-import { newKey, slugify, type BlockType, type EditorBlock, type EditorPost } from "@/lib/admin/posts";
+import { newKey, slugify, tableToText, textToTable, type BlockType, type EditorBlock, type EditorPost } from "@/lib/admin/posts";
 import { ImageField } from "@/components/admin/ImageField";
 import { PostPreview } from "@/components/admin/PostPreview";
 import { useToast } from "@/components/admin/Toast";
@@ -19,6 +19,8 @@ const BLOCK_LABELS: Record<BlockType, string> = {
   list: "Bullet list",
   image: "Image",
   faq: "FAQ",
+  callout: "Answer / summary box",
+  table: "Table",
   cta: "Call to action",
   toc: "Table of contents",
 };
@@ -30,6 +32,8 @@ const newBlock = (type: Exclude<BlockType, "cta">): EditorBlock => {
   if (type === "image") return { type, url: "", alt: "", caption: "", key };
   if (type === "list") return { type, items: [], key };
   if (type === "faq") return { type, items: [{ question: "", answer: "" }], key };
+  if (type === "callout") return { type, title: "Direct answer", text: "", key };
+  if (type === "table") return { type, rows: [], key };
   return { type, text: "", key };
 };
 
@@ -55,6 +59,35 @@ function FaqFields({ items, onChange }: { items: FaqItems; onChange: (items: Faq
         + Question
       </button>
     </div>
+  );
+}
+
+/** "54/60" counter that turns amber once Google would likely cut the text short. */
+const CharCount = ({ length, ideal }: { length: number; ideal: number }) => (
+  <span className={length > ideal ? "font-semibold text-amber-600" : ""}>
+    {length}/{ideal}
+  </span>
+);
+
+/** Quick on-page checks for the primary keyword. */
+function KeywordChecks({ post }: { post: EditorPost }) {
+  const keyword = post.focusKeyword.trim().toLowerCase();
+  const has = (value: string) => value.toLowerCase().includes(keyword);
+  const body = post.blocks.map((block) => ("text" in block ? block.text : "")).join(" ");
+  const checks = [
+    ["Meta title (or post title)", has(post.seoTitle || post.title)],
+    ["Meta description (or excerpt)", has(post.seoDescription || post.excerpt)],
+    ["URL slug", post.slug.includes(slugify(keyword))],
+    ["Article content", has(body)],
+  ] as const;
+  return (
+    <ul className="space-y-1 rounded-lg bg-slate-50 p-3 text-xs">
+      {checks.map(([label, ok]) => (
+        <li key={label} className={ok ? "text-emerald-700" : "text-amber-600"}>
+          {ok ? "✓" : "✗"} Primary keyword in {label.toLowerCase()}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -283,6 +316,38 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                     </>
                   ) : block.type === "faq" ? (
                     <FaqFields items={block.items} onChange={(items) => updateBlock(block.key, { items })} />
+                  ) : block.type === "callout" ? (
+                    <div className="space-y-2">
+                      <input
+                        className="input font-semibold"
+                        maxLength={100}
+                        placeholder="Box title, e.g. Direct answer, Summary, Key takeaway"
+                        value={block.title}
+                        onChange={(e) => updateBlock(block.key, { title: e.target.value })}
+                      />
+                      <textarea
+                        className="input min-h-20"
+                        rows={4}
+                        maxLength={3000}
+                        placeholder="A short, direct answer to the post's main question (Google and AI assistants often quote this)"
+                        value={block.text}
+                        onChange={(e) => updateBlock(block.key, { text: e.target.value })}
+                      />
+                    </div>
+                  ) : block.type === "table" ? (
+                    <>
+                      <textarea
+                        className="input min-h-28 font-mono text-xs"
+                        rows={6}
+                        placeholder={"Component | Cost | Notes\nSediment filter | ₹150–₹400 | Periodic replacement\nRO membrane | ₹1,200–₹3,500 | Depends on water"}
+                        value={tableToText(block.rows)}
+                        onChange={(e) => updateBlock(block.key, { rows: textToTable(e.target.value) })}
+                      />
+                      <p className="mt-1 text-xs text-slate-400">
+                        One row per line, cells separated by <code>|</code>. The first row is the header. You can paste a table from Word, Excel or
+                        Google Docs.
+                      </p>
+                    </>
                   ) : block.type === "cta" ? (
                     <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-700">
                       This block is no longer shown — every post now ends with a fixed &ldquo;Book Free Trial&rdquo; call to action. You can remove it.
@@ -334,6 +399,10 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                 </button>
               ))}
             </div>
+            <p className="mt-2 text-xs text-slate-400">
+              Links: write <code>[anchor text](https://example.com)</code> or <code>[anchor text](/blog/another-post)</code> in any text. Plain URLs
+              also become links.
+            </p>
             {!hasToc && headings.length >= 2 && (
               <p className="mt-2 text-xs text-slate-400">
                 A table of contents is added automatically before the first heading. Add a &ldquo;Table of contents&rdquo; block to place it yourself.
@@ -345,13 +414,46 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
             <h2 className="panel-title mb-0">
               SEO <span className="text-xs font-normal text-slate-400">(optional)</span>
             </h2>
-            {field("Meta title", "seo-title", <input id="seo-title" className="input" maxLength={200} placeholder="Defaults to the post title" value={post.seoTitle} onChange={(e) => update({ seoTitle: e.target.value })} />)}
+            <p className="text-xs text-slate-500">These fields are for Google only. They are not shown on the article page.</p>
+            {field(
+              "Meta title",
+              "seo-title",
+              <input id="seo-title" className="input" maxLength={200} placeholder="Defaults to the post title" value={post.seoTitle} onChange={(e) => update({ seoTitle: e.target.value })} />,
+              <CharCount length={post.seoTitle.length} ideal={60} />,
+            )}
             {field(
               "Meta description",
               "seo-desc",
               <textarea id="seo-desc" className="input" rows={2} maxLength={400} placeholder="Defaults to the excerpt" value={post.seoDescription} onChange={(e) => update({ seoDescription: e.target.value })} />,
-              `${post.seoDescription.length}/400`,
+              <CharCount length={post.seoDescription.length} ideal={160} />,
             )}
+            {field(
+              "Primary keyword",
+              "seo-focus",
+              <input
+                id="seo-focus"
+                className="input"
+                maxLength={120}
+                placeholder="e.g. water purifier maintenance cost in Coimbatore"
+                value={post.focusKeyword}
+                onChange={(e) => update({ focusKeyword: e.target.value })}
+              />,
+            )}
+            {field(
+              "Secondary keywords",
+              "seo-keywords",
+              <textarea
+                id="seo-keywords"
+                className="input"
+                rows={3}
+                maxLength={1000}
+                placeholder="Comma-separated, e.g. lifetime free service water purifier, water purifier on rent in Coimbatore"
+                value={post.keywords}
+                onChange={(e) => update({ keywords: e.target.value })}
+              />,
+              "comma-separated",
+            )}
+            {post.focusKeyword.trim() && <KeywordChecks post={post} />}
           </section>
         </div>
 

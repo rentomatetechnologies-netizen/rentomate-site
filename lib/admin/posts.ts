@@ -5,6 +5,8 @@ export type Block =
   | { type: "list"; items: string[] }
   | { type: "image"; url: string; alt: string; caption: string }
   | { type: "faq"; items: { question: string; answer: string }[] }
+  | { type: "callout"; title: string; text: string }
+  | { type: "table"; rows: string[][] }
   | { type: "cta"; text: string; buttonLabel: string }
   | { type: "toc" };
 
@@ -31,6 +33,8 @@ export type EditorPost = {
   blocks: EditorBlock[];
   seoTitle: string;
   seoDescription: string;
+  focusKeyword: string;
+  keywords: string;
 };
 
 /** A post as returned by GET /api/admin/posts/:id. */
@@ -54,4 +58,14 @@ export const newKey = () => Math.random().toString(36).slice(2, 10);
 
 export const withKeys = (blocks: Block[]): EditorBlock[] => blocks.map((block) => ({ ...block, key: newKey() }) as EditorBlock);
 
-export const toEditorPost = (post: AdminPost): EditorPost => ({ ...post, readMinutes: String(post.readMinutes), blocks: withKeys(post.blocks) });
+export const toEditorPost = (post: AdminPost): EditorPost => ({
+  ...post,
+  focusKeyword: post.focusKeyword ?? "",
+  keywords: post.keywords ?? "",
+  readMinutes: String(post.readMinutes),
+  blocks: withKeys(post.blocks),
+});
+
+// Table cells are typed one row per line, split by "|" or by tabs (so tables pasted from Word/Excel/Docs work).
+export const tableToText = (rows: string[][]) => rows.map((row) => row.join(" | ")).join("\n");
+export const textToTable = (text: string) => text.split("\n").map((line) => line.split(/\s*(?:\t|\|)\s*/));

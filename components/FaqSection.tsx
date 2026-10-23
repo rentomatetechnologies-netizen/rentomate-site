@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BadgeIndianRupee, Handshake, HelpCircle, MessagesSquare, type LucideIcon } from "lucide-react";
-import { FAQ_SEGMENTS, type FaqSegment } from "@/lib/faqs";
+import { FAQ_SEGMENTS, FAQ_STRUCTURED_DATA, type FaqSegment } from "@/lib/faqs";
 
 const icons: Record<FaqSegment["id"], LucideIcon> = { trust: Handshake, common: MessagesSquare, pricing: BadgeIndianRupee };
 const segments = FAQ_SEGMENTS.map((segment) => ({ ...segment, icon: icons[segment.id] }));
@@ -45,6 +45,7 @@ export const FaqSection: React.FC = () => {
 
   return (
     <section id="faq" className="relative bg-white py-12 lg:py-14">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_STRUCTURED_DATA) }} />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
           <motion.span initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-3 inline-block rounded-[10px] bg-sky-100/70 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-700">Helpful answers</motion.span>

@@ -3,29 +3,47 @@ import { Fragment } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { getHeadings, isOptimizableImage, type BlogBlock } from "@/lib/blog";
+import { getHeadings, isOptimizableImage, stripLinks, type BlogBlock } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 
-// http(s):// or www. links, stopping before trailing punctuation such as "." or ")".
+// [anchor text](url) links, where url is http(s)://… or a site path like /blog/…
+const MARKDOWN_LINK = /\[([^\]]+)\]\(((?:https?:\/\/|\/)[^)\s]*)\)/g;
+// Bare http(s):// or www. links, stopping before trailing punctuation such as "." or ")".
 const URL_PATTERN = /((?:https?:\/\/|www\.)[^\s<]*[^\s<.,;:!?'")\]])/g;
 
-/** Text with any URLs in it turned into links: rentomate.life links open in the same tab, others in a new one. */
-const Linkified: React.FC<{ text: string }> = ({ text }) =>
-  text.split(URL_PATTERN).map((part, i) => {
-    if (i % 2 === 0) return part;
-    const href = part.startsWith("www.") ? `https://${part}` : part;
-    const internal = href.startsWith(SITE_URL);
-    return (
-      <a
-        key={i}
-        href={internal ? href.slice(SITE_URL.length) || "/" : href}
-        {...(internal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-        className="break-words font-semibold text-[#0084FF] underline underline-offset-2 hover:text-[#0070F3]"
-      >
-        {part}
-      </a>
+const TextLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
+  const full = href.startsWith("www.") ? `https://${href}` : href;
+  // rentomate.life links and site paths open in the same tab, others in a new one.
+  const internal = full.startsWith("/") || full.startsWith(SITE_URL);
+  return (
+    <a
+      href={full.startsWith(SITE_URL) ? full.slice(SITE_URL.length) || "/" : full}
+      {...(internal ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+      className="break-words font-semibold text-[#0084FF] underline underline-offset-2 hover:text-[#0070F3]"
+    >
+      {children}
+    </a>
+  );
+};
+
+/** Text with [anchor text](url) links and bare URLs turned into links. */
+const Linkified: React.FC<{ text: string }> = ({ text }) => {
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  const plain = (value: string) =>
+    value.split(URL_PATTERN).forEach((part, i) => parts.push(i % 2 ? <TextLink key={parts.length} href={part}>{part}</TextLink> : part));
+  for (const match of text.matchAll(MARKDOWN_LINK)) {
+    plain(text.slice(last, match.index));
+    parts.push(
+      <TextLink key={parts.length} href={match[2]}>
+        {match[1]}
+      </TextLink>,
     );
-  });
+    last = match.index + match[0].length;
+  }
+  plain(text.slice(last));
+  return parts;
+};
 
 const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, headingId }) => {
   switch (block.type) {
@@ -84,6 +102,47 @@ const Block: React.FC<{ block: BlogBlock; headingId?: string }> = ({ block, head
           ))}
         </div>
       );
+    case "callout":
+      return (
+        <aside className="rounded-[10px] border border-sky-200 bg-gradient-to-br from-sky-50 to-white p-5 sm:p-6">
+          {block.title && <p className="text-lg font-extrabold tracking-tight text-[#051838]">{block.title}</p>}
+          <p className={`whitespace-pre-line text-slate-700 ${block.title ? "mt-2" : ""}`}>
+            <Linkified text={block.text} />
+          </p>
+        </aside>
+      );
+    case "table": {
+      const [header, ...rows] = block.rows;
+      if (!header) return null;
+      const columns = Math.max(...block.rows.map((row) => row.length));
+      const cells = (row: string[]) => Array.from({ length: columns }, (_, i) => row[i] ?? "");
+      return (
+        <div className="overflow-x-auto rounded-[10px] border border-slate-200">
+          <table className="w-full min-w-[480px] border-collapse text-left text-sm sm:text-[15px]">
+            <thead className="bg-[#051838] text-white">
+              <tr>
+                {cells(header).map((cell, i) => (
+                  <th key={i} scope="col" className="px-4 py-3 font-bold">
+                    {cell}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, r) => (
+                <tr key={r} className="border-t border-slate-200 even:bg-slate-50">
+                  {cells(row).map((cell, i) => (
+                    <td key={i} className={`px-4 py-3 align-top leading-6 ${i === 0 ? "font-semibold text-slate-800" : ""}`}>
+                      <Linkified text={cell} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    }
     case "cta":
       return null; // retired: the post page shows a fixed call to action instead
     case "toc":
@@ -128,6 +187,6 @@ export const faqStructuredData = (blocks: BlogBlock[]) => {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: items.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })),
+    mainEntity: items.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: stripLinks(item.answer) } })),
   };
 };

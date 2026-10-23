@@ -1,4 +1,4 @@
-// FAQ copy, shared by the FAQ section and the plans page (which also publishes it as FAQPage data).
+// FAQ copy for the FAQ section (home, RO on rent and /rent/* pages), which also publishes it as FAQPage data.
 import { PHONE_DISPLAY } from "@/lib/contact";
 import { PLANS, inr } from "@/lib/site";
 
@@ -42,3 +42,17 @@ export const FAQ_SEGMENTS: FaqSegment[] = [
     ],
   },
 ];
+
+/**
+ * schema.org FAQPage data for every question in every tab. The FAQ section only renders the open tab's answers, so
+ * this is how search engines and AI assistants (ChatGPT, Claude, Gemini, Perplexity) read all of them.
+ */
+export const FAQ_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_SEGMENTS.flatMap((segment) => segment.faqs).map(([question, answer]) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  })),
+};

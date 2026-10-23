@@ -10,8 +10,9 @@ import { CursorAnimation } from "@/components/CursorAnimation";
 import { MobileContactBar } from "@/components/MobileContactBar";
 import { BookNowButton } from "@/components/BookNowButton";
 import { CustomerCountBadge } from "@/components/CustomerCountBadge";
+import { DEFAULT_CITY } from "@/lib/site";
 
-type SiteActions = { openLeadForm: () => void; openAvailability: () => void };
+type SiteActions = { openLeadForm: () => void; openAvailability: (city?: string) => void };
 
 const SiteActionsContext = createContext<SiteActions | null>(null);
 
@@ -25,9 +26,13 @@ export const useSiteActions = () => {
 /** Chrome shared by every page: navbar, footer, popups and floating contact buttons. */
 export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
+  const [availabilityCity, setAvailabilityCity] = useState(DEFAULT_CITY);
   const [leadFormOpen, setLeadFormOpen] = useState(false);
   const openLeadForm = useCallback(() => setLeadFormOpen(true), []);
-  const openAvailability = useCallback(() => setAvailabilityOpen(true), []);
+  const openAvailability = useCallback((city: string = DEFAULT_CITY) => {
+    setAvailabilityCity(city);
+    setAvailabilityOpen(true);
+  }, []);
   const actions = useMemo(() => ({ openLeadForm, openAvailability }), [openLeadForm, openAvailability]);
 
   const pathname = usePathname();
@@ -47,7 +52,7 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
         <BookNowButton />
         <CustomerCountBadge onClick={openLeadForm} />
 
-        <CheckAvailabilityModal isOpen={availabilityOpen} onClose={() => setAvailabilityOpen(false)} />
+        <CheckAvailabilityModal key={availabilityCity} city={availabilityCity} isOpen={availabilityOpen} onClose={() => setAvailabilityOpen(false)} />
         {/* Opening popup – shows on every load until submitted on this device; "Rent Now" reopens it */}
         <LeadCaptureModal isOpen={leadFormOpen} onOpen={openLeadForm} onClose={() => setLeadFormOpen(false)} />
       </main>

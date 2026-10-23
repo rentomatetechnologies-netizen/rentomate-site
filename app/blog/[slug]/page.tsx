@@ -15,7 +15,7 @@ import { BlogTrialForm } from "@/components/blog/BlogTrialForm";
 import { IndexDrawer, TableOfContents } from "@/components/blog/TableOfContents";
 import { BRAND, CUSTOMER_FORM_URL, LOWEST_PRICE, SITE_URL } from "@/lib/site";
 import { getBlogBanner } from "@/lib/blog-banner";
-import { categoryHref, formatDate, getHeadings, getNeighbours, getPost, getPosts, metaDescription, plainTitle, type BlogPostSummary } from "@/lib/blog";
+import { categoryHref, formatDate, getHeadings, getNeighbours, getPost, getPosts, metaDescription, plainTitle, postKeywords, type BlogPostSummary } from "@/lib/blog";
 
 export const revalidate = 300;
 
@@ -26,9 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
   const description = metaDescription(post);
   const title = post.seoTitle || plainTitle(post.title);
+  const keywords = postKeywords(post);
   return {
     title,
     description,
+    keywords: keywords.length ? keywords : undefined,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       ...OPEN_GRAPH_DEFAULTS,
@@ -86,6 +88,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     author: { "@type": post.author ? "Person" : "Organization", name: post.author || BRAND.name },
     publisher: { "@type": "Organization", name: BRAND.name, url: SITE_URL },
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
+    keywords: postKeywords(post).join(", ") || undefined,
   };
   const faqData = faqStructuredData(post.blocks);
 

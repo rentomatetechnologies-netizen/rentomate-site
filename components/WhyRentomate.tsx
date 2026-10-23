@@ -84,6 +84,12 @@ const RangeInput = ({ label, value, onChange, marks }: { label: string; value: n
 
 export const WhyRentomate: React.FC = () => {
   const [comparison, setComparison] = useState<Comparison>("cans");
+  // Set while a calculated result is shown; pops the "With Rent O' Mate" card in a matching colour.
+  const [highlight, setHighlight] = useState<Highlight>(null);
+  const chooseComparison = (next: Comparison) => {
+    setComparison(next);
+    setHighlight(null);
+  };
 
   return (
     <section id="why-rentomate" className="relative overflow-hidden bg-[#0a0a0a] pt-10 pb-12 sm:pt-12 sm:pb-14">
@@ -99,7 +105,7 @@ export const WhyRentomate: React.FC = () => {
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const active = comparison === tab.id;
-            return <button key={tab.id} type="button" onClick={() => setComparison(tab.id)} role="tab" aria-selected={active} className={`flex min-h-10 flex-col items-center justify-center gap-1 rounded-[10px] border px-1.5 py-2 text-center text-[11px] font-bold sm:min-h-12 sm:flex-row sm:gap-2 sm:px-3 sm:py-2.5 sm:text-xs transition-all ${active ? "border-sky-600 bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-lg shadow-sky-500/20" : "border-transparent bg-white text-slate-600 sm:border-slate-200 hover:border-sky-300 hover:text-sky-700"}`}>
+            return <button key={tab.id} type="button" onClick={() => chooseComparison(tab.id)} role="tab" aria-selected={active} className={`flex min-h-10 flex-col items-center justify-center gap-1 rounded-[10px] border px-1.5 py-2 text-center text-[11px] font-bold sm:min-h-12 sm:flex-row sm:gap-2 sm:px-3 sm:py-2.5 sm:text-xs transition-all ${active ? "border-sky-600 bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-lg shadow-sky-500/20" : "border-transparent bg-white text-slate-600 sm:border-slate-200 hover:border-sky-300 hover:text-sky-700"}`}>
               <Icon className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" /> <span className="sm:hidden">{tab.shortLabel}</span><span className="hidden sm:inline">{tab.label}</span>
             </button>;
           })}
@@ -110,8 +116,8 @@ export const WhyRentomate: React.FC = () => {
             <div className="space-y-4"><TraditionalComparison /><RentCta /></div>
           ) : (
             <div className="grid gap-4 lg:gap-5 lg:grid-cols-[0.94fr_1.06fr]">
-              {comparison === "cans" ? <CanCalculator /> : <BuyCalculator />}
-              <div className="flex flex-col gap-4 lg:gap-3"><BenefitsPanel comparison={comparison} /><RentCta /></div>
+              {comparison === "cans" ? <CanCalculator onResult={setHighlight} /> : <BuyCalculator onResult={setHighlight} />}
+              <div className="flex flex-col gap-4 lg:gap-3"><BenefitsPanel comparison={comparison} highlight={highlight} /><RentCta /></div>
             </div>
           )}
         </motion.div>
@@ -120,9 +126,17 @@ export const WhyRentomate: React.FC = () => {
   );
 };
 
-/** Shared shell: inputs slide out, result slides in. */
-function CalculatorShell({ subtitle, inputs, result }: { subtitle: string; inputs: React.ReactNode; result: React.ReactNode }) {
-  const [showResult, setShowResult] = useState(false);
+/** "save": renting costs less. "value": renting costs more but still wins on hassle. null: no result shown. */
+type Highlight = "save" | "value" | null;
+type ResultHandler = (highlight: Highlight) => void;
+
+/** Shared shell: inputs slide out, result slides in. Reports how the shown result compares for renting. */
+function CalculatorShell({ subtitle, inputs, result, rentWins, onResult }: { subtitle: string; inputs: React.ReactNode; result: React.ReactNode; rentWins: boolean; onResult: ResultHandler }) {
+  const [showResult, setShowResultState] = useState(false);
+  const setShowResult = (show: boolean) => {
+    setShowResultState(show);
+    onResult(show ? (rentWins ? "save" : "value") : null);
+  };
   return <div className="overflow-hidden rounded-[10px] border border-slate-200 bg-white p-5 shadow-sm">
     <AnimatePresence mode="wait" initial={false}>
       {showResult ? <motion.div key="result" initial={{ opacity: 0, x: 60 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 60 }} transition={{ duration: 0.3, ease: "easeOut" }}>
@@ -138,7 +152,7 @@ function CalculatorShell({ subtitle, inputs, result }: { subtitle: string; input
   </div>;
 }
 
-function CanCalculator() {
+function CanCalculator({ onResult }: { onResult: ResultHandler }) {
   const [canType, setCanType] = useState(2);
   const [canCost, setCanCost] = useState(CAN_TYPES[2].priceIndex);
   const [plan, setPlan] = useState<Plan>(SMART_SAVER);
@@ -193,10 +207,10 @@ function CanCalculator() {
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on {WEEKS_PER_YEAR} weeks a year and the can price and usage entered above. Actual costs may vary.</p>
   </div>;
 
-  return <CalculatorShell subtitle="Tell us about your current water-can usage." inputs={inputs} result={result} />;
+  return <CalculatorShell subtitle="Tell us about your current water-can usage." inputs={inputs} result={result} rentWins={saving > 0} onResult={onResult} />;
 }
 
-function BuyCalculator() {
+function BuyCalculator({ onResult }: { onResult: ResultHandler }) {
   const [purchaseCost, setPurchaseCost] = useState(1);
   const [yearsUsed, setYearsUsed] = useState(0);
   const [upkeep, setUpkeep] = useState(0);
@@ -233,7 +247,7 @@ function BuyCalculator() {
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the values entered above, using the top of each range, compared with the {SMART_SAVER.months}-month {SMART_SAVER.name} plan.</p>
   </div>;
 
-  return <CalculatorShell subtitle="Compare the real cost of owning a purifier." inputs={inputs} result={result} />;
+  return <CalculatorShell subtitle="Compare the real cost of owning a purifier." inputs={inputs} result={result} rentWins={ownTotal > rentTotal} onResult={onResult} />;
 }
 
 function PlanSelector({ selected, onSelect }: { selected: Plan; onSelect: (plan: Plan) => void }) {
@@ -280,11 +294,31 @@ const BENEFITS = {
   },
 };
 
-function BenefitsPanel({ comparison }: { comparison: "cans" | "buy" }) {
+const HIGHLIGHT_STYLES = {
+  save: { glow: "14,165,233", card: "border-sky-500 from-sky-50 to-blue-50", heading: "text-sky-800", icon: "text-sky-200", badge: "bg-emerald-600", label: "Best value for you" },
+  value: { glow: "245,158,11", card: "border-amber-400 from-amber-50 to-orange-50", heading: "text-amber-800", icon: "text-amber-200", badge: "bg-amber-500", label: "Worth it — zero hassle" },
+};
+
+function BenefitsPanel({ comparison, highlight }: { comparison: "cans" | "buy"; highlight: Highlight }) {
   const { title, issues, wins } = BENEFITS[comparison];
+  const style = highlight ? HIGHLIGHT_STYLES[highlight] : null;
   return <div className="space-y-4 lg:space-y-3">
     <div className="relative overflow-hidden rounded-[10px] border border-slate-200 bg-white p-5"><Droplets className="absolute bottom-4 right-5 h-16 w-16 text-sky-100" /><h3 className="text-lg font-extrabold text-slate-900">{title}</h3><ul className="relative mt-3 space-y-1.5">{issues.map((issue) => <li key={issue} className="flex gap-2 text-sm text-slate-600"><X className="mt-0.5 h-4 w-4 shrink-0 text-rose-500" />{issue}</li>)}</ul></div>
-    <div className="relative overflow-hidden rounded-[10px] border border-sky-300 bg-gradient-to-br from-sky-50 to-blue-50 p-5"><CheckCircle2 className="absolute bottom-4 right-5 h-16 w-16 text-sky-200" /><h3 className="text-lg font-extrabold text-sky-800">With Rent O&apos; Mate, You Get</h3><ul className="relative mt-3 space-y-1.5">{wins.map((win) => <li key={win} className="flex gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{win}</li>)}</ul></div>
+    <motion.div
+      key={highlight ?? "none"}
+      animate={style
+        ? { scale: [1, 1.05, 0.99, 1.02], boxShadow: [`0 0 0 0 rgba(${style.glow},0)`, `0 0 0 6px rgba(${style.glow},0.35)`, `0 0 28px 4px rgba(${style.glow},0.45)`] }
+        : { scale: 1, boxShadow: "0 0 0 0 rgba(14,165,233,0)" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={`relative overflow-hidden rounded-[10px] border bg-gradient-to-br p-5 transition-colors ${style ? style.card : "border-sky-300 from-sky-50 to-blue-50"}`}
+    >
+      <CheckCircle2 className={`absolute bottom-4 right-5 h-16 w-16 ${style ? style.icon : "text-sky-200"}`} />
+      <AnimatePresence>
+        {style && <motion.span initial={{ opacity: 0, y: -8, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.8 }} transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 18 }} className={`absolute right-4 top-4 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white shadow-md ${style.badge}`}><Sparkles className="h-3 w-3" /> {style.label}</motion.span>}
+      </AnimatePresence>
+      <h3 className={`text-lg font-extrabold ${style ? `${style.heading} pr-40` : "text-sky-800"}`}>With Rent O&apos; Mate, You Get</h3>
+      <ul className="relative mt-3 space-y-1.5">{wins.map((win) => <li key={win} className="flex gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{win}</li>)}</ul>
+    </motion.div>
   </div>;
 }
 

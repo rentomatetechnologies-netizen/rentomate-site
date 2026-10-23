@@ -20,6 +20,8 @@ const emptyPost = (): EditorPost => ({
   blocks: withKeys([{ type: "paragraph", text: "" }]),
   seoTitle: "",
   seoDescription: "",
+  focusKeyword: "",
+  keywords: "",
 });
 
 export default function NewPostPage() {

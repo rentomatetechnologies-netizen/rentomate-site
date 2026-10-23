@@ -7,20 +7,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, MapPin, CheckCircle2, Search, ArrowRight, MessageCircle } from "lucide-react";
 
 interface CheckAvailabilityModalProps {
+  city: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ isOpen, onClose }) => {
+export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ city, isOpen, onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
 
-  const filtered = CITIES[0].areas.filter((area) =>
-    area.toLowerCase().includes(searchTerm.toLowerCase().trim())
-  );
+  // Cities without a listed set of areas take any area the visitor types.
+  const areas = CITIES.find((entry) => entry.name === city)?.areas ?? [];
+  const typed = searchTerm.trim();
+  const filtered = areas.filter((area) => area.toLowerCase().includes(typed.toLowerCase()));
 
   const getWhatsAppBooking = (area: string) => {
-    const msg = encodeURIComponent(`Hi Rent O' Mate! I am located in ${area}, Coimbatore and want to get a water purifier installed on rent.`);
+    const place = area === city ? city : `${area}, ${city}`;
+    const msg = encodeURIComponent(`Hi Rent O' Mate! I am located in ${place} and want to get a water purifier installed on rent.`);
     return `https://wa.me/${PHONE_DIGITS}?text=${msg}`;
   };
 
@@ -60,7 +63,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900">
-                  Coimbatore Delivery Checker
+                  {city} Delivery Checker
                 </h3>
                 <p className="text-xs text-slate-500">
                   Free doorstep installation within 24–48 hrs
@@ -73,7 +76,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Type your area (e.g., RS Puram, Saravanampatti)..."
+                placeholder={areas.length > 0 ? `Type your area (e.g., ${areas.slice(0, 2).join(", ")})...` : `Type your area in ${city}...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent"
@@ -103,9 +106,29 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
                     </span>
                   </button>
                 ))
+              ) : areas.length === 0 && typed ? (
+                <button
+                  onClick={() => setSelectedArea(typed)}
+                  className={`w-full flex items-center justify-between p-2.5 rounded-[10px] text-xs font-semibold transition-all text-left ${
+                    selectedArea === typed
+                      ? "bg-sky-50 text-sky-700 border border-sky-300"
+                      : "bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-100"
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <MapPin className="w-3.5 h-3.5 text-sky-500" />
+                    {typed}, {city}
+                  </span>
+                  <span className="text-[11px] text-emerald-600 font-medium flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3" />
+                    Free Installation
+                  </span>
+                </button>
               ) : (
                 <div className="text-center py-6 text-xs text-slate-500">
-                  Don&apos;t see your specific neighborhood? We cover all Coimbatore Corporation & Suburban limits!
+                  {areas.length > 0
+                    ? `Don't see your specific neighborhood? We cover all ${city} Corporation & Suburban limits!`
+                    : `We serve homes across ${city}. Type your area to book a free installation.`}
                 </div>
               )}
             </div>
@@ -124,7 +147,7 @@ export const CheckAvailabilityModal: React.FC<CheckAvailabilityModalProps> = ({ 
               </a>
             ) : (
               <a
-                href={getWhatsAppBooking(searchTerm || "Coimbatore")}
+                href={getWhatsAppBooking(typed || city)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3 px-4 rounded-[10px] bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm flex items-center justify-center gap-2 active:scale-98"

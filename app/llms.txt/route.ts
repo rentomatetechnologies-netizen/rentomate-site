@@ -1,6 +1,7 @@
 import { PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
+import { FAQ_SEGMENTS } from "@/lib/faqs";
 import { SEO_PAGES, seoPageHref } from "@/lib/seo-pages";
-import { KEY_SPECS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
+import { KEY_SPECS, NAV_LINKS, PLANS, PLANS_PAGE_PATH, PRICE_PER_DAY, PURIFIERS, SERVICE_LOCATIONS, SITE_URL, inr } from "@/lib/site";
 
 // /llms.txt: a plain-text summary of Rent O' Mate for AI assistants and AI search.
 // Built from the same data as the site, so plans, prices and cities never go out of date.
@@ -18,8 +19,17 @@ ${PLANS.map((plan) => `- ${plan.months}-month ${plan.name}: ${inr(plan.price)}/m
 - 7-day risk-free trial
 - Full plans, prices and terms: ${SITE_URL}${PLANS_PAGE_PATH}
 
-## The purifier (Akvinz Ultron, ISI certified)
+## Purifiers available on rent (Akvinz, ISI certified)
+Every model rents on the same plans above.
+${PURIFIERS.map((purifier) => `- ${purifier.brand} ${purifier.name}: ${purifier.tagline}. ${purifier.stages.length} stages (${purifier.stages.join(", ")}), ${purifier.storageLitres} L storage${purifier.tdsAdjustment ? ", TDS adjustment" : ""}. Colours: ${purifier.colours.map(({ colour }) => colour).join(", ")}.`).join("\n")}
+
+## Why rent instead of buy
 ${KEY_SPECS.map((spec) => `- ${spec.title}: ${spec.desc}`).join("\n")}
+- No upfront machine cost: about ${inr(PRICE_PER_DAY)} a day on the ${PLANS[0].name} plan
+- Ideal for tenants, PGs and families who move: nothing to buy, carry or maintain
+
+## Frequently asked questions
+${FAQ_SEGMENTS.flatMap((segment) => segment.faqs).map(([question, answer]) => `Q: ${question}\nA: ${answer}`).join("\n\n")}
 
 ## Cities served
 ${SERVICE_LOCATIONS.join(", ")}

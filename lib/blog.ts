@@ -7,6 +7,8 @@ export type BlogBlock =
   | { type: "image"; url: string; alt: string; caption: string }
   | { type: "list"; items: string[] }
   | { type: "faq"; items: { question: string; answer: string }[] }
+  | { type: "callout"; title: string; text: string }
+  | { type: "table"; rows: string[][] }
   | { type: "cta"; text: string; buttonLabel: string }
   | { type: "toc" };
 
@@ -24,8 +26,19 @@ export type BlogPostSummary = {
   featured: boolean;
   seoTitle: string;
   seoDescription: string;
+  /** SEO only: emitted as meta keywords and in structured data, never shown on the page. */
+  focusKeyword?: string;
+  keywords?: string;
   updatedAt: string;
 };
+
+/** Focus keyword first, then the comma-separated secondary keywords, without blanks or repeats. */
+export const postKeywords = (post: Pick<BlogPostSummary, "focusKeyword" | "keywords">) => [
+  ...new Set([post.focusKeyword ?? "", ...(post.keywords ?? "").split(",")].map((k) => k.trim()).filter(Boolean)),
+];
+
+/** `[anchor text](url)` links written in post text, reduced to their anchor text (for meta tags and structured data). */
+export const stripLinks = (text: string) => text.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, "$1");
 
 export type BlogPost = BlogPostSummary & { blocks: BlogBlock[] };
 
@@ -61,7 +74,7 @@ export const plainTitle = (title: string) => title.replace(/\s*\n\s*/g, " ");
 
 /** Google shows ~160 characters of a meta description; cut long excerpts at a word boundary. */
 export const metaDescription = (post: Pick<BlogPostSummary, "seoDescription" | "excerpt">, max = 160) => {
-  const text = (post.seoDescription || post.excerpt).replace(/\s+/g, " ").trim();
+  const text = stripLinks(post.seoDescription || post.excerpt).replace(/\s+/g, " ").trim();
   if (text.length <= max) return text;
   const cut = text.slice(0, max - 1);
   return `${cut.slice(0, cut.lastIndexOf(" ") > 80 ? cut.lastIndexOf(" ") : cut.length).replace(/[\s,.;:–—-]+$/, "")}…`;

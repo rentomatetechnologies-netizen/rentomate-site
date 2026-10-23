@@ -18,7 +18,7 @@ const channels = [
     icon: MessageCircle,
     label: "WhatsApp",
     value: "Chat with our team",
-    href: whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier in Coimbatore."),
+    href: whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier."),
     external: true,
   },
   { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: GMAIL_COMPOSE_URL, external: true },

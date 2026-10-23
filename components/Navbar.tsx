@@ -22,7 +22,7 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const whatsappUrl = whatsappLink(
-    "Hello Rent O' Mate! I want to enquire about renting a water purifier in Coimbatore."
+    "Hello Rent O' Mate! I want to enquire about renting a water purifier."
   );
 
   return (

@@ -170,7 +170,10 @@ export const Footer: React.FC = () => {
         <div className="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center text-xs text-slate-400 lg:flex-row lg:justify-between lg:text-left">
           <div className="space-y-1">
             <p className="text-sm text-slate-300">© {currentYear} Rent O&apos; Mate. All rights reserved.</p>
-            <p>Rent O&apos; Mate is a proprietary brand of Akvinz.</p>
+            <p className="max-w-md">
+              Rent O&apos; Mate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by
+              M/S Ragavi Enterprises.
+            </p>
           </div>
 
           <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
