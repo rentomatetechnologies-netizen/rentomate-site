@@ -69,27 +69,93 @@ const CharCount = ({ length, ideal }: { length: number; ideal: number }) => (
   </span>
 );
 
-/** Quick on-page checks for the primary keyword. */
+// Small words a keyword match can skip, so "cost in Coimbatore" also ticks for "Coimbatore cost".
+const STOP_WORDS = new Set(["a", "an", "and", "at", "by", "for", "in", "of", "on", "or", "the", "to", "vs", "with"]);
+
+/** Lowercase words with a trailing plural "s" dropped, so "costs" matches "cost". */
+const toWords = (value: string) =>
+  value
+    .toLowerCase()
+    .normalize("NFKD")
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean)
+    .map((word) => (word.length > 3 ? word.replace(/s$/, "") : word));
+
+/** True when every meaningful word of the keyword appears somewhere in the text. */
+const containsKeyword = (text: string, keyword: string) => {
+  const all = toWords(keyword);
+  const needed = all.filter((word) => !STOP_WORDS.has(word));
+  const found = new Set(toWords(text));
+  return (needed.length ? needed : all).every((word) => found.has(word));
+};
+
+const blockText = (block: EditorBlock): string => {
+  if (block.type === "list") return block.items.join(" ");
+  if (block.type === "faq") return block.items.map((item) => `${item.question} ${item.answer}`).join(" ");
+  if (block.type === "table") return block.rows.flat().join(" ");
+  if (block.type === "image") return `${block.alt} ${block.caption}`;
+  if (block.type === "callout") return `${block.title} ${block.text}`;
+  return "text" in block ? block.text : "";
+};
+
+/** Splits the comma-separated secondary keywords. */
+const splitKeywords = (value: string) =>
+  value
+    .split(",")
+    .map((keyword) => keyword.trim())
+    .filter(Boolean);
+
+// Strips a pasted "Primary Keyword:" style label and stray punctuation at the ends.
+const cleanKeyword = (value: string) => value.replace(/^\s*(?:(?:primary|secondary)\s+)?key\s?words?\s*:\s*/i, "").replace(/^[\s•*-]+|[\s.,;]+$/g, "");
+const cleanKeywords = (value: string) => splitKeywords(cleanKeyword(value).replace(/[;\n]+/g, ",")).map(cleanKeyword).filter(Boolean).join(", ");
+
+const Check = ({ ok, children }: { ok: boolean; children: React.ReactNode }) => (
+  <li className={ok ? "text-emerald-700" : "text-amber-600"}>
+    {ok ? "✓" : "✗"} {children}
+  </li>
+);
+
+/** Quick on-page checks for the primary and secondary keywords. */
 function KeywordChecks({ post }: { post: EditorPost }) {
-  const keyword = post.focusKeyword.trim().toLowerCase();
-  const has = (value: string) => value.toLowerCase().includes(keyword);
-  const body = post.blocks.map((block) => ("text" in block ? block.text : "")).join(" ");
+  const keyword = post.focusKeyword.trim();
+  const body = post.blocks.map(blockText).join(" ");
+  const secondary = splitKeywords(post.keywords);
   const checks = [
-    ["Meta title (or post title)", has(post.seoTitle || post.title)],
-    ["Meta description (or excerpt)", has(post.seoDescription || post.excerpt)],
-    ["URL slug", post.slug.includes(slugify(keyword))],
-    ["Article content", has(body)],
+    ["Meta title (or post title)", containsKeyword(post.seoTitle || post.title, keyword)],
+    ["Meta description (or excerpt)", containsKeyword(post.seoDescription || post.excerpt, keyword)],
+    ["URL slug", containsKeyword(post.slug, keyword)],
+    ["Article content", containsKeyword(body, keyword)],
   ] as const;
   return (
-    <ul className="space-y-1 rounded-lg bg-slate-50 p-3 text-xs">
-      {checks.map(([label, ok]) => (
-        <li key={label} className={ok ? "text-emerald-700" : "text-amber-600"}>
-          {ok ? "✓" : "✗"} Primary keyword in {label.toLowerCase()}
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-3 rounded-lg bg-slate-50 p-3 text-xs">
+      {keyword && (
+        <ul className="space-y-1">
+          {checks.map(([label, ok]) => (
+            <Check key={label} ok={ok}>
+              Primary keyword in {label.toLowerCase()}
+            </Check>
+          ))}
+        </ul>
+      )}
+      {secondary.length > 0 && (
+        <div>
+          <p className="mb-1 font-semibold text-slate-600">Secondary keywords in article content</p>
+          <ul className="space-y-1">
+            {secondary.map((item) => (
+              <Check key={item} ok={containsKeyword(body, item)}>
+                {item}
+              </Check>
+            ))}
+          </ul>
+        </div>
+      )}
+      <p className="text-slate-400">A tick means every main word of the keyword appears; small words like &ldquo;in&rdquo; or &ldquo;the&rdquo; are skipped.</p>
+    </div>
   );
 }
+
+/** A short how-to line under a form field. */
+const Help = ({ children }: { children: React.ReactNode }) => <p className="mt-1 text-xs text-slate-400">{children}</p>;
 
 export function PostEditor({ initial }: { initial: EditorPost }) {
   const router = useRouter();
@@ -242,6 +308,21 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                 <input id="cover-alt" className="input" maxLength={200} placeholder="Describe the image for screen readers & SEO" value={post.coverAlt} onChange={(e) => update({ coverAlt: e.target.value })} />,
               )}
             </div>
+            <div className="mt-3">
+              {field(
+                "Caption",
+                "cover-caption",
+                <input
+                  id="cover-caption"
+                  className="input"
+                  maxLength={300}
+                  placeholder="Shown under the cover image on the article"
+                  value={post.coverCaption}
+                  onChange={(e) => update({ coverCaption: e.target.value })}
+                />,
+                "(optional)",
+              )}
+            </div>
           </section>
 
           <section className="panel space-y-4">
@@ -379,7 +460,10 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                       rows={block.type === "heading" ? 1 : block.type === "quote" ? 2 : 4}
                       placeholder={block.type === "heading" ? "Section heading" : block.type === "quote" ? "Highlighted quote or tip" : "Write a paragraph…"}
                       value={block.text}
-                      onChange={(e) => updateBlock(block.key, { text: e.target.value })}
+                      onChange={(e) =>
+                        // Headings get their jump-link ids automatically, so drop pasted "{#section-id}" markers.
+                        updateBlock(block.key, { text: block.type === "heading" ? e.target.value.replace(/\s*\{#[^}]*\}/g, "") : e.target.value })
+                      }
                     />
                   )}
                 </div>
@@ -418,42 +502,61 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
             {field(
               "Meta title",
               "seo-title",
-              <input id="seo-title" className="input" maxLength={200} placeholder="Defaults to the post title" value={post.seoTitle} onChange={(e) => update({ seoTitle: e.target.value })} />,
+              <>
+                <input id="seo-title" className="input" maxLength={200} placeholder="Defaults to the post title" value={post.seoTitle} onChange={(e) => update({ seoTitle: e.target.value })} />
+                <Help>The &ldquo;SEO title&rdquo; shown in Google. Put the primary keyword near the start; keep it under 60 characters.</Help>
+              </>,
               <CharCount length={post.seoTitle.length} ideal={60} />,
             )}
             {field(
               "Meta description",
               "seo-desc",
-              <textarea id="seo-desc" className="input" rows={2} maxLength={400} placeholder="Defaults to the excerpt" value={post.seoDescription} onChange={(e) => update({ seoDescription: e.target.value })} />,
+              <>
+                <textarea id="seo-desc" className="input" rows={2} maxLength={400} placeholder="Defaults to the excerpt" value={post.seoDescription} onChange={(e) => update({ seoDescription: e.target.value })} />
+                <Help>The grey text under the title in Google. Use the primary keyword once in a natural sentence; aim for 140–160 characters.</Help>
+              </>,
               <CharCount length={post.seoDescription.length} ideal={160} />,
             )}
             {field(
               "Primary keyword",
               "seo-focus",
-              <input
-                id="seo-focus"
-                className="input"
-                maxLength={120}
-                placeholder="e.g. water purifier maintenance cost in Coimbatore"
-                value={post.focusKeyword}
-                onChange={(e) => update({ focusKeyword: e.target.value })}
-              />,
+              <>
+                <input
+                  id="seo-focus"
+                  className="input"
+                  maxLength={120}
+                  placeholder="e.g. water purifier maintenance cost in Coimbatore"
+                  value={post.focusKeyword}
+                  onChange={(e) => update({ focusKeyword: e.target.value })}
+                  onBlur={() => setPost((current) => ({ ...current, focusKeyword: cleanKeyword(current.focusKeyword) }))}
+                />
+                <Help>The one phrase this post should rank for — the phrase only, no &ldquo;Primary Keyword:&rdquo; label. Use it in the meta title, meta description, URL slug and article text.</Help>
+              </>,
             )}
             {field(
               "Secondary keywords",
               "seo-keywords",
-              <textarea
-                id="seo-keywords"
-                className="input"
-                rows={3}
-                maxLength={1000}
-                placeholder="Comma-separated, e.g. lifetime free service water purifier, water purifier on rent in Coimbatore"
-                value={post.keywords}
-                onChange={(e) => update({ keywords: e.target.value })}
-              />,
+              <>
+                <textarea
+                  id="seo-keywords"
+                  className="input"
+                  rows={3}
+                  maxLength={1000}
+                  placeholder="Comma-separated, e.g. lifetime free service water purifier, water purifier on rent in Coimbatore"
+                  value={post.keywords}
+                  onChange={(e) => update({ keywords: e.target.value })}
+                  onBlur={() => setPost((current) => ({ ...current, keywords: cleanKeywords(current.keywords) }))}
+                />
+                <Help>Related phrases, separated by commas. Long-tail and question keywords go here too. Use each one at least once in the article.</Help>
+              </>,
               "comma-separated",
             )}
-            {post.focusKeyword.trim() && <KeywordChecks post={post} />}
+            {(post.focusKeyword.trim() || post.keywords.trim()) && <KeywordChecks post={post} />}
+            <Help>
+              <strong>Direct answer:</strong> add an &ldquo;Answer / summary box&rdquo; block near the top of the article. <strong>Search intent</strong> is a
+              writer&apos;s note — it has no field. <strong>Jump links</strong> like <code>{"{#section-id}"}</code> aren&apos;t needed: headings get them
+              automatically.
+            </Help>
           </section>
         </div>
 

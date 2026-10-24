@@ -92,6 +92,7 @@ export function PostPreview({ post }: { post: EditorPost }) {
       ) : (
         <div className="aspect-video w-full bg-gradient-to-br from-sky-100 via-sky-50 to-blue-100" />
       )}
+      {post.coverImage && post.coverCaption && <p className="bg-slate-50 px-5 py-1.5 text-center text-[11px] text-slate-500">{post.coverCaption}</p>}
       <div className="p-5">
         {post.category && <p className="text-[11px] font-bold uppercase tracking-wider text-brand">{post.category}</p>}
         <h2 className="mt-1 whitespace-pre-line text-xl font-extrabold leading-tight tracking-tight text-navy">{post.title || "Untitled post"}</h2>

@@ -21,6 +21,7 @@ export type BlogPostSummary = {
   author: string;
   coverImage: string;
   coverAlt: string;
+  coverCaption?: string;
   date: string; // ISO date
   readMinutes: number;
   featured: boolean;

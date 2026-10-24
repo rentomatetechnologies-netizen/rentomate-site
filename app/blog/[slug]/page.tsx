@@ -107,6 +107,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <h1 className="text-3xl font-extrabold leading-tight tracking-tight whitespace-pre-line text-white drop-shadow sm:text-5xl sm:leading-[1.2]">{post.title}</h1>
           <Breadcrumbs items={crumbs} light className="mt-6 flex justify-center" />
         </div>
+        {post.coverImage && post.coverCaption && (
+          <p className="absolute inset-x-0 bottom-0 px-4 pb-3 text-center text-xs text-white/80 sm:text-sm">{post.coverCaption}</p>
+        )}
       </header>
 
       <div className="bg-white py-10 lg:py-12">

@@ -26,6 +26,7 @@ export type EditorPost = {
   author: string;
   coverImage: string;
   coverAlt: string;
+  coverCaption: string;
   publishedOn: string;
   readMinutes: string;
   status: PostStatus;
@@ -60,6 +61,7 @@ export const withKeys = (blocks: Block[]): EditorBlock[] => blocks.map((block) =
 
 export const toEditorPost = (post: AdminPost): EditorPost => ({
   ...post,
+  coverCaption: post.coverCaption ?? "",
   focusKeyword: post.focusKeyword ?? "",
   keywords: post.keywords ?? "",
   readMinutes: String(post.readMinutes),

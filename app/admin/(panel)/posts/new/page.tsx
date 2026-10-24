@@ -13,6 +13,7 @@ const emptyPost = (): EditorPost => ({
   author: "Rent O' Mate Team",
   coverImage: "",
   coverAlt: "",
+  coverCaption: "",
   publishedOn: todayInIndia(),
   readMinutes: "",
   status: "DRAFT",
