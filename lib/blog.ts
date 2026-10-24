@@ -38,8 +38,15 @@ export const postKeywords = (post: Pick<BlogPostSummary, "focusKeyword" | "keywo
   ...new Set([post.focusKeyword ?? "", ...(post.keywords ?? "").split(",")].map((k) => k.trim()).filter(Boolean)),
 ];
 
+/** `<a href="url">anchor</a>` HTML pasted into post text, rewritten as `[anchor](url)` links. */
+export const htmlLinksToMarkdown = (text: string) =>
+  text.replace(/<a\s[^>]*?href\s*=\s*["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, (_, href: string, anchor: string) => {
+    const label = anchor.replace(/<[^>]+>/g, "").trim();
+    return label ? `[${label}](${href.trim()})` : href.trim();
+  });
+
 /** `[anchor text](url)` links written in post text, reduced to their anchor text (for meta tags and structured data). */
-export const stripLinks = (text: string) => text.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, "$1");
+export const stripLinks = (text: string) => htmlLinksToMarkdown(text).replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, "$1");
 
 export type BlogPost = BlogPostSummary & { blocks: BlogBlock[] };
 

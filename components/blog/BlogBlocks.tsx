@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { getHeadings, isOptimizableImage, stripLinks, type BlogBlock } from "@/lib/blog";
+import { getHeadings, htmlLinksToMarkdown, isOptimizableImage, stripLinks, type BlogBlock } from "@/lib/blog";
 import { SITE_URL } from "@/lib/site";
 
 // [anchor text](url) links, where url is http(s)://… or a site path like /blog/…
@@ -26,8 +26,9 @@ const TextLink: React.FC<{ href: string; children: React.ReactNode }> = ({ href,
   );
 };
 
-/** Text with [anchor text](url) links and bare URLs turned into links. */
-const Linkified: React.FC<{ text: string }> = ({ text }) => {
+/** Text with [anchor text](url) links, <a href> links and bare URLs turned into links. */
+const Linkified: React.FC<{ text: string }> = ({ text: raw }) => {
+  const text = htmlLinksToMarkdown(raw);
   const parts: React.ReactNode[] = [];
   let last = 0;
   const plain = (value: string) =>

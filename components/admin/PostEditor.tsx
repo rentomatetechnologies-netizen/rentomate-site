@@ -7,6 +7,7 @@ import { ArrowDown, ArrowLeft, ArrowUp, ExternalLink, Loader2, Save, Trash2, X }
 import { apiFetch, useApi } from "@/lib/admin/api";
 import { newKey, slugify, tableToText, textToTable, type BlockType, type EditorBlock, type EditorPost } from "@/lib/admin/posts";
 import { ImageField } from "@/components/admin/ImageField";
+import { LinkTextarea } from "@/components/admin/LinkTextarea";
 import { PostPreview } from "@/components/admin/PostPreview";
 import { useToast } from "@/components/admin/Toast";
 
@@ -52,7 +53,7 @@ function FaqFields({ items, onChange }: { items: FaqItems; onChange: (items: Faq
               <X className="h-3.5 w-3.5" />
             </button>
           </div>
-          <textarea className="input" rows={3} placeholder="Answer" maxLength={2000} value={item.answer} onChange={(e) => set(i, { answer: e.target.value })} />
+          <LinkTextarea className="input" rows={3} placeholder="Answer" maxLength={2000} value={item.answer} onChange={(answer) => set(i, { answer })} />
         </div>
       ))}
       <button type="button" className="btn btn-sm" disabled={items.length >= 30} onClick={() => onChange([...items, { question: "", answer: "" }])}>
@@ -406,13 +407,13 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                         value={block.title}
                         onChange={(e) => updateBlock(block.key, { title: e.target.value })}
                       />
-                      <textarea
+                      <LinkTextarea
                         className="input min-h-20"
                         rows={4}
                         maxLength={3000}
                         placeholder="A short, direct answer to the post's main question (Google and AI assistants often quote this)"
                         value={block.text}
-                        onChange={(e) => updateBlock(block.key, { text: e.target.value })}
+                        onChange={(text) => updateBlock(block.key, { text })}
                       />
                     </div>
                   ) : block.type === "table" ? (
@@ -447,23 +448,29 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
                       <p className="mt-2 text-xs text-slate-400">Built automatically from the post&apos;s headings.</p>
                     </div>
                   ) : block.type === "list" ? (
-                    <textarea
+                    <LinkTextarea
                       className="input"
                       rows={4}
                       placeholder="One item per line"
                       value={block.items.join("\n")}
-                      onChange={(e) => updateBlock(block.key, { items: e.target.value.split("\n") })}
+                      onChange={(text) => updateBlock(block.key, { items: text.split("\n") })}
+                    />
+                  ) : block.type !== "heading" ? (
+                    <LinkTextarea
+                      className="input min-h-20"
+                      rows={block.type === "quote" ? 2 : 4}
+                      placeholder={block.type === "quote" ? "Highlighted quote or tip" : "Write a paragraph…"}
+                      value={block.text}
+                      onChange={(text) => updateBlock(block.key, { text })}
                     />
                   ) : (
                     <textarea
-                      className={`input ${block.type === "heading" ? "min-h-0 text-base font-bold" : "min-h-20"}`}
-                      rows={block.type === "heading" ? 1 : block.type === "quote" ? 2 : 4}
-                      placeholder={block.type === "heading" ? "Section heading" : block.type === "quote" ? "Highlighted quote or tip" : "Write a paragraph…"}
+                      className="input min-h-0 text-base font-bold"
+                      rows={1}
+                      placeholder="Section heading"
                       value={block.text}
-                      onChange={(e) =>
-                        // Headings get their jump-link ids automatically, so drop pasted "{#section-id}" markers.
-                        updateBlock(block.key, { text: block.type === "heading" ? e.target.value.replace(/\s*\{#[^}]*\}/g, "") : e.target.value })
-                      }
+                      // Headings get their jump-link ids automatically, so drop pasted "{#section-id}" markers.
+                      onChange={(e) => updateBlock(block.key, { text: e.target.value.replace(/\s*\{#[^}]*\}/g, "") })}
                     />
                   )}
                 </div>
@@ -484,8 +491,8 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
               ))}
             </div>
             <p className="mt-2 text-xs text-slate-400">
-              Links: write <code>[anchor text](https://example.com)</code> or <code>[anchor text](/blog/another-post)</code> in any text. Plain URLs
-              also become links.
+              Links: select words and click <strong>Link</strong>, or write <code>[anchor text](https://example.com)</code> /{" "}
+              <code>[anchor text](/blog/another-post)</code>. Links pasted from Word or Google Docs are kept, and plain URLs also become links.
             </p>
             {!hasToc && headings.length >= 2 && (
               <p className="mt-2 text-xs text-slate-400">
