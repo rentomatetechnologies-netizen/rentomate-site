@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { SiteShell } from "@/components/SiteShell";
 import { ADDRESS, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
@@ -48,10 +48,12 @@ const structuredData = {
   ],
 };
 
-const manrope = Manrope({
+// Self-hosted (Latin subset, variable weight; OFL licence in app/fonts) rather than next/font/google: builds then
+// never depend on Google Fonts, whose responses with `/l/font?kit=…&…` URLs break Turbopack's font loader.
+const manrope = localFont({
+  src: "./fonts/manrope-latin-variable.woff2",
   variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: "500 800",
   display: "swap",
 });
 
