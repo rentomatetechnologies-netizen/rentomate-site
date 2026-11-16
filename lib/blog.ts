@@ -130,6 +130,10 @@ export const paginate = <T,>(items: T[], page: number) => ({
   totalPages: Math.max(1, Math.ceil(items.length / POSTS_PER_PAGE)),
 });
 
+/** Pages in a listing of `count` posts. The newest is featured above the grid (BlogListing), so the grid pages
+ * through the rest; counting all of them would add an empty last page whenever count is 1 more than a full page. */
+export const listingPageCount = (count: number) => Math.max(1, Math.ceil((count - 1) / POSTS_PER_PAGE));
+
 /** The "Heading" blocks of a post, with unique anchor ids for the table of contents. */
 export const getHeadings = (blocks: BlogBlock[]) => {
   const used = new Map<string, number>();

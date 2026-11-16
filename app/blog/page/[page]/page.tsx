@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { pageMetadata } from "@/lib/seo";
 import { BlogListing } from "@/components/blog/BlogListing";
-import { BLOG_DESCRIPTION, getPosts, paginate } from "@/lib/blog";
+import { BLOG_DESCRIPTION, getPosts, listingPageCount } from "@/lib/blog";
 import { getBlogBanner } from "@/lib/blog-banner";
 
 export const revalidate = 300;
@@ -10,7 +10,7 @@ export const revalidate = 300;
 type Params = { params: Promise<{ page: string }> };
 
 export const generateStaticParams = async () => {
-  const { totalPages } = paginate(await getPosts(), 1);
+  const totalPages = listingPageCount((await getPosts()).length);
   return Array.from({ length: totalPages - 1 }, (_, i) => ({ page: String(i + 2) }));
 };
 
@@ -23,7 +23,7 @@ export default async function BlogPageN({ params }: Params) {
   const page = Number((await params).page);
   if (page === 1) permanentRedirect("/blog");
   const [posts, banner] = await Promise.all([getPosts(), getBlogBanner()]);
-  if (!Number.isInteger(page) || page < 1 || page > paginate(posts, 1).totalPages) notFound();
+  if (!Number.isInteger(page) || page < 1 || page > listingPageCount(posts.length)) notFound();
 
   return (
     <BlogListing

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { pageMetadata } from "@/lib/seo";
 import { BlogListing } from "@/components/blog/BlogListing";
-import { getCategories, getCategoryListing, getPosts, paginate } from "@/lib/blog";
+import { getCategories, getCategoryListing, getPosts, listingPageCount } from "@/lib/blog";
 
 export const revalidate = 300;
 
@@ -11,7 +11,7 @@ type Params = { params: Promise<{ category: string; page: string }> };
 export const generateStaticParams = async () => {
   const posts = await getPosts();
   return getCategories(posts).flatMap(({ slug, count }) => {
-    const { totalPages } = paginate(Array.from({ length: count }), 1);
+    const totalPages = listingPageCount(count);
     return Array.from({ length: totalPages - 1 }, (_, i) => ({ category: slug, page: String(i + 2) }));
   });
 };
@@ -33,7 +33,7 @@ export default async function CategoryPageN({ params }: Params) {
   const page = Number(rawPage);
   if (page === 1) permanentRedirect(`/blog/category/${slug}`);
   const found = await getCategoryListing(slug);
-  if (!found || !Number.isInteger(page) || page < 1 || page > paginate(found.inCategory, 1).totalPages) notFound();
+  if (!found || !Number.isInteger(page) || page < 1 || page > listingPageCount(found.inCategory.length)) notFound();
   const { category, posts, inCategory } = found;
   const basePath = `/blog/category/${category.slug}`;
 
