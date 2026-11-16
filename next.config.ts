@@ -4,6 +4,12 @@ import type { NextConfig } from "next";
 // directly: these same-origin paths are forwarded to it, so the admin session cookie stays first-party.
 const backendUrl = (process.env.BACKEND_URL || "http://localhost:4000").replace(/\/$/, "");
 
+// Blog categories that no longer exist, by URL slug; each listing (and its pages) 301-redirects to /blog.
+// Add a slug only after every post has moved out of that category in the admin and nothing links to it:
+// redirects run before pages, so a category listed here is unreachable even while posts still use it.
+// Next: "guides", once posts move to the new categories.
+const RETIRED_BLOG_CATEGORIES: string[] = [];
+
 const nextConfig: NextConfig = {
   devIndicators: false,
   async redirects() {
@@ -16,6 +22,10 @@ const nextConfig: NextConfig = {
       { source: "/rent/water-purifier-on-rent-coimbatore", destination: "/ro-on-rent", statusCode: 301 },
       { source: "/rent/ro-water-purifier-rental-coimbatore", destination: "/ro-on-rent", statusCode: 301 },
       { source: "/rent/rent-ro-purifier-coimbatore", destination: "/ro-on-rent", statusCode: 301 },
+      ...RETIRED_BLOG_CATEGORIES.flatMap((slug) => [
+        { source: `/blog/category/${slug}`, destination: "/blog", statusCode: 301 as const },
+        { source: `/blog/category/${slug}/page/:page`, destination: "/blog", statusCode: 301 as const },
+      ]),
     ];
   },
   async rewrites() {

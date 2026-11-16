@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
+import { OPEN_GRAPH_DEFAULTS, namesBrand } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CalendarCheck, CalendarDays, Clock } from "lucide-react";
@@ -26,9 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return {};
   const description = metaDescription(post);
   const title = post.seoTitle || plainTitle(post.title);
+  // An SEO title typed with the brand already in it is used as is; otherwise the layout template adds it once.
+  const fullTitle = namesBrand(title) ? title : `${title} | ${BRAND.name}`;
   const keywords = postKeywords(post);
   return {
-    title,
+    title: { absolute: fullTitle },
     description,
     keywords: keywords.length ? keywords : undefined,
     alternates: { canonical: `/blog/${post.slug}` },
@@ -36,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       ...OPEN_GRAPH_DEFAULTS,
       type: "article",
       url: `/blog/${post.slug}`,
-      title,
+      title: fullTitle,
       description,
       publishedTime: post.date,
       modifiedTime: post.updatedAt,
@@ -136,22 +138,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <div className="mt-6">
                 <BlogBlocks blocks={post.blocks} showToc={false} />
               </div>
-              {/* Fixed call to action on every post, not configurable from the admin. */}
-              <div className="mt-10 flex flex-col items-center gap-4 rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-center text-white shadow-lg sm:flex-row sm:justify-between sm:text-left">
-                <div>
-                  <p className="text-xl font-extrabold tracking-tight sm:text-2xl">Try Rent O&apos; Mate free for 7 days</p>
+              {/* Fixed call to action on every post, not configurable from the admin. The plans link gives the main
+                  rental page an internal link from every article. */}
+              <div className="mt-10 flex flex-col items-center gap-5 rounded-[10px] bg-gradient-to-br from-[#051838] via-[#0a2a5c] to-[#0070F3] p-6 text-center text-white shadow-lg sm:items-start sm:p-8 sm:text-left">
+                <div className="min-w-0">
+                  <p className="text-xl font-extrabold tracking-tight sm:text-2xl">RO water purifier on rent in Coimbatore</p>
                   <p className="mt-1 text-sm text-sky-100">
-                    Starts from ₹{LOWEST_PRICE}/month – Get pure RO water at home, with free installation and zero maintenance worries.
+                    From ₹{LOWEST_PRICE}/month with free installation, service and filter changes. Try it free for 7 days.
                   </p>
                 </div>
-                <a
-                  href={CUSTOMER_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50"
-                >
-                  <CalendarCheck className="h-4 w-4" aria-hidden /> Book Free Trial
-                </a>
+                <div className="flex w-full shrink-0 flex-col gap-3 sm:w-auto sm:flex-row">
+                  <Link
+                    href="/ro-on-rent"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-6 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50"
+                  >
+                    See rental plans <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Link>
+                  <a
+                    href={CUSTOMER_FORM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/60 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                  >
+                    <CalendarCheck className="h-4 w-4" aria-hidden /> Book Free Trial
+                  </a>
+                </div>
               </div>
               <p className="mt-6 flex flex-wrap items-center gap-1.5 border-t border-slate-200 pt-5 text-sm text-slate-600">
                 <CalendarDays className="h-4 w-4 text-slate-400" aria-hidden />

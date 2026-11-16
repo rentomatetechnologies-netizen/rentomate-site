@@ -15,6 +15,9 @@ export const OPEN_GRAPH_DEFAULTS = {
 export const HOME_TITLE = "Water Purifier on Rent in Coimbatore | RentOMate";
 export const HOME_DESCRIPTION = `Rent an ISI certified RO water purifier in Coimbatore from ${inr(LOWEST_PRICE)}/month. Free installation, free service and filter replacements, 7-day free trial. ${BRAND.name}, RO on rent near you.`;
 
+/** True when a title already names the brand in any spelling ("Rent O' Mate", "RentOMate", "Rentomate"). */
+export const namesBrand = (title: string) => /rent\s*o['’]?\s*mate/i.test(title);
+
 /**
  * `title` is the page name; the layout's template adds " | Rent O' Mate" to <title>, and it's added here for og/twitter.
  * Pass `seoTitle` for a title that already names the brand; it's used as is, skipping the template.
