@@ -14,7 +14,7 @@ export const HERO_SLIDE_COUNT = 3;
 export const DEFAULT_SLIDE_ALT = "Akvinz Ultron+ RO water purifiers in Midnight Black and Pearl White, available on rent from Rent O' Mate";
 
 /** Shown when no carousel images are uploaded. */
-export const DEFAULT_SLIDE: HeroSlide = { image: "/images/hero/rentomate-hero.webp", alt: DEFAULT_SLIDE_ALT };
+export const DEFAULT_SLIDE: HeroSlide = { image: "/images/hero/rentomate-hero-ultron.webp", alt: DEFAULT_SLIDE_ALT };
 
 export const DEFAULT_HERO: HeroContent = {
   slides: Array.from({ length: HERO_SLIDE_COUNT }, () => ({ image: "", alt: "" })),

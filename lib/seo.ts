@@ -8,7 +8,7 @@ import { BRAND, LOWEST_PRICE, inr } from "@/lib/site";
 export const OPEN_GRAPH_DEFAULTS = {
   siteName: BRAND.name,
   locale: "en_IN",
-  images: { url: "/images/hero/rentomate-hero.webp", width: 1536, height: 1024, alt: `${BRAND.name} RO water purifier on rent` },
+  images: { url: "/images/hero/rentomate-hero-ultron.webp", width: 1536, height: 1024, alt: `${BRAND.name} RO water purifier on rent` },
 } as const;
 
 // The search phrase goes first in the title, since Google can cut long titles short.
