@@ -26,7 +26,7 @@ const structuredData = {
       alternateName: BRAND.alternateNames,
       url: `${SITE_URL}/`,
       logo: `${SITE_URL}/images/brand/rentomate-wordmark.png`,
-      image: `${SITE_URL}/images/hero/rentomate-hero-ultron.webp`,
+      image: `${SITE_URL}/images/hero/rentomate-hero-branded.webp`,
       description:
         "Rent O' Mate rents ISI certified Akvinz RO water purifiers (8-stage RO + UV + UF with TDS control, copper and minerals, pH-balanced alkaline water) to homes, with free installation, servicing and filter replacements included in the monthly rent.",
       telephone: PHONE_DISPLAY,
