@@ -13,7 +13,7 @@ import { useSiteActions } from "@/components/SiteShell";
 
 // Two-column hero: headline, benefits and CTAs on the left; the hero image on the right.
 // The right side rotates through the carousel images set in the admin panel (Homepage hero),
-// and shows the Rent O' Mate ambassador image when none are uploaded.
+// and shows the default product image (black and white Ultron+) when none are uploaded.
 
 const USPS: { label: string; icon: LucideIcon }[] = [
   { label: "Zero installation cost", icon: BadgeIndianRupee },
