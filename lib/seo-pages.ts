@@ -40,49 +40,8 @@ const areaPage = (area: string, slug: string): SeoPage => ({
   ],
 });
 
+// The Coimbatore-wide pages were merged into /ro-on-rent (redirects in next.config.ts); don't add them back here.
 export const SEO_PAGES: SeoPage[] = [
-  {
-    slug: "water-purifier-on-rent-coimbatore",
-    search: "Water purifier on rent in Coimbatore",
-    title: "Water Purifier on Rent in Coimbatore",
-    metaDescription: `Rent an RO water purifier in Coimbatore from ${price}. Zero machine cost, free installation, lifetime free service and filter changes.`,
-    eyebrow: "Coimbatore",
-    heading: { lead: "Water purifier on rent in", highlight: "Coimbatore" },
-    description: `Get an ISI certified Akvinz RO purifier at home for a small monthly rent — from ${price}, with installation, service and filters included.`,
-    intro: [
-      "Rent O' Mate is a water purifier rental service from Akvinz Water Purifiers, based in Coimbatore. Instead of paying for a machine up front, you rent one for a fixed monthly fee and we take care of everything else.",
-      "Installation is free and usually done within 24–48 hours. Servicing and filter replacements are included for as long as you rent, so there are no surprise repair or AMC bills.",
-    ],
-    highlights: ["Zero machine and installation cost", "Lifetime free maintenance and filter changes", "ISI certified Akvinz purifiers", "7-day risk-free trial"],
-  },
-  {
-    slug: "ro-water-purifier-rental-coimbatore",
-    search: "RO water purifier rental Coimbatore",
-    title: "RO Water Purifier Rental in Coimbatore",
-    metaDescription: `RO water purifier rental in Coimbatore from ${price}: 8-stage RO + UV + UF purification with copper, minerals and pH-balanced water.`,
-    eyebrow: "RO purifier rental",
-    heading: { lead: "RO water purifier rental in", highlight: "Coimbatore" },
-    description: "Rent a purifier with 8-stage RO + UV + UF purification and TDS control — the same technology you would buy, without the purchase price.",
-    intro: [
-      "Every Rent O' Mate purifier uses reverse osmosis together with UV and UF stages and TDS control, then adds copper and essential minerals back and balances the pH, so the water is both safe and pleasant to drink.",
-      `Renting gives you that technology from ${price}. We install it, service it and replace the filters when they are due, so the purifier keeps performing the way it did on day one.`,
-    ],
-    highlights: ["RO + UV + UF with TDS control", "Copper and essential minerals retained", "pH-balanced alkaline water", "8 L food-grade storage tank"],
-  },
-  {
-    slug: "rent-ro-purifier-coimbatore",
-    search: "Rent RO purifier in Coimbatore",
-    title: "Rent an RO Purifier in Coimbatore",
-    metaDescription: `Rent an RO purifier in Coimbatore in a few simple steps. Choose a 12 or 24-month plan from ${price}; we install within 24–48 hours.`,
-    eyebrow: "How to rent",
-    heading: { lead: "Rent an RO purifier in", highlight: "Coimbatore" },
-    description: "Choose a plan, share your address and we install the purifier at your home — usually within 24–48 hours.",
-    intro: [
-      "Renting with Rent O' Mate takes a few minutes. Pick the 24-month Smart Saver or the 12-month Easy Flexi plan, tell us where you live, and our team schedules the installation.",
-      "There is no machine cost and no installation charge. A refundable security deposit applies, and your monthly rent covers servicing and filter replacements for the whole plan.",
-    ],
-    highlights: ["Choose a 12 or 24-month plan", "Free installation within 24–48 hours", "Refundable security deposit", "Service and filters included in the rent"],
-  },
   {
     slug: "ro-on-rent-near-me",
     search: "RO on rent near me",

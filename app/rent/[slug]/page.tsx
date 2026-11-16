@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckCircle2 } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
@@ -43,6 +44,14 @@ export default async function SeoLandingPage({ params }: { params: Promise<{ slu
             {page.intro.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+            {/* Points ranking at the main Coimbatore page instead of competing with it. */}
+            <p>
+              See every plan and purifier on our{" "}
+              <Link href="/ro-on-rent" className="font-semibold text-[#0084FF] hover:underline">
+                RO water purifier on rent in Coimbatore
+              </Link>{" "}
+              page.
+            </p>
             <div className="pt-2">
               <RentNowButton>Rent Now</RentNowButton>
             </div>

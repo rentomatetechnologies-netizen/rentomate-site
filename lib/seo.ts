@@ -4,7 +4,12 @@ import { BRAND, LOWEST_PRICE, inr } from "@/lib/site";
 // Per-page metadata. Next.js replaces (not merges) the layout's openGraph and alternates when a page sets
 // them, and pages that don't set them inherit the homepage's — so every page sets its own canonical and OG tags.
 
-export const OPEN_GRAPH_DEFAULTS = { siteName: BRAND.name, locale: "en_IN" } as const;
+/** `images` is the link preview (WhatsApp, Facebook, X) for any page that doesn't set its own. */
+export const OPEN_GRAPH_DEFAULTS = {
+  siteName: BRAND.name,
+  locale: "en_IN",
+  images: { url: "/images/hero/rentomate-hero.webp", width: 1536, height: 1024, alt: `${BRAND.name} RO water purifier on rent` },
+} as const;
 
 // The search phrase goes first in the title, since Google can cut long titles short.
 export const HOME_TITLE = "Water Purifier on Rent in Coimbatore | RentOMate";

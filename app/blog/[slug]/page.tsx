@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       publishedTime: post.date,
       modifiedTime: post.updatedAt,
       section: post.category || undefined,
-      images: post.coverImage ? [{ url: post.coverImage, alt: post.coverAlt }] : undefined,
+      images: post.coverImage ? [{ url: post.coverImage, alt: post.coverAlt }] : OPEN_GRAPH_DEFAULTS.images,
     },
   };
 }
