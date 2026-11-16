@@ -7,6 +7,7 @@ import { whatsappLink } from "@/lib/contact";
 
 export const metadata: Metadata = pageMetadata({
   title: "Refer & Earn",
+  seoTitle: "Refer and Earn Rewards | RentOMate",
   description: "Refer friends and family to Rent O' Mate and earn rewards when they rent a water purifier.",
   path: "/refer-and-earn",
 });

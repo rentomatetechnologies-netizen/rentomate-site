@@ -24,18 +24,13 @@ import {
 import { PageHeader } from "@/components/PageHeader";
 import { AvailableCities } from "@/components/AvailableCities";
 
-const SEO_TITLE = "About RentOMate | Water Purifier Rentals in Coimbatore";
+const SEO_TITLE = "About RentOMate | Water Purifier Rental Company";
 const SEO_DESCRIPTION =
   "Discover RentOMate in Coimbatore, founded on 20+ years of professional experience across consumer durables, sales, service and business development. Explore smarter water purifier rentals.";
 
-// The SEO title already names the brand, so it skips the layout's " | Rent O' Mate" template.
-const base = pageMetadata({ title: "About Us", description: SEO_DESCRIPTION, path: "/about-us" });
 export const metadata: Metadata = {
-  ...base,
-  title: { absolute: SEO_TITLE },
+  ...pageMetadata({ title: "About Us", seoTitle: SEO_TITLE, description: SEO_DESCRIPTION, path: "/about-us" }),
   keywords: ["Water purifier rental in Coimbatore", "RentOMate", "water purifier on rent", "affordable appliance rentals in Coimbatore"],
-  openGraph: { ...base.openGraph, title: SEO_TITLE },
-  twitter: { ...base.twitter, title: SEO_TITLE },
 };
 
 const INTRO = [

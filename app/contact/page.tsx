@@ -8,6 +8,7 @@ import { CITIES } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
+  seoTitle: "Contact RentOMate | RO Rental Enquiries in Coimbatore",
   description: `Call, WhatsApp or email Rent O' Mate for water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
   path: "/contact",
 });

@@ -8,6 +8,7 @@ export const revalidate = 300;
 
 export const metadata: Metadata = pageMetadata({
   title: "Blog",
+  seoTitle: "Water Purifier Guides, Tips & Advice | RentOMate",
   description: "Tips on safe drinking water, RO purifiers, filters and renting vs buying, from the Rent O' Mate team.",
   path: "/blog",
 });

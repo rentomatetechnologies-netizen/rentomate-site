@@ -9,6 +9,7 @@ import { LOWEST_PRICE } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "RO Water Purifier on Rent",
+  seoTitle: "RO Water Purifier on Rent in Coimbatore | RentOMate",
   description: `Rent an RO water purifier in Coimbatore from ₹${LOWEST_PRICE}/month with free installation, maintenance and filter replacements.`,
   path: "/ro-on-rent",
 });

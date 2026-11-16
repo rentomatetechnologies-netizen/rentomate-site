@@ -7,14 +7,17 @@ import { BRAND, LOWEST_PRICE, inr } from "@/lib/site";
 export const OPEN_GRAPH_DEFAULTS = { siteName: BRAND.name, locale: "en_IN" } as const;
 
 // The search phrase goes first in the title, since Google can cut long titles short.
-export const HOME_TITLE = `Water Purifier on Rent in Coimbatore from ${inr(LOWEST_PRICE)}/month | ${BRAND.name}`;
+export const HOME_TITLE = "Water Purifier on Rent in Coimbatore | RentOMate";
 export const HOME_DESCRIPTION = `Rent an ISI certified RO water purifier in Coimbatore from ${inr(LOWEST_PRICE)}/month. Free installation, free service and filter replacements, 7-day free trial. ${BRAND.name}, RO on rent near you.`;
 
-/** `title` is the page name; the layout's template adds " | Rent O' Mate" to <title>, and it's added here for og/twitter. */
-export function pageMetadata({ title, description, path }: { title: string; description: string; path: string }): Metadata {
-  const fullTitle = `${title} | ${BRAND.name}`;
+/**
+ * `title` is the page name; the layout's template adds " | Rent O' Mate" to <title>, and it's added here for og/twitter.
+ * Pass `seoTitle` for a title that already names the brand; it's used as is, skipping the template.
+ */
+export function pageMetadata({ title, seoTitle, description, path }: { title: string; seoTitle?: string; description: string; path: string }): Metadata {
+  const fullTitle = seoTitle ?? `${title} | ${BRAND.name}`;
   return {
-    title,
+    title: seoTitle ? { absolute: seoTitle } : title,
     description,
     alternates: { canonical: path },
     openGraph: { ...OPEN_GRAPH_DEFAULTS, type: "website", title: fullTitle, description, url: path },
