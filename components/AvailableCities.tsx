@@ -28,7 +28,7 @@ export const AvailableCities: React.FC = () => {
             Where We <span className="bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">Serve</span>
           </h2>
           <p className="mt-3 text-sm text-slate-600 sm:text-base">
-            Rent O&apos; Mate purifiers are available in {SERVICE_LOCATIONS.length} cities across Tamil Nadu and Puducherry.
+            Rentomate purifiers are available in {SERVICE_LOCATIONS.length} cities across Tamil Nadu and Puducherry.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export const AvailableCities: React.FC = () => {
                 <p className="mt-4 text-sm leading-relaxed text-slate-600">
                   {featuredAreas.length > 0
                     ? `${featuredAreas.slice(0, 10).join(" · ")} and more.`
-                    : `Rent O' Mate purifiers are available for homes across ${featured}, with free installation. Check your area to book.`}
+                    : `Rentomate purifiers are available for homes across ${featured}, with free installation. Check your area to book.`}
                 </p>
               </motion.div>
             </AnimatePresence>
@@ -173,7 +173,7 @@ const CityRequest: React.FC = () => {
     } catch {
       // Storage blocked – the reply still shows for this visit.
     }
-    const message = ["Hi Rent O' Mate! Please let me know when you start in my city.", `City: ${request.city}`, `Pincode: ${request.pincode}`].join("\n");
+    const message = ["Hi Rentomate! Please let me know when you start in my city.", `City: ${request.city}`, `Pincode: ${request.pincode}`].join("\n");
     const opened = window.open(whatsappLink(message), "_blank", "noopener,noreferrer");
     // If WhatsApp couldn't open in a new tab there's nothing to come back from, so reply straight away.
     setStep(opened ? "waiting" : "done");
@@ -221,7 +221,7 @@ const CityRequest: React.FC = () => {
           <p>
             Warm regards,
             <br />
-            <span className="font-bold text-slate-900">Team Rent O&apos; Mate</span>
+            <span className="font-bold text-slate-900">Team Rentomate</span>
           </p>
           <button type="button" onClick={reset} className="text-xs font-semibold text-sky-600 underline-offset-2 hover:underline">
             Request another city
@@ -232,7 +232,7 @@ const CityRequest: React.FC = () => {
           <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <div>
               <h3 className="text-lg font-extrabold text-slate-900">Don&apos;t see your city?</h3>
-              <p className="mt-1 text-sm text-slate-600">Tell us where you are and we&apos;ll let you know as soon as Rent O&apos; Mate reaches you.</p>
+              <p className="mt-1 text-sm text-slate-600">Tell us where you are and we&apos;ll let you know as soon as Rentomate reaches you.</p>
             </div>
             {step === "idle" && (
               <button

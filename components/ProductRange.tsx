@@ -52,7 +52,7 @@ export const ProductRange: React.FC = () => {
             </h2>
             {/* Left-aligned with balanced line breaks: justified text left big gaps in this narrow column. */}
             <p className="mt-4 max-w-prose text-pretty text-sm leading-relaxed text-slate-600 sm:text-base">
-              With Rent O&apos; Mate, you use an Akvinz RO water purifier at home without paying the machine cost. Instead, you pay a small monthly rent that covers installation, servicing, filter swaps and relocation support.
+              With Rentomate, you use an Akvinz RO water purifier at home without paying the machine cost. Instead, you pay a small monthly rent that covers installation, servicing, filter swaps and relocation support.
             </p>
             <p className="mt-3 max-w-prose text-pretty text-sm leading-relaxed text-slate-600 sm:text-base">
               It is ideal for families, tenants and young professionals who want safe drinking water without the upfront cost or maintenance headaches of owning a purifier.
@@ -105,7 +105,7 @@ export const ProductRange: React.FC = () => {
                       <Image
                         key={colour.id}
                         src={colour.image}
-                        alt={`${item.brand} ${item.name} in ${colour.colour}`}
+                        alt={`Rentomate ${item.brand} ${item.shortName} RO water purifier on rent (${colour.colour})`}
                         fill
                         sizes="(min-width: 1024px) 320px, (min-width: 768px) 40vw, 80vw"
                         className={`object-contain transition-[transform,opacity] will-change-transform ${

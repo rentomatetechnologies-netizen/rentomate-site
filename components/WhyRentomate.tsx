@@ -26,8 +26,8 @@ const tabs: { id: Comparison; label: string; shortLabel: string; icon: LucideIco
   { id: "traditional", label: "Renting vs Traditional Methods", shortLabel: "Traditional", icon: FlaskConical },
 ];
 
-// Calculator inputs, based on the "Water Can Supply vs Rent O' Mate" and "Own vs Extend Life" posters.
-// Can water follows the Rent O' Mate savings sheet: a year is 52 weeks and cans start at ₹40.
+// Calculator inputs, based on the "Water Can Supply vs Rentomate" and "Own vs Extend Life" posters.
+// Can water follows the Rentomate savings sheet: a year is 52 weeks and cans start at ₹40.
 const CAN_PRICES = [40, 50, 60, 70, 80];
 const CAN_TYPES = [
   { label: "Unbranded", priceIndex: 0 },
@@ -84,7 +84,7 @@ const RangeInput = ({ label, value, onChange, marks }: { label: string; value: n
 
 export const WhyRentomate: React.FC = () => {
   const [comparison, setComparison] = useState<Comparison>("cans");
-  // Set while a calculated result is shown; pops the "With Rent O' Mate" card in a matching colour.
+  // Set while a calculated result is shown; pops the "With Rentomate" card in a matching colour.
   const [highlight, setHighlight] = useState<Highlight>(null);
   const chooseComparison = (next: Comparison) => {
     setComparison(next);
@@ -98,7 +98,7 @@ export const WhyRentomate: React.FC = () => {
         <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto max-w-3xl text-center">
           <span className="mb-2 inline-block rounded-[10px] bg-sky-400/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-sky-300 ring-1 ring-sky-400/25">Why Rent</span>
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-[2.25rem] sm:leading-tight">Renting a Water Purifier Makes More Sense Than Your Current Setup</h2>
-          <p className="mt-2 text-sm leading-relaxed text-slate-300 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a Rent O&apos; Mate purifier on rent compares.</p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-300 sm:text-base">Whether you buy water cans, own a purifier or rely on traditional methods, see how a Rentomate purifier on rent compares.</p>
         </motion.div>
 
         <div role="tablist" className="mt-6 grid grid-cols-3 gap-1 rounded-[10px] border border-slate-200 bg-white p-1 shadow-sm sm:mt-5 sm:gap-2 sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
@@ -195,14 +195,14 @@ function CanCalculator({ onResult }: { onResult: ResultHandler }) {
     <h4 className="font-extrabold text-slate-900">Your {plan.months}-Month Comparison</h4>
     <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
       <ComparisonValue label="Water can supply" value={`${cans} × ${inr(price)} × ${weeks} weeks`} />
-      <ComparisonValue label={`Rent O' Mate ${plan.name}`} value={`${inr(plan.price)} × ${plan.months} months`} />
+      <ComparisonValue label={`Rentomate ${plan.name}`} value={`${inr(plan.price)} × ${plan.months} months`} />
       <ComparisonValue label="Total spend on cans" value={inr(canTotal)} tone="bad" />
-      <ComparisonValue label="Total spend on Rent O' Mate" value={inr(rentTotal)} tone="good" />
+      <ComparisonValue label="Total spend on Rentomate" value={inr(rentTotal)} tone="good" />
       <ComparisonValue label="Filter change, service & AMC" value="Not applicable" />
       <ComparisonValue label="Installation, filters, service & AMC" value="FREE" tone="good" />
     </div>
     <p className="mt-4 border-t border-sky-200 pt-3 text-sm font-bold text-emerald-700">
-      You save {inr(saving)} in {plan.months} months with Rent O&apos; Mate{years > 1 ? ` (${inr(savingPerYear)} a year)` : ""} — better water, less hassle.
+      You save {inr(saving)} in {plan.months} months with Rentomate{years > 1 ? ` (${inr(savingPerYear)} a year)` : ""} — better water, less hassle.
     </p>
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on {WEEKS_PER_YEAR} weeks a year and the can price and usage entered above. Actual costs may vary.</p>
   </div>;
@@ -233,15 +233,15 @@ function BuyCalculator({ onResult }: { onResult: ResultHandler }) {
     <h4 className="font-extrabold text-slate-900">Owning vs Renting for {years} {years === 1 ? "Year" : "Years"}</h4>
     <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-3">
       <ComparisonValue label="Purchase cost" value={inr(purchase)} />
-      <ComparisonValue label={`Rent O' Mate (${inr(SMART_SAVER.price)}/month)`} value={`${years * 12} months`} />
+      <ComparisonValue label={`Rentomate (${inr(SMART_SAVER.price)}/month)`} value={`${years * 12} months`} />
       <ComparisonValue label={`Filter, AMC & repairs (${years} yr)`} value={inr(yearlyUpkeep * years)} />
       <ComparisonValue label="Installation, filters, service & AMC" value="FREE" tone="good" />
       <ComparisonValue label="Total spend to own" value={inr(ownTotal)} tone="bad" />
-      <ComparisonValue label="Total spend on Rent O' Mate" value={inr(rentTotal)} tone="good" />
+      <ComparisonValue label="Total spend on Rentomate" value={inr(rentTotal)} tone="good" />
     </div>
     <p className="mt-4 border-t border-sky-200 pt-3 text-sm font-bold text-emerald-700">
       {extraMonths > 0
-        ? `The same ${inr(ownTotal)} covers ${monthsForSameMoney} months of Rent O' Mate — ${extraMonths} extra months of pure water, zero maintenance.`
+        ? `The same ${inr(ownTotal)} covers ${monthsForSameMoney} months of Rentomate — ${extraMonths} extra months of pure water, zero maintenance.`
         : `Unlimited purified water for about ₹${PRICE_PER_DAY} a day, with zero maintenance and no breakdown bills.`}
     </p>
     <p className="mt-3 text-[11px] font-medium leading-relaxed text-slate-500">Estimate based on the values entered above, using the top of each range, compared with the {SMART_SAVER.months}-month {SMART_SAVER.name} plan.</p>
@@ -316,7 +316,7 @@ function BenefitsPanel({ comparison, highlight }: { comparison: "cans" | "buy"; 
       <AnimatePresence>
         {style && <motion.span initial={{ opacity: 0, y: -8, scale: 0.8 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -8, scale: 0.8 }} transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 18 }} className={`absolute right-4 top-4 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white shadow-md ${style.badge}`}><Sparkles className="h-3 w-3" /> {style.label}</motion.span>}
       </AnimatePresence>
-      <h3 className={`text-lg font-extrabold ${style ? `${style.heading} pr-40` : "text-sky-800"}`}>With Rent O&apos; Mate, You Get</h3>
+      <h3 className={`text-lg font-extrabold ${style ? `${style.heading} pr-40` : "text-sky-800"}`}>With Rentomate, You Get</h3>
       <ul className="relative mt-3 space-y-1.5">{wins.map((win) => <li key={win} className="flex gap-2 text-sm font-medium text-slate-700"><Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />{win}</li>)}</ul>
     </motion.div>
   </div>;

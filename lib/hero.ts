@@ -11,7 +11,7 @@ export type HeroContent = {
 export const HERO_SLIDE_COUNT = 3;
 
 /** Alt text used when the admin leaves a slide's description blank. */
-export const DEFAULT_SLIDE_ALT = "Akvinz Ultron+ RO water purifiers in Midnight Black and Pearl White, available on rent from Rent O' Mate";
+export const DEFAULT_SLIDE_ALT = "Akvinz Ultron+ RO water purifiers in Midnight Black and Pearl White, available on rent from Rentomate";
 
 /** Shown when no carousel images are uploaded. */
 export const DEFAULT_SLIDE: HeroSlide = { image: "/images/hero/rentomate-hero-branded.webp", alt: DEFAULT_SLIDE_ALT };

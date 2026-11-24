@@ -21,7 +21,7 @@ export const Logo: React.FC<LogoProps> = ({
     <div className={`relative flex items-center select-none ${className}`}>
       <Image
         src={light ? "/images/brand/rentomate-wordmark-white.png" : "/images/brand/rentomate-wordmark.png"}
-        alt="Rent O' Mate - Water Purifiers On Rent"
+        alt="Rentomate logo"
         width={width}
         height={height}
         priority

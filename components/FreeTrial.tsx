@@ -20,7 +20,7 @@ export const FreeTrial: React.FC = () => {
         <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_1.3fr]">
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">7-Day Risk-Free Trial</h2>
-            <p className="mt-3 text-sm leading-relaxed text-sky-100 sm:text-base">Try a Rent O&apos; Mate purifier at home for 7 days. If it isn&apos;t right for you, cancel — no questions asked.</p>
+            <p className="mt-3 text-sm leading-relaxed text-sky-100 sm:text-base">Try a Rentomate purifier at home for 7 days. If it isn&apos;t right for you, cancel — no questions asked.</p>
             <a href={CUSTOMER_FORM_URL} target="_blank" rel="noopener noreferrer" className="mt-6 inline-block rounded-[10px] bg-white px-7 py-3 text-sm font-bold text-[#051838] shadow-lg transition hover:bg-sky-50">Start My Free Trial</a>
             <p className="mt-3 text-[11px] text-sky-200">*Conditions apply.</p>
           </div>

@@ -7,13 +7,13 @@ import { whatsappLink } from "@/lib/contact";
 
 export const metadata: Metadata = pageMetadata({
   title: "Refer & Earn",
-  seoTitle: "Refer and Earn Rewards | RentOMate",
-  description: "Refer friends and family to Rent O' Mate and earn rewards when they rent a water purifier.",
+  seoTitle: "Refer and Earn Rewards | Rentomate",
+  description: "Refer friends and family to Rentomate and earn rewards when they rent a water purifier.",
   path: "/refer-and-earn",
 });
 
 const steps = [
-  { icon: Share2, title: "Share your code", desc: "Every Rent O' Mate customer gets a customer code. Share it with friends and family." },
+  { icon: Share2, title: "Share your code", desc: "Every Rentomate customer gets a customer code. Share it with friends and family." },
   { icon: UserPlus, title: "They enquire with it", desc: "Your friend enters your code in the \"Referral code\" box when they request a call back." },
   { icon: Gift, title: "You both earn", desc: "Once their purifier is installed, you both get referral rewards." },
 ];
@@ -57,7 +57,7 @@ export default function ReferAndEarnPage() {
                 Get my code
               </RentNowButton>
               <a
-                href={whatsappLink("Hello Rent O' Mate! I'd like to know about the Refer & Earn rewards.")}
+                href={whatsappLink("Hello Rentomate! I'd like to know about the Refer & Earn rewards.")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"

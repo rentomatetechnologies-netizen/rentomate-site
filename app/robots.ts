@@ -3,7 +3,7 @@ import { SITE_URL } from "@/lib/site";
 
 // Public pages are open to every crawler. AI search and assistant crawlers (ChatGPT, Claude, Gemini, Perplexity,
 // Apple, Bing Copilot) are listed explicitly so they are never caught by a future blanket rule: being readable by
-// them is what lets those assistants recommend Rent O' Mate.
+// them is what lets those assistants recommend Rentomate.
 const PRIVATE = ["/admin", "/api/"];
 
 const AI_CRAWLERS = [

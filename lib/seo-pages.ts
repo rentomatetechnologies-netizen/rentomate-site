@@ -29,7 +29,7 @@ const areaPage = (area: string, slug: string): SeoPage => ({
   heading: { lead: "Water purifier on rent in", highlight: area },
   description: `Pure, 8-stage purified drinking water for homes in ${area} — no machine to buy, nothing to maintain. Plans start at ${price}.`,
   intro: [
-    `Rent O' Mate installs Akvinz RO water purifiers in homes across ${area} and the rest of Coimbatore. You pay a small monthly rent instead of buying the machine, and installation, servicing and filter replacements are included for as long as you rent.`,
+    `Rentomate installs Akvinz RO water purifiers in homes across ${area} and the rest of Coimbatore. You pay a small monthly rent instead of buying the machine, and installation, servicing and filter replacements are included for as long as you rent.`,
     `Our team is based in Coimbatore, so installation in ${area} is usually done within 24–48 hours of booking, and service visits are quick when you need them.`,
   ],
   highlights: [
@@ -46,12 +46,12 @@ export const SEO_PAGES: SeoPage[] = [
     slug: "ro-on-rent-near-me",
     search: "RO on rent near me",
     title: "RO on Rent Near Me",
-    metaDescription: `Looking for RO on rent near you? Rent O' Mate rents RO water purifiers from ${price} with free installation and a local service team.`,
+    metaDescription: `Looking for RO on rent near you? Rentomate rents RO water purifiers from ${price} with free installation and a local service team.`,
     eyebrow: "Near you",
     heading: { lead: "RO on rent", highlight: "near you" },
     description: "A local team that installs, services and supports your purifier — with plans from " + price + ".",
     intro: [
-      "Rent O' Mate has its team on the ground, so installation and service visits are quick. Check your area to confirm we cover your address, then book and we will schedule the installation.",
+      "Rentomate has its team on the ground, so installation and service visits are quick. Check your area to confirm we cover your address, then book and we will schedule the installation.",
       "Your rent covers servicing and filter changes, so when you need help you contact us — there is no separate AMC to buy and no technician to find.",
     ],
     highlights: ["Local installation and service team", "Installation within 24–48 hours", "No separate AMC to buy", "Check availability for your address"],
@@ -66,7 +66,7 @@ export const SEO_PAGES: SeoPage[] = [
     description: "Safe drinking water in a rented home, without buying a machine you will have to carry to your next house.",
     intro: [
       "When you live in a rented home, buying a purifier means paying for a machine, then paying again to uninstall and reinstall it every time you move. Renting avoids both.",
-      "Rent O' Mate includes relocation support with your plan, along with servicing and filter changes, so the purifier moves with you and keeps working without extra costs.",
+      "Rentomate includes relocation support with your plan, along with servicing and filter changes, so the purifier moves with you and keeps working without extra costs.",
     ],
     highlights: ["No machine to buy", "Relocation support when you move", "Choose a 12-month plan for flexibility", "Service and filters included"],
   },
@@ -93,7 +93,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Copper RO purifier", highlight: "on rent" },
     description: "RO purification with copper enrichment and essential minerals retained, for water that is safe and tastes fresh.",
     intro: [
-      "Reverse osmosis removes impurities very effectively, but it can also strip out minerals. Rent O' Mate purifiers add copper and retain essential minerals after purification, so the water you drink is not flat or empty.",
+      "Reverse osmosis removes impurities very effectively, but it can also strip out minerals. Rentomate purifiers add copper and retain essential minerals after purification, so the water you drink is not flat or empty.",
       `You get this copper-enriched purifier on rent from ${price}, with installation, servicing and filter changes included.`,
     ],
     highlights: ["Copper enrichment", "Essential minerals retained", "8-stage RO + UV + UF purification", "Free filter changes while you rent"],
@@ -107,7 +107,7 @@ export const SEO_PAGES: SeoPage[] = [
     heading: { lead: "Alkaline water purifier", highlight: "on rent" },
     description: "pH-balanced alkaline drinking water from an 8-stage RO purifier — without buying the machine.",
     intro: [
-      "Rent O' Mate purifiers balance the pH of the water after purification, giving you fresh, alkaline drinking water for your family every day.",
+      "Rentomate purifiers balance the pH of the water after purification, giving you fresh, alkaline drinking water for your family every day.",
       `Along with pH balancing, each purifier adds copper and retains essential minerals. Plans start at ${price} and include installation, servicing and filters.`,
     ],
     highlights: ["pH-balanced alkaline water", "Copper and minerals retained", "8-stage RO + UV + UF purification", "ISI certified machine"],

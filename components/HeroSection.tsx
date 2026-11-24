@@ -8,7 +8,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { whatsappLink } from "@/lib/contact";
 import { isOptimizableImage } from "@/lib/blog";
 import { DEFAULT_SLIDE, type HeroContent, type HeroSlide } from "@/lib/hero";
-import { LOWEST_PRICE, PRICE_PER_DAY } from "@/lib/site";
+import { BRAND, LOWEST_PRICE, PRICE_PER_DAY } from "@/lib/site";
 import { useSiteActions } from "@/components/SiteShell";
 
 // Two-column hero: headline, benefits and CTAs on the left; the hero image on the right.
@@ -27,7 +27,7 @@ const SWIPE_DISTANCE = 60;
 
 export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => {
   const { openLeadForm: onRentNow } = useSiteActions();
-  const supportUrl = whatsappLink("Hi Rent O' Mate! I need support regarding a water purifier on rent.");
+  const supportUrl = whatsappLink("Hi Rentomate! I need support regarding a water purifier on rent.");
   const uploaded = content.slides.filter((slide) => slide.image);
   const slides = uploaded.length ? uploaded : [DEFAULT_SLIDE];
 
@@ -47,7 +47,7 @@ export const HeroSection: React.FC<{ content: HeroContent }> = ({ content }) => 
           className="lg:col-span-5"
         >
           {/* The small eyebrow line is the page's <h1>, so search engines read the search phrase as the main heading. */}
-          <h1 className="mb-4 short:mb-3 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">Water purifier on rent in Coimbatore</h1>
+          <h1 className="mb-4 short:mb-3 text-xs font-extrabold uppercase tracking-[0.24em] text-slate-500 sm:text-sm">{BRAND.name} – Water Purifier on Rent in Coimbatore</h1>
 
           <p className="text-5xl font-extrabold leading-[1.02] tracking-[-0.035em] text-[#051838] sm:text-6xl lg:text-[64px] short:text-[52px]">
             Own Less.
@@ -148,7 +148,7 @@ const HeroCarousel: React.FC<{ slides: HeroSlide[] }> = ({ slides }) => {
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={() => setPaused(false)}
       className="group relative aspect-[3/2] overflow-hidden lg:max-h-[calc(100svh-156px)] lg:min-h-80 short:max-h-[calc(100svh-124px)] rounded-[28px] bg-[#0b1220] shadow-[0_40px_80px_-30px_rgba(5,24,56,0.45)] ring-1 ring-slate-900/5"
-      {...(count > 1 && { role: "region", "aria-roledescription": "carousel", "aria-label": "Rent O' Mate highlights" })}
+      {...(count > 1 && { role: "region", "aria-roledescription": "carousel", "aria-label": "Rentomate highlights" })}
     >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div

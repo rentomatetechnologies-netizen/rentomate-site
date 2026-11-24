@@ -41,7 +41,7 @@ const ProductCard: React.FC<{ product: Purifier; index: number; onSubscribe: () 
           <Image
             key={item.id}
             src={item.image}
-            alt={`${product.brand} ${product.name} in ${item.colour}`}
+            alt={`Rentomate ${product.brand} ${product.shortName} RO water purifier on rent (${item.colour})`}
             aria-hidden={item.id !== colour.id || undefined}
             fill
             sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw"

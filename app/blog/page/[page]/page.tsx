@@ -32,7 +32,7 @@ export default async function BlogPageN({ params }: Params) {
       banner={banner}
       page={page}
       basePath="/blog"
-      title="Rent O' Mate Blogs"
+      title="Rentomate Blog"
       description={BLOG_DESCRIPTION}
       breadcrumbs={[
         { label: "Blog", href: "/blog" },

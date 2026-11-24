@@ -9,8 +9,8 @@ import { BRAND, PLANS, PURIFIERS, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Products",
-  seoTitle: "RO Water Purifier Models & Specifications | RentOMate",
-  description: "Explore the Akvinz RO water purifiers on rent from Rent O' Mate: Ultron+, Ultron, Metaneo and Spark, with up to 9-stage RO + UV + UF purification, copper and minerals, 8–10 L storage.",
+  seoTitle: "RO Water Purifier Models & Specifications | Rentomate",
+  description: "Explore the Akvinz RO water purifiers on rent from Rentomate: Ultron+, Ultron, Metaneo and Spark, with up to 9-stage RO + UV + UF purification, copper and minerals, 8–10 L storage.",
   path: "/products",
 });
 

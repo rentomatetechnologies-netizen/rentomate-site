@@ -5,7 +5,7 @@ import { ADDRESS_LINES, GMAIL_COMPOSE_URL, PHONE_DISPLAY, PHONE_HREF, SUPPORT_EM
 
 export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
-  description: "How Rent O' Mate collects, uses and protects the personal details you share when you enquire about or rent a water purifier.",
+  description: "How Rentomate collects, uses and protects the personal details you share when you enquire about or rent a water purifier.",
   path: "/privacy-policy",
 });
 
@@ -14,7 +14,7 @@ const sections: LegalSection[] = [
     heading: "Who we are",
     body: (
       <p>
-        Rent O&apos; Mate (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a proprietary brand of Akvinz. This policy explains how we handle personal information collected through this website and our
+        Rentomate (&ldquo;we&rdquo;, &ldquo;us&rdquo;) is a proprietary brand of Akvinz. This policy explains how we handle personal information collected through this website and our
         rental service.
       </p>
     ),

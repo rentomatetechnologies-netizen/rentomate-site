@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
   const hidden = hiddenOnScroll && !mobileMenuOpen;
 
   const whatsappUrl = whatsappLink(
-    "Hello Rent O' Mate! I want to enquire about renting a water purifier."
+    "Hello Rentomate! I want to enquire about renting a water purifier."
   );
 
   return (

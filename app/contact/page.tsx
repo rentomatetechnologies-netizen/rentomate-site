@@ -8,8 +8,8 @@ import { CITIES } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
-  seoTitle: "Contact RentOMate | RO Rental Enquiries in Coimbatore",
-  description: `Call, WhatsApp or email Rent O' Mate for water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
+  seoTitle: "Contact Rentomate – RO Water Purifier on Rent, Coimbatore",
+  description: `Rentomate: call, WhatsApp or email us about RO water purifier rentals in Coimbatore. ${PHONE_DISPLAY}`,
   path: "/contact",
 });
 
@@ -19,7 +19,7 @@ const channels = [
     icon: MessageCircle,
     label: "WhatsApp",
     value: "Chat with our team",
-    href: whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier."),
+    href: whatsappLink("Hello Rentomate! I want to enquire about renting a water purifier."),
     external: true,
   },
   { icon: Mail, label: "Email", value: SUPPORT_EMAIL, href: GMAIL_COMPOSE_URL, external: true },
@@ -34,8 +34,8 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact Us"
         breadcrumbs={[{ label: "Contact Us", href: "/contact" }]}
-        title={<>We&apos;re here to <span className="text-[#0084FF]">help</span></>}
-        description="Questions about plans, installation or service? Reach us on any channel below, or leave your number and we'll call you back."
+        title={<>Contact <span className="text-[#0084FF]">Rentomate</span></>}
+        description="We&apos;re here to help. Questions about plans, installation or service? Reach us on any channel below, or leave your number and we'll call you back."
       />
 
       <section className="bg-white pb-12">

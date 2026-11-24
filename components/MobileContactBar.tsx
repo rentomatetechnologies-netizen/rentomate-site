@@ -13,7 +13,7 @@ const tabClass =
 // Bottom tab bar on phones: happy customers, Call, WhatsApp and the free trial, one tap away on every page.
 // Tablets and desktops get the floating customer badge and free-trial button instead.
 export const MobileContactBar: React.FC<{ onCustomersClick: () => void }> = ({ onCustomersClick }) => {
-  const whatsappUrl = whatsappLink("Hello Rent O' Mate! I want to enquire about renting a water purifier.");
+  const whatsappUrl = whatsappLink("Hello Rentomate! I want to enquire about renting a water purifier.");
   const { count, total } = useHappyCustomerCount();
 
   return (

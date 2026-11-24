@@ -76,7 +76,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
           <div>
             <p className="label">Banner image</p>
             <p className="mb-2 text-xs text-slate-500">
-              Optional. Wide landscape image, about 1600 × 900 px (roughly 16:9), shown at full width. With no image, the built-in Rent O&apos; Mate
+              Optional. Wide landscape image, about 1600 × 900 px (roughly 16:9), shown at full width. With no image, the built-in Rentomate
               7-day risk-free trial template is shown instead.
             </p>
             <ImageField value={banner.image} onChange={(image) => update({ image })} label="Upload banner" folder="blog" />
@@ -88,7 +88,7 @@ export function BlogBannerEditor({ initial }: { initial: BlogBanner }) {
               id="banner-alt"
               className="input"
               maxLength={200}
-              placeholder="e.g. Rent O' Mate RO purifier on rent – 7-day risk-free trial, plans from ₹449/month"
+              placeholder="e.g. Rentomate RO purifier on rent – 7-day risk-free trial, plans from ₹449/month"
               value={banner.alt}
               onChange={(e) => update({ alt: e.target.value })}
             />

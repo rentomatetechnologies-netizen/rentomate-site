@@ -15,8 +15,8 @@ import { BRAND, LOWEST_PRICE, PLANS, PURIFIERS, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "RO Water Purifier on Rent",
-  seoTitle: "RO Water Purifier on Rent in Coimbatore | RentOMate",
-  description: `Rent an ISI certified 8-stage RO water purifier in Coimbatore from ₹${LOWEST_PRICE}/month. Free installation, free service and filter changes, 7-day free trial.`,
+  seoTitle: "Rentomate RO Water Purifier on Rent in Coimbatore",
+  description: `Rentomate rents ISI certified 8-stage RO water purifiers in Coimbatore from ₹${LOWEST_PRICE}/month. Free installation, free service and filter changes, 7-day free trial.`,
   path: "/ro-on-rent",
 });
 
@@ -101,7 +101,7 @@ export default function RoOnRentPage() {
           <div className="rounded-[10px] border border-sky-100 bg-sky-50/60 p-6 lg:col-span-5">
             <Image
               src={featuredImage}
-              alt={`${featured.brand} ${featured.name} on rent in Coimbatore`}
+              alt={`Rentomate ${featured.brand} ${featured.shortName} RO water purifier on rent`}
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="mx-auto h-auto w-full max-w-sm"
               preload

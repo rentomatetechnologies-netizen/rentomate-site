@@ -35,7 +35,7 @@ const linkClass = "text-[15px] text-slate-400 transition-colors hover:text-sky-3
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const whatsappUrl = whatsappLink("Hi Rent O' Mate! I would like to know more about renting a water purifier.");
+  const whatsappUrl = whatsappLink("Hi Rentomate! I would like to know more about renting a water purifier.");
 
   const contacts = [
     { label: "WhatsApp", value: "Chat with us", href: whatsappUrl, external: true, icon: <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> },
@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`Rent O' Mate on ${label} (@${SOCIAL_HANDLE})`}
+                  aria-label={`Rentomate on ${label} (@${SOCIAL_HANDLE})`}
                   title={label}
                   className="flex h-10 w-10 items-center justify-center rounded-[10px] border border-white/15 bg-white/5 text-slate-100 transition hover:border-sky-400/50 hover:bg-sky-400/10"
                 >
@@ -169,9 +169,9 @@ export const Footer: React.FC = () => {
         {/* Bottom bar: copyright | legal links | location + back to top. Stacks and centres on smaller screens. */}
         <div className="mt-10 flex flex-col items-center gap-5 border-t border-white/10 pt-6 text-center text-xs text-slate-400 lg:flex-row lg:justify-between lg:text-left">
           <div className="space-y-1">
-            <p className="text-sm text-slate-300">© {currentYear} Rent O&apos; Mate. All rights reserved.</p>
+            <p className="text-sm text-slate-300">© {currentYear} Rentomate – an Akvinz Water Purifiers company.</p>
             <p className="max-w-md">
-              Rent O&apos; Mate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by
+              Rentomate is a proprietary brand of Akvinz. All commercial transactions, billing, and GST compliance are managed and operated by
               M/S Ragavi Enterprises.
             </p>
           </div>

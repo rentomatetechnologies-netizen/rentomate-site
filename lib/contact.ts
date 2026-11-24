@@ -1,4 +1,4 @@
-// Single source of truth for Rent O' Mate contact details.
+// Single source of truth for Rentomate contact details.
 export const PHONE_DIGITS = "918110016161";
 export const PHONE_DISPLAY = "+91 81100 16161";
 export const PHONE_HREF = `tel:+${PHONE_DIGITS}`;

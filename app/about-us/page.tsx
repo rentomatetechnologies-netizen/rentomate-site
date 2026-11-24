@@ -24,34 +24,35 @@ import {
 import { PageHeader } from "@/components/PageHeader";
 import { AvailableCities } from "@/components/AvailableCities";
 
-const SEO_TITLE = "About RentOMate | Water Purifier Rental Company";
+const SEO_TITLE = "About Rentomate – Water Purifier Rental Company, Coimbatore";
 const SEO_DESCRIPTION =
-  "Discover RentOMate in Coimbatore, founded on 20+ years of professional experience across consumer durables, sales, service and business development. Explore smarter water purifier rentals.";
+  "Rentomate is a water purifier rental company in Coimbatore, founded on 20+ years of professional experience across consumer durables, sales, service and business development. Explore smarter water purifier rentals.";
 
 export const metadata: Metadata = {
   ...pageMetadata({ title: "About Us", seoTitle: SEO_TITLE, description: SEO_DESCRIPTION, path: "/about-us" }),
-  keywords: ["Water purifier rental in Coimbatore", "RentOMate", "water purifier on rent", "affordable appliance rentals in Coimbatore"],
+  keywords: ["Water purifier rental in Coimbatore", "Rentomate", "water purifier on rent", "affordable appliance rentals in Coimbatore"],
 };
 
 const INTRO = [
-  "At RentOMate, we believe that enjoying the benefits of essential household appliances should not always require a significant upfront investment. We help customers explore a smarter alternative to traditional ownership through convenient rental solutions designed around their everyday needs.",
+  "Rentomate (also written Rent O' Mate) is a water purifier rental service by Akvinz Water Purifiers, Coimbatore.",
+  "At Rentomate, we believe that enjoying the benefits of essential household appliances should not always require a significant upfront investment. We help customers explore a smarter alternative to traditional ownership through convenient rental solutions designed around their everyday needs.",
   "We aim to make essential appliances more accessible while helping customers manage their household expenses and reduce the responsibilities associated with ownership.",
 ];
 
 const STORY = [
-  "RentOMate was built around a simple observation: owning an appliance involves more than its purchase price. Maintenance, servicing, repairs and replacement can add to the overall cost and effort of ownership.",
+  "Rentomate was built around a simple observation: owning an appliance involves more than its purchase price. Maintenance, servicing, repairs and replacement can add to the overall cost and effort of ownership.",
   "We believe there is another way.",
-  "By offering appliance rental solutions, starting with water purifiers in Coimbatore, RentOMate aims to make everyday living simpler through accessible rental plans and customer-focused service support.",
-  "Whether you are a family setting up a new home, a working professional, a tenant or someone who values flexibility, RentOMate offers an alternative worth considering.",
+  "By offering appliance rental solutions, starting with water purifiers in Coimbatore, Rentomate aims to make everyday living simpler through accessible rental plans and customer-focused service support.",
+  "Whether you are a family setting up a new home, a working professional, a tenant or someone who values flexibility, Rentomate offers an alternative worth considering.",
   "Our goal is to help customers access the appliances they need without necessarily committing to permanent ownership.",
 ];
 
 const FOUNDER = [
-  "RentOMate is founded on the professional experience and customer-focused vision of D. Ravi Baskar, who brings over 20 years of experience across consumer durables, sales and marketing, customer service, service operations, team leadership and business development.",
+  "Rentomate is founded on the professional experience and customer-focused vision of D. Ravi Baskar, who brings over 20 years of experience across consumer durables, sales and marketing, customer service, service operations, team leadership and business development.",
   "Throughout his professional journey, he has gained experience across multiple business functions, providing a broad perspective on customer expectations, operational requirements, service delivery and business growth.",
-  "His experience has helped shape an important principle behind RentOMate: a successful appliance business should focus not only on the product but also on the overall customer experience.",
+  "His experience has helped shape an important principle behind Rentomate: a successful appliance business should focus not only on the product but also on the overall customer experience.",
   "Understanding how products are marketed, delivered, serviced and supported has influenced the vision to create a rental model that places convenience, affordability and customer satisfaction at its centre.",
-  "With RentOMate, D. Ravi Baskar aims to bring this customer-first perspective to the household appliance rental space, offering consumers an alternative to traditional ownership and encouraging a more flexible approach to modern living.",
+  "With Rentomate, D. Ravi Baskar aims to bring this customer-first perspective to the household appliance rental space, offering consumers an alternative to traditional ownership and encouraging a more flexible approach to modern living.",
   "His vision is to build a trusted rental brand that combines practical appliance solutions with transparent rental terms and dependable service support.",
 ];
 
@@ -81,7 +82,7 @@ const REASONS = [
 ];
 
 const VISION =
-  "To build RentOMate into a trusted appliance rental brand originating in Coimbatore and expanding across Tamil Nadu and beyond, making smart, flexible and affordable living accessible to more households.";
+  "To build Rentomate into a trusted appliance rental brand originating in Coimbatore and expanding across Tamil Nadu and beyond, making smart, flexible and affordable living accessible to more households.";
 
 const MISSION =
   "To simplify everyday living through convenient appliance rental solutions, transparent plans and customer-focused service, helping people make informed decisions about essential household products.";
@@ -95,7 +96,7 @@ const VALUES = [
 ];
 
 const COMMITMENT = [
-  "At RentOMate, we believe trust is earned through clear communication, responsible service and consistent attention to customer needs.",
+  "At Rentomate, we believe trust is earned through clear communication, responsible service and consistent attention to customer needs.",
   "We aim to make every stage of the rental journey—from choosing a plan to requesting service—as straightforward as possible.",
   "Our commitment is to provide clear rental conditions and service support in accordance with the selected plan, helping customers make confident and informed decisions.",
 ];
@@ -118,10 +119,10 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        eyebrow="About RentOMate"
+        eyebrow="Own less. Live smart."
         breadcrumbs={[{ label: "About", href: "/about-us" }]}
-        title={<>Own less. <span className="text-[#0084FF]">Live smart.</span></>}
-        description="Welcome to RentOMate, a smart appliance rental initiative based in Coimbatore, Tamil Nadu, created to make modern living more convenient, flexible and affordable."
+        title={<>About <span className="text-[#0084FF]">Rentomate</span></>}
+        description="Welcome to Rentomate, a smart appliance rental initiative based in Coimbatore, Tamil Nadu, created to make modern living more convenient, flexible and affordable."
       />
 
       {/* Intro + philosophy */}
@@ -171,17 +172,17 @@ export default function AboutPage() {
 
           <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
             <aside className="h-fit rounded-[10px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-white p-7 shadow-sm">
-              {/* Full photo, uncropped, so the RentOMate logo on the t-shirt stays visible. */}
+              {/* Full photo, uncropped, so the Rentomate logo on the t-shirt stays visible. */}
               <div className="text-center">
                 <Image
                   src={founderPhoto}
-                  alt="D. Ravi Baskar, founder of RentOMate"
+                  alt="D. Ravi Baskar, founder of Rentomate"
                   sizes="(min-width: 1024px) 380px, 384px"
                   placeholder="blur"
                   className="mx-auto h-auto w-full max-w-sm rounded-[10px] shadow-md ring-4 ring-white lg:max-w-none"
                 />
                 <p className="mt-4 text-lg font-extrabold text-[#051838]">D. Ravi Baskar</p>
-                <p className="text-sm font-semibold text-sky-700">Founder, RentOMate</p>
+                <p className="text-sm font-semibold text-sky-700">Founder, Rentomate</p>
               </div>
               <p className="mt-5 border-t border-slate-200 pt-5 text-5xl font-extrabold text-[#051838]">
                 20<span className="text-[#0084FF]">+</span>
@@ -210,7 +211,7 @@ export default function AboutPage() {
             </h2>
             <p className="mt-3 text-base leading-7 text-slate-600">
               Our initial focus is on water purifier rentals in Coimbatore, Tamil Nadu, helping households explore a convenient alternative to
-              purchasing a purifier outright. RentOMate aims to make the rental experience straightforward through:
+              purchasing a purifier outright. Rentomate aims to make the rental experience straightforward through:
             </p>
           </div>
           {/* Five cards: 3 + 2 on desktop and 2 + 2 + 1 on tablet, with the short last row centred. */}
@@ -240,7 +241,7 @@ export default function AboutPage() {
       <section className="bg-white py-12 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <Eyebrow>Why Choose RentOMate?</Eyebrow>
+            <Eyebrow>Why Choose Rentomate?</Eyebrow>
             <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-[#051838] sm:text-4xl">
               More than <span className="text-[#0084FF]">an appliance</span>
             </h2>
@@ -252,7 +253,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="rounded-[10px] border border-sky-100 bg-gradient-to-br from-sky-50 via-white to-white p-7 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">RentOMate aims to provide a better rental experience through</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Rentomate aims to provide a better rental experience through</p>
             <ul className="mt-4 space-y-3">
               {REASONS.map((reason) => (
                 <li key={reason} className="flex gap-2 text-base font-medium text-slate-800">
@@ -339,11 +340,11 @@ export default function AboutPage() {
             <div className="relative mx-auto max-w-2xl">
               <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Rent Smart. Live Better.</h2>
               <p className="mt-4 text-base leading-7 text-sky-100">
-                You do not have to own everything to enjoy a comfortable lifestyle. With RentOMate, discover a more flexible way to access essential
+                You do not have to own everything to enjoy a comfortable lifestyle. With Rentomate, discover a more flexible way to access essential
                 household appliances, supported by a customer-first philosophy and a vision for smarter living.
               </p>
               <p className="mt-4 text-lg font-extrabold">
-                RentOMate – Own Less. <span className="text-sky-300">Live Smart.</span>
+                Rentomate – Own Less. <span className="text-sky-300">Live Smart.</span>
               </p>
               <p className="mt-1 text-sm text-sky-200">Based in Coimbatore, Tamil Nadu.</p>
               <p className="mt-6 text-base font-semibold">Ready to make the smarter choice?</p>

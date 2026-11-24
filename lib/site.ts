@@ -1,4 +1,4 @@
-// Single source of truth for Rent O' Mate plans, models and service areas.
+// Single source of truth for Rentomate plans, models and service areas.
 
 import type { StaticImageData } from "next/image";
 import metaNeoImage from "@/assets/images/products/metaNeoRoBlack.png";
@@ -10,10 +10,11 @@ import ultronImage from "@/assets/images/products/ultron+RoWhite.png";
 
 export const SITE_URL = "https://rentomate.life";
 
-/** Rent O' Mate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
+/** Rentomate is the consumer brand; Akvinz Water Purifiers is the business that operates it. */
 export const BRAND = {
-  name: "Rent O' Mate",
-  alternateNames: ["RentOMate", "Rent O Mate", "Rentomate"],
+  name: "Rentomate",
+  // Old spellings, kept only here so search engines tie them to Rentomate.
+  alternateNames: ["Rent O' Mate", "RentOMate", "Rent O Mate", "Rentomate Coimbatore"],
   operator: "Akvinz Water Purifiers",
 };
 
@@ -238,7 +239,7 @@ export const CITIES: City[] = [
 
 export const DEFAULT_CITY = CITIES[0].name;
 
-/** Cities Rent O' Mate serves: the header location picker and the "Where We Serve" section. */
+/** Cities Rentomate serves: the header location picker and the "Where We Serve" section. */
 export const SERVICE_LOCATIONS = [
   "Coimbatore",
   "Tiruppur",

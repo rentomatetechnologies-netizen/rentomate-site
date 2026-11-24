@@ -8,8 +8,8 @@ export const revalidate = 300;
 
 export const metadata: Metadata = pageMetadata({
   title: "Blog",
-  seoTitle: "Water Purifier Guides, Tips & Advice | RentOMate",
-  description: "Tips on safe drinking water, RO purifiers, filters and renting vs buying, from the Rent O' Mate team.",
+  seoTitle: "Rentomate Blog – Water Purifier Guides & Tips",
+  description: "Rentomate guides and tips on safe drinking water, RO purifiers, filters and renting vs buying.",
   path: "/blog",
 });
 
@@ -22,7 +22,7 @@ export default async function BlogPage() {
       banner={banner}
       page={1}
       basePath="/blog"
-      title="Rent O' Mate Blogs"
+      title="Rentomate Blog"
       description={BLOG_DESCRIPTION}
       breadcrumbs={[{ label: "Blog", href: "/blog" }]}
     />

@@ -10,7 +10,7 @@ const emptyPost = (): EditorPost => ({
   slug: "",
   excerpt: "",
   category: "Guides",
-  author: "Rent O' Mate Team",
+  author: "Rentomate Team",
   coverImage: "",
   coverAlt: "",
   coverCaption: "",

@@ -12,14 +12,14 @@ export const OPEN_GRAPH_DEFAULTS = {
 } as const;
 
 // The search phrase goes first in the title, since Google can cut long titles short.
-export const HOME_TITLE = "Water Purifier on Rent in Coimbatore | RentOMate";
-export const HOME_DESCRIPTION = `Rent an ISI certified RO water purifier in Coimbatore from ${inr(LOWEST_PRICE)}/month. Free installation, free service and filter replacements, 7-day free trial. ${BRAND.name}, RO on rent near you.`;
+export const HOME_TITLE = `${BRAND.name} – Water Purifier on Rent in Coimbatore from ${inr(LOWEST_PRICE)}/month`;
+export const HOME_DESCRIPTION = `${BRAND.name} rents ISI certified RO water purifiers in Coimbatore from ${inr(LOWEST_PRICE)}/month. Free installation, free service and filter replacements, 7-day free trial.`;
 
-/** True when a title already names the brand in any spelling ("Rent O' Mate", "RentOMate", "Rentomate"). */
+/** True when a title already names the brand, in the current spelling or an old one (see BRAND.alternateNames). */
 export const namesBrand = (title: string) => /rent\s*o['’]?\s*mate/i.test(title);
 
 /**
- * `title` is the page name; the layout's template adds " | Rent O' Mate" to <title>, and it's added here for og/twitter.
+ * `title` is the page name; the layout's template adds " | Rentomate" to <title>, and it's added here for og/twitter.
  * Pass `seoTitle` for a title that already names the brand; it's used as is, skipping the template.
  */
 export function pageMetadata({ title, seoTitle, description, path }: { title: string; seoTitle?: string; description: string; path: string }): Metadata {
