@@ -10,6 +10,7 @@ import { ImageField } from "@/components/admin/ImageField";
 import { LinkTextarea } from "@/components/admin/LinkTextarea";
 import { PostPreview } from "@/components/admin/PostPreview";
 import { useToast } from "@/components/admin/Toast";
+import { TITLE_SUFFIX, namesBrand } from "@/lib/seo";
 
 const MAX_EXCERPT_WORDS = 1000;
 
@@ -511,7 +512,12 @@ export function PostEditor({ initial }: { initial: EditorPost }) {
               "seo-title",
               <>
                 <input id="seo-title" className="input" maxLength={200} placeholder="Defaults to the post title" value={post.seoTitle} onChange={(e) => update({ seoTitle: e.target.value })} />
-                <Help>The &ldquo;SEO title&rdquo; shown in Google. Put the primary keyword near the start; keep it under 60 characters.</Help>
+                <Help>
+                  The &ldquo;SEO title&rdquo; shown in Google. Put the primary keyword near the start; keep it under 60 characters. The site adds
+                  &ldquo;{TITLE_SUFFIX}&rdquo; to the end for you, so leave the brand out: Google sees &ldquo;
+                  {(post.seoTitle || post.title || "Your title").trim()}
+                  {namesBrand(post.seoTitle || post.title) ? "" : TITLE_SUFFIX}&rdquo;.
+                </Help>
               </>,
               <CharCount length={post.seoTitle.length} ideal={60} />,
             )}

@@ -18,6 +18,9 @@ export const HOME_DESCRIPTION = `${BRAND.name} rents ISI certified RO water puri
 /** True when a title already names the brand, in the current spelling or an old one (see BRAND.alternateNames). */
 export const namesBrand = (title: string) => /rent\s*o['’]?\s*mate/i.test(title);
 
+/** Added to the end of every page and blog post title that doesn't already name the brand. */
+export const TITLE_SUFFIX = ` | ${BRAND.name}`;
+
 /**
  * `title` is the page name; the layout's template adds " | Rentomate" to <title>, and it's added here for og/twitter.
  * Pass `seoTitle` for a title that already names the brand; it's used as is, skipping the template.
