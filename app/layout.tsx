@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SiteShell } from "@/components/SiteShell";
-import { ADDRESS, FACEBOOK_URL, INSTAGRAM_URL, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
+import { ADDRESS, FACEBOOK_URL, GOOGLE_BUSINESS_URL, INSTAGRAM_URL, OPENING_HOURS, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
 import { HOME_DESCRIPTION, HOME_TITLE, OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
-import { BRAND, PLANS, SERVICE_LOCATIONS, SITE_URL } from "@/lib/site";
+import { BRAND, PLANS, SITE_URL } from "@/lib/site";
 
 // What search engines and AI search (e.g. ChatGPT) read about the business. Rent O' Mate is the consumer brand
 // (WebSite + LocalBusiness); Akvinz Water Purifiers is the business that operates it (parentOrganization).
@@ -32,10 +32,22 @@ const structuredData = {
       telephone: PHONE_DISPLAY,
       email: SUPPORT_EMAIL,
       priceRange: `₹${Math.min(...PLANS.map((plan) => plan.price))}–₹${Math.max(...PLANS.map((plan) => plan.price))} per month`,
-      address: { "@type": "PostalAddress", streetAddress: ADDRESS.street, addressLocality: ADDRESS.city, addressRegion: ADDRESS.state, addressCountry: "IN" },
-      areaServed: SERVICE_LOCATIONS.map((city) => ({ "@type": "City", name: city })),
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: ADDRESS.street,
+        addressLocality: `${ADDRESS.locality}, ${ADDRESS.city}`,
+        addressRegion: ADDRESS.state,
+        postalCode: ADDRESS.postalCode,
+        addressCountry: "IN",
+      },
+      openingHoursSpecification: [
+        { "@type": "OpeningHoursSpecification", dayOfWeek: OPENING_HOURS.days, opens: OPENING_HOURS.opens, closes: OPENING_HOURS.closes },
+      ],
+      // Only cities that are live. Add each city back here as it launches.
+      areaServed: { "@type": "City", name: "Coimbatore" },
       parentOrganization: { "@type": "Organization", name: BRAND.operator },
-      sameAs: [INSTAGRAM_URL, FACEBOOK_URL],
+      // Add the JustDial listing once it goes live.
+      sameAs: [GOOGLE_BUSINESS_URL, INSTAGRAM_URL, FACEBOOK_URL],
       makesOffer: PLANS.map((plan) => ({
         "@type": "Offer",
         name: `${plan.months}-month ${plan.name} water purifier rental plan`,
