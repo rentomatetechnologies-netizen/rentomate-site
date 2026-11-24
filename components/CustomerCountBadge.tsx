@@ -7,9 +7,8 @@ import { happyCustomers } from "@/lib/site";
 
 const COUNT_DURATION_MS = 2000;
 
-// Floating "happy customers" badge, bottom-left. The number counts up from 0 on every page load and page change.
-// On phones it sits a row higher, since the "7 days free trail" button takes the right side of the same row.
-export const CustomerCountBadge: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+/** Happy-customer total that counts up from 0 on every page load and page change. */
+export const useHappyCustomerCount = () => {
   const pathname = usePathname();
   const [count, setCount] = useState(0);
   const [target, setTarget] = useState(0);
@@ -32,14 +31,20 @@ export const CustomerCountBadge: React.FC<{ onClick: () => void }> = ({ onClick 
     return () => cancelAnimationFrame(frame);
   }, [pathname]);
 
-  const total = `${target.toLocaleString("en-IN")}+`;
+  return { count, total: `${target.toLocaleString("en-IN")}+` };
+};
+
+// Floating "happy customers" badge, bottom-left, on tablets and desktops.
+// On phones the count is a tab in the bottom tab bar (MobileContactBar) instead.
+export const CustomerCountBadge: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  const { count, total } = useHappyCustomerCount();
 
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={`${total} happy customers. Rent now`}
-      className="fixed bottom-[150px] left-4 z-40 inline-flex items-center gap-2.5 rounded-full border-2 border-white bg-white py-2 pl-2 pr-4 text-left shadow-xl shadow-sky-900/20 ring-1 ring-sky-100 transition hover:-translate-y-0.5 sm:bottom-[88px] md:bottom-6 md:left-6"
+      className="fixed bottom-6 left-6 z-40 hidden items-center gap-2.5 rounded-full border-2 border-white bg-white py-2 pl-2 pr-4 text-left shadow-xl shadow-sky-900/20 ring-1 ring-sky-100 transition hover:-translate-y-0.5 md:inline-flex"
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-blue-600 text-white">
         <Users className="h-[18px] w-[18px]" aria-hidden />

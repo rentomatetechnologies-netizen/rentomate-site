@@ -48,7 +48,7 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
         {children}
         <Footer />
 
-        <MobileContactBar />
+        <MobileContactBar onCustomersClick={openLeadForm} />
         <BookNowButton />
         <CustomerCountBadge onClick={openLeadForm} />
 

@@ -45,9 +45,9 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="border-t border-white/10 bg-[#0a0a0a]">
-      {/* Bottom padding keeps the last row clear of the floating buttons (customer badge on the left, free trial on the right,
-          and on mobile the Call / WhatsApp bar), which stack higher on phones. */}
-      <div className="mx-auto max-w-7xl px-4 pt-14 pb-56 sm:px-6 sm:pb-40 md:pb-28 lg:px-8">
+      {/* Bottom padding keeps the last row clear of the floating buttons (customer badge and free trial on desktop,
+          the bottom tab bar on phones). */}
+      <div className="mx-auto max-w-7xl px-4 pt-14 pb-28 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-4 lg:pr-6">

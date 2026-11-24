@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, Menu, X } from "lucide-react";
@@ -16,10 +16,40 @@ import { motion, AnimatePresence } from "framer-motion";
 const isActive = (pathname: string, href: string) =>
   href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
+// Distance the page must move in one direction before the header reacts, so small finger jitters don't toggle it.
+const SCROLL_THRESHOLD_PX = 8;
+// Near the top of the page the header always stays visible.
+const ALWAYS_SHOWN_ABOVE_PX = 80;
+
+/** True while the visitor is scrolling down the page; false once they scroll back up or reach the top. */
+const useHideOnScrollDown = () => {
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < ALWAYS_SHOWN_ABOVE_PX) {
+        setHidden(false);
+        lastY = y;
+      } else if (Math.abs(y - lastY) >= SCROLL_THRESHOLD_PX) {
+        setHidden(y > lastY);
+        lastY = y;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return hidden;
+};
+
 export const Navbar: React.FC = () => {
   const { openLeadForm: onRentNow } = useSiteActions();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const hiddenOnScroll = useHideOnScrollDown();
+  const hidden = hiddenOnScroll && !mobileMenuOpen;
 
   const whatsappUrl = whatsappLink(
     "Hello Rent O' Mate! I want to enquire about renting a water purifier."
@@ -27,7 +57,12 @@ export const Navbar: React.FC = () => {
 
   return (
     // Floating glass bar: the outer header is transparent so page content scrolls visibly under the blurred pill.
-    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
+    // On phones it slides out of view while scrolling down and comes back on any scroll up.
+    <header
+      className={`sticky top-0 z-50 px-3 pt-3 transition-transform duration-300 ease-out sm:px-4 ${
+        hidden ? "max-md:-translate-y-[calc(100%+1rem)]" : ""
+      }`}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 rounded-full border border-white/70 bg-white/60 pl-4 pr-2.5 shadow-[0_8px_32px_rgba(15,23,42,0.10)] ring-1 ring-slate-900/5 backdrop-blur-xl backdrop-saturate-150 sm:pl-5">
 
         {/* Left: Brand Logo + Location */}
