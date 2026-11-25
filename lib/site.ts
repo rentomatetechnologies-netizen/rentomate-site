@@ -299,8 +299,8 @@ export function findServedCity(city: string, pincode = ""): string | null {
   return SERVED_PINCODE_PREFIXES.some((prefix) => pincode.trim().startsWith(prefix)) ? DEFAULT_CITY : null;
 }
 
-/** The plans section on the home page. The old /water-purifier-rental-coimbatore page redirects to the home page (next.config.ts). */
-export const PLANS_PAGE_PATH = "/#plans";
+/** The plans section on /ro-on-rent, the "Rental Plans & Price" page. Used by the footer, products, about-us, site map and llms.txt. */
+export const PLANS_PAGE_PATH = "/ro-on-rent#plans";
 
 export const inr =(value: number) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 
