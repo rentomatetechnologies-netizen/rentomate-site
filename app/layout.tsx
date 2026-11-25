@@ -95,8 +95,12 @@ export const metadata: Metadata = {
   // Brand-wide defaults only. Canonical URLs, og:url and og:title are set per page (see lib/seo.ts).
   openGraph: { ...OPEN_GRAPH_DEFAULTS, type: "website" },
   twitter: { card: "summary_large_image" },
-  // Google Search Console ownership check. Keep this permanently; removing it un-verifies the site.
-  verification: { google: "dzBWU7Z34eqkDDXoT9NfKhlAYWra0vjN0VzdQ2BHL2I" },
+  // Domain ownership checks (Google Search Console, Meta/Facebook Business). Keep these permanently;
+  // removing one un-verifies the site. Rendered server-side into <head> on every page.
+  verification: {
+    google: "dzBWU7Z34eqkDDXoT9NfKhlAYWra0vjN0VzdQ2BHL2I",
+    other: { "facebook-domain-verification": "i7t977a2nik5i4fe9hg5oy3pm315zr" },
+  },
 };
 
 export default function RootLayout({
