@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/PageHeader";
@@ -14,9 +15,10 @@ import { BRAND, LOWEST_PRICE, PLANS, PURIFIERS, SITE_URL } from "@/lib/site";
 // (next.config.ts), and their copy lives in the intro below.
 
 export const metadata: Metadata = pageMetadata({
-  title: "RO Water Purifier on Rent",
-  seoTitle: "Rentomate RO Water Purifier on Rent in Coimbatore",
-  description: `Rentomate rents ISI certified 8-stage RO water purifiers in Coimbatore from ₹${LOWEST_PRICE}/month. Free installation, free service and filter changes, 7-day free trial.`,
+  // Targets "rental plans / price" so it doesn't compete with the homepage for "water purifier on rent in Coimbatore".
+  title: "RO Water Purifier Rental Plans & Price in Coimbatore",
+  seoTitle: "RO Water Purifier Rental Plans & Price in Coimbatore | Rentomate",
+  description: `Compare Rentomate RO rental plans in Coimbatore: ${PLANS.map((plan) => `₹${plan.price}/month (${plan.months} months)`).join(" or ")}. Refundable deposit, free installation, free service and filters.`,
   path: "/ro-on-rent",
 });
 
@@ -64,8 +66,8 @@ export default function RoOnRentPage() {
       <PageHeader
         eyebrow="RO on Rent"
         breadcrumbs={[{ label: "RO on Rent", href: "/ro-on-rent" }]}
-        title={<>RO water purifier on rent, <span className="text-[#0084FF]">from ₹{LOWEST_PRICE}/month</span></>}
-        description="Zero machine cost, free installation, lifetime free maintenance and filter replacements at no cost. Pick a plan and we'll install within 24–48 hours."
+        title={<>RO Water Purifier Rental Plans &amp; Price <span className="text-[#0084FF]">in Coimbatore</span></>}
+        description={`Plans from ₹${LOWEST_PRICE}/month. Zero machine cost, free installation, lifetime free maintenance and filter replacements at no cost. Pick a plan and we'll install within 24–48 hours.`}
       />
 
       <section className="bg-white pb-12">
@@ -85,6 +87,10 @@ export default function RoOnRentPage() {
               team installs the purifier, usually within 24–48 hours. There is no machine cost and no installation charge. A refundable
               security deposit applies, and your monthly rent covers servicing and filter replacements for the whole plan, so there are no
               surprise repair or AMC bills.
+            </p>
+            <p>
+              New to {BRAND.name}? Learn more about our{" "}
+              <Link href="/" className="font-semibold text-[#0084FF] hover:underline">water purifier on rent in Coimbatore</Link> service.
             </p>
             <ul className="grid gap-3 pt-2 sm:grid-cols-2">
               {highlights.map((highlight) => (

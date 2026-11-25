@@ -44,7 +44,12 @@ const structuredData = {
         { "@type": "OpeningHoursSpecification", dayOfWeek: OPENING_HOURS.days, opens: OPENING_HOURS.opens, closes: OPENING_HOURS.closes },
       ],
       // Only cities that are live. Add each city back here as it launches.
-      areaServed: { "@type": "City", name: "Coimbatore" },
+      // Areas with their own landing page (lib/seo-pages.ts). Add "geo" (GeoCoordinates) once the office's exact
+      // latitude/longitude are copied from Google Maps; don't use approximate numbers.
+      areaServed: [
+        { "@type": "City", name: "Coimbatore" },
+        ...["Peelamedu", "Saravanampatti", "Gandhipuram", "RS Puram"].map((name) => ({ "@type": "Place", name })),
+      ],
       parentOrganization: { "@type": "Organization", name: BRAND.operator },
       // Add the JustDial listing once it goes live.
       sameAs: [GOOGLE_BUSINESS_URL, INSTAGRAM_URL, FACEBOOK_URL],

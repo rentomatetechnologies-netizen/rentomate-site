@@ -100,7 +100,7 @@ export const LeadCaptureModal: React.FC<{ isOpen: boolean; onOpen: () => void; o
                   <span className="text-sm font-semibold text-[#051838]">Certified</span>
                 </div>
               </div>
-              <Image src="/images/products/ultron-midnight-black.png" alt="" width={220} height={220} className="pointer-events-none absolute -bottom-2 right-6 hidden h-48 w-auto drop-shadow-xl sm:block" />
+              <Image src="/images/products/ultron-midnight-black.png" alt="Rentomate RO water purifier installed in a Coimbatore home" width={220} height={220} className="pointer-events-none absolute -bottom-2 right-6 hidden h-48 w-auto drop-shadow-xl sm:block" />
             </div>
 
             {done ? (
