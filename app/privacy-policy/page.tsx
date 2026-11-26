@@ -29,7 +29,11 @@ const sections: LegalSection[] = [
           <li>Messages you send us on WhatsApp, by phone or by email.</li>
           <li>For customers: installation address, plan details, payment and billing records, and service history.</li>
         </ul>
-        <p>We do not use advertising trackers or analytics cookies on this website.</p>
+        <p>
+          We use the Meta Pixel, a tool from Meta (Facebook and Instagram), to measure visits to this website and the results of our
+          ads. It may set cookies and send Meta details of your visit, such as the pages you view and your browser and device. You can
+          control how Meta uses this for ads in your Facebook or Instagram ad settings.
+        </p>
       </>
     ),
   },
@@ -111,7 +115,7 @@ export default function PrivacyPolicyPage() {
       title="Privacy Policy"
       path="/privacy-policy"
       intro="Your privacy matters to us. Here is what we collect, why we collect it, and how we keep it safe."
-      updated="21 October 2026"
+      updated="26 November 2026"
       sections={sections}
     />
   );
