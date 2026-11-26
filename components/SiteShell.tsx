@@ -10,7 +10,7 @@ import { CursorAnimation } from "@/components/CursorAnimation";
 import { MobileContactBar } from "@/components/MobileContactBar";
 import { BookNowButton } from "@/components/BookNowButton";
 import { CustomerCountBadge } from "@/components/CustomerCountBadge";
-import { MetaPixel } from "@/components/MetaPixel";
+import { MetaPixelPageViews } from "@/components/MetaPixel";
 import { DEFAULT_CITY } from "@/lib/site";
 
 type SiteActions = { openLeadForm: () => void; openAvailability: (city?: string) => void };
@@ -44,7 +44,7 @@ export const SiteShell: React.FC<{ children: React.ReactNode }> = ({ children })
   return (
     <SiteActionsContext.Provider value={actions}>
       <main className="min-h-screen overflow-x-clip bg-white text-slate-900 selection:bg-sky-500 selection:text-white relative">
-        <MetaPixel />
+        <MetaPixelPageViews />
         <CursorAnimation />
         <Navbar />
         {children}

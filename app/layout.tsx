@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SiteShell } from "@/components/SiteShell";
 import { ADDRESS, FACEBOOK_URL, GOOGLE_BUSINESS_URL, INSTAGRAM_URL, OPENING_HOURS, PHONE_DISPLAY, SUPPORT_EMAIL } from "@/lib/contact";
+import { META_PIXEL_NOSCRIPT_SRC, META_PIXEL_SCRIPT } from "@/lib/meta-pixel";
 import { HOME_DESCRIPTION, HOME_TITLE, OPEN_GRAPH_DEFAULTS } from "@/lib/seo";
 import { BRAND, PLANS, SITE_URL } from "@/lib/site";
 
@@ -113,6 +114,14 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} font-sans h-full antialiased`}
     >
+      <head>
+        {/* Meta Pixel (lib/meta-pixel.ts) */}
+        <script id="meta-pixel" dangerouslySetInnerHTML={{ __html: META_PIXEL_SCRIPT }} />
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element -- Meta's no-JavaScript fallback; must be a plain <img> */}
+          <img height="1" width="1" style={{ display: "none" }} alt="" src={META_PIXEL_NOSCRIPT_SRC} />
+        </noscript>
+      </head>
       <body className="min-h-full flex flex-col font-sans">
         <script
           type="application/ld+json"
